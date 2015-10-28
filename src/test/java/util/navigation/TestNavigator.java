@@ -17,9 +17,7 @@ import java.util.List;
 public class TestNavigator {
     private static final Logger LOG = LogManager.getLogger(TestNavigator.class);
 
-    private static final String GUEST_USERNAME = "GUEST";
-
-    private static final String GUEST_PASSWORD = "GUEST";
+    private static final String GUEST_KEY = "GUEST";
 
     WebDriver driver;
 
@@ -30,19 +28,53 @@ public class TestNavigator {
         this.waiter = new SeleniumWaiter(driver);
     }
 
+    /**
+     * Logs into the SmarterBalanced test using guest user and session credentials.
+     */
     public void loginAsGuest() {
-        clearAndType(GUEST_USERNAME, By.cssSelector("#loginSessionID1"));
-        clearAndType(GUEST_USERNAME, By.cssSelector("#loginSessionID2"));
-        clearAndType(GUEST_USERNAME, By.cssSelector("#loginSessionID3"));
-        login(GUEST_USERNAME, GUEST_PASSWORD);
+        login(GUEST_KEY, GUEST_KEY, GUEST_KEY, GUEST_KEY, GUEST_KEY);
     }
 
-    public void login(String username, String firstname) {
-        LOG.info("Attempting to log in using username {} and firstname {}", username, firstname);
-        clearAndType(username, By.cssSelector("#loginRow_ID"));
+    /**
+     * Logs into the SmarterBalanced test using the specified SSID and firstname.
+     * credentials (ignoring session fields).
+     *
+     * @param ssid
+     *          The test user's SSID.
+     * @param firstname
+     *          The test user's firstname.
+     */
+    public void login(final String ssid, final String firstname) {
+        LOG.info("Attempting to log in using username {} and firstname {}.", ssid, firstname);
+        clearAndType(ssid, By.cssSelector("#loginRow_ID"));
         clearAndType(firstname, By.cssSelector("#loginRow_FirstName"));
         driver.findElement(By.cssSelector("#btnLogin button[type=\"submit\"]")).click();
+    }
 
+    /**
+     * Logs ino the SmarterBalanced test using the specified.
+     *
+     * @param ssid
+     *          The test user's SSID.
+     * @param firstname
+     *          The test user's first name.
+     * @param session1
+     *          First session input string
+     * @param session2
+     *          Second session input string
+     * @param session3
+     *          Third session input string
+     */
+    public void login(final String ssid, final String firstname, final String session1,
+                      final String session2, final String session3) {
+        LOG.info("Attempting to log in using username {} and firstname {} with session {}-{}-{}.",
+                ssid, firstname, session1, session2, session3);
+        clearAndType(ssid, By.cssSelector("#loginRow_ID"));
+        clearAndType(firstname, By.cssSelector("#loginRow_FirstName"));
+        clearAndType(session1, By.cssSelector("#loginSessionID1"));
+        clearAndType(session2, By.cssSelector("#loginSessionID2"));
+        clearAndType(session3, By.cssSelector("#loginSessionID3"));
+        driver.findElement(By.cssSelector("#btnLogin button[type=\"submit\"]")).click();
     }
 
     /**
@@ -92,7 +124,7 @@ public class TestNavigator {
      * @param timeInMs
      * @throws InterruptedException
      */
-    public void clickNextButtonAndWait(long timeInMs) throws InterruptedException {
+    public void clickNextButtonAndWait(final long timeInMs) throws InterruptedException {
         LOG.trace ("Clicking the \"NEXT PAGE\" button.");
         driver.findElement(By.cssSelector("#btnNext")).click();
         Thread.sleep(timeInMs);
@@ -125,6 +157,31 @@ public class TestNavigator {
         }
     }
 
+    /**
+     * Checks the DOM <i>immediately</i> for a standard YUI dialog.
+     *
+     * @return true if a dialog is currently visible, otherwise false.
+     */
+    public boolean isDialogShown() {
+        //WebElement dialogEl = waiter.waitForAndGetElementByLocator(By.cssSelector("#yuiSimpleDialog"), 0);
+        LOG.trace("Checking to see if a modal dialog is being displayed...");
+        boolean isVisible =  waiter.isElementVisibleNow(By.cssSelector("#yuiSimpleDialog"));
+        LOG.trace("Modal dialog visible?: {}", isVisible);
+
+        return isVisible;
+    }
+
+    /**
+     * Clicks the "OK" button of a currently visible modal dialog.
+     */
+    public void clickDialogOkButton() {
+        LOG.trace ("Clicking the modal dialog 'OK' button");
+        driver.findElement(By.cssSelector("#yuiSimpleDialog .yui-button")).click();
+    }
+
+    /**
+     * Clicks the "YES" button of a currently visible modal dialog.
+     */
     public void clickDialogYesButton() {
         LOG.trace ("Clicking the modal dialog 'YES' button");
         List<WebElement> dialogBtns = driver.findElements(By.cssSelector("#yuiSimpleDialog .yui-button"));
@@ -137,20 +194,9 @@ public class TestNavigator {
         }
     }
 
-    public boolean isDialogShown() {
-        //WebElement dialogEl = waiter.waitForAndGetElementByLocator(By.cssSelector("#yuiSimpleDialog"), 0);
-        LOG.trace("Checking to see if a modal dialog is being displayed...");
-        boolean isVisible =  waiter.isElementVisibleNow(By.cssSelector("#yuiSimpleDialog"));
-        LOG.trace("Modal dialog visible?: {}", isVisible);
-
-        return isVisible;
-    }
-
-    public void clickDialogOkButton() {
-        LOG.trace ("Clicking the modal dialog 'OK' button");
-        driver.findElement(By.cssSelector("#yuiSimpleDialog .yui-button")).click();
-    }
-
+    /**
+     * Clicks the "NO" button of a currently visible modal dialog.
+     */
     public void clickDialogNoButton() {
         LOG.trace ("Clicking the modal dialog 'NO' button");
         List<WebElement> dialogBtns = driver.findElements(By.cssSelector("#yuiSimpleDialog .yui-button"));
@@ -161,7 +207,7 @@ public class TestNavigator {
         }
     }
 
-    private void clearAndType(String text, By by) {
+    private void clearAndType(final String text, final By by) {
         WebElement input = driver.findElement(by);
         if (input.isEnabled()) {
             input.clear();

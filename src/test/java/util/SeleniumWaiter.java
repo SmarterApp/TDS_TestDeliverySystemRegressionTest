@@ -166,6 +166,12 @@ public class SeleniumWaiter {
                 System.currentTimeMillis() - startTime);
     }
 
+    /**
+     * Checks for the immediate visibility of an element specified by the {@link By} locator.
+     *
+     * @param locator
+     * @return true if the element is immediately visible, otherwise false.
+     */
     public boolean isElementVisibleNow(final By locator) {
         boolean isVisible = false;
         //Temporarily disable implicit wait time.

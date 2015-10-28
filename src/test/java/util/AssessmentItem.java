@@ -7,7 +7,7 @@ import enums.AssessmentItemType;
  *
  * Created by emunoz on 10/21/15.
  */
-public class AssessmentItem  {
+public class AssessmentItem {
     /**
      * The assessment item type.
      */
@@ -25,12 +25,18 @@ public class AssessmentItem  {
 
     /**
      * Sets the {@link AssessmentItem} ID.
+     *
      * @param id
      */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * Gets the {@link AssessmentItem} ID.
+     *
+     * @return
+     */
     public String getId() {
         return id;
     }
@@ -42,6 +48,4 @@ public class AssessmentItem  {
     public AssessmentItemType getType() {
         return type;
     }
-
-
 }

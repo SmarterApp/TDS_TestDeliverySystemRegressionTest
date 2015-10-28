@@ -1,16 +1,22 @@
-package tests;
+package tds.tests;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.junit.*;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import util.SeleniumWaiter;
-import util.navigation.TestNavigator;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import tds.util.SeleniumTestWaiter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,14 +33,11 @@ public abstract class SeleniumBaseTest {
 
     protected WebDriver driver;
 
+    protected WebDriverWait webDriverWait;
+
     protected final String BASE_URL = "https://practice.smarterbalanced.org/";
 
-    protected SeleniumWaiter waitHelper;
-
-    protected TestNavigator navigator;
-
-    @Rule
-    public SmarterBalancedTestWatcher screenCapturer = new SmarterBalancedTestWatcher();
+    protected SeleniumTestWaiter waitHelper;
 
     @Before
     public void setUp() throws Exception {
@@ -50,10 +53,20 @@ public abstract class SeleniumBaseTest {
         driver.manage().window().setSize(new Dimension(1920, 1080));
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
-        //TODO: Wire this guy up with Spring
-        waitHelper = new SeleniumWaiter(driver);
-        navigator = new TestNavigator(driver);
+        waitHelper = new SeleniumTestWaiter();
+        waitHelper.setDriver(driver);
+        //webDriverWait = new WebDriverWait(driver, 30);
+    }
 
-        screenCapturer.setDriver(driver);
+    @After
+    public void tearDown() throws Exception {
+        driver.quit();
+        LOG.info("Finished test execution. Quitting driver...");
+    }
+
+    protected void savePhantomScreenshot(String path) throws IOException {
+        LOG.debug("Saving PhantomJS screenshot to {}", path);
+        File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(srcFile, new File(path));
     }
 }

@@ -12,7 +12,6 @@ import org.openqa.selenium.WebDriver;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -20,8 +19,8 @@ import java.util.Date;
  *
  * Created by emunoz on 10/21/15.
  */
-public class TestFailureScreenCapturer extends TestWatcher implements TestRule {
-    private static final Logger LOG = LogManager.getLogger(TestFailureScreenCapturer.class);
+public class SmarterBalancedTestWatcher extends TestWatcher implements TestRule {
+    private static final Logger LOG = LogManager.getLogger(SmarterBalancedTestWatcher.class);
 
     private static final String SCREENSHOT_DIR = System.getProperty("user.dir") + "/failure-snapshots/";
 
@@ -30,7 +29,12 @@ public class TestFailureScreenCapturer extends TestWatcher implements TestRule {
     private WebDriver driver;
 
     @Override
-    protected void failed(Throwable e, Description description) {
+    protected void starting(Description description) {
+        LOG.info("Starting SmarterBalanced {} run at {}", description.getMethodName(), new Date(System.currentTimeMillis()));
+    }
+
+    @Override
+    protected void failed(final Throwable e, final Description description) {
         try {
             String picPath = getPicturePath(description);
             saveScreenshot(picPath);
@@ -43,20 +47,20 @@ public class TestFailureScreenCapturer extends TestWatcher implements TestRule {
     }
 
     @Override
-    public void finished (Description description) {
+    public void finished (final Description description) {
         LOG.info("Test method {} finished executing. Quitting driver...", description.getMethodName());
         driver.quit();
     }
 
-    private String getPicturePath(Description description) {
+    private String getPicturePath(final Description description) {
         String path = SCREENSHOT_DIR + description.getMethodName() + "_"
                 + new Date(System.currentTimeMillis()) + SCREENSHOT_FILE_TYPE;
 
         return path;
     }
 
-    private void saveScreenshot(String path) throws IOException {
-        LOG.debug("Saving PhantomJS screenshot to {}", path);
+    private void saveScreenshot(final String path) throws IOException {
+        LOG.debug("Saving screenshot to {}", path);
         File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(srcFile, new File(path));
     }

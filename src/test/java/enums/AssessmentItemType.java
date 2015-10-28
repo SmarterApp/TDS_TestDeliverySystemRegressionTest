@@ -21,8 +21,8 @@ public enum AssessmentItemType {
     MI("mi", "format_mi", "Match Interaction Item"),
 
     MS("ms", "format_ms", "Multi-Select Item"),
-
-    PASS("pass", "format_pass", "Passage Item"),
+//
+//    PASS("pass", "format_pass", "Passage Item"),
 
     SA("sa", "format_sa", "Short Answer Item"),
 
