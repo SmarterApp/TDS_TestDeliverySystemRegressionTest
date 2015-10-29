@@ -36,7 +36,7 @@ public class SmarterBalancedFirefoxDriverImpl extends FirefoxDriver implements S
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
 
-        while((System.currentTimeMillis() - startTime) < 61000) {
+        while((System.currentTimeMillis() - startTime) < TimeUnit.SECONDS.toMillis(DEFAULT_WAIT_TIMEOUT_IN_SECS)) {
             LOG.trace("Starting WAIT with timeout of {} seconds.", DEFAULT_WAIT_TIMEOUT_IN_SECS);
             try {
                 element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -79,7 +79,7 @@ public class SmarterBalancedFirefoxDriverImpl extends FirefoxDriver implements S
         this.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
 
         try {
-            while((System.currentTimeMillis() - startTime) < 61000) {
+            while((System.currentTimeMillis() - startTime) < TimeUnit.SECONDS.toMillis(timeoutInSeconds)) {
                 try {
                     LOG.trace("Starting WAIT with timeout of {} seconds.", timeoutInSeconds);
                     element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));

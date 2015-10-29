@@ -1,5 +1,6 @@
 package util;
 
+import enums.AssessmentItemType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -12,17 +13,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Helper class with the primary function of reading assessment items from the current assessment page and handling
+ * the questions according to their {@link AssessmentItemType}.
+ *
  * Created by emunoz on 10/21/15.
  */
-public final class ItemSelector {
-    private static final Logger LOG = LogManager.getLogger(ItemSelector.class);
+public final class ItemHandler {
+    private static final Logger LOG = LogManager.getLogger(ItemHandler.class);
 
     private static final String ASSESSMENT_ITEM_FORMAT_REGEX = "format_[a-z]+\\s";
 
-    public static List<AssessmentItem> getAssessmentItemsFromPage(final WebDriver driver) {
+    public static List<AssessmentItem> getAndHandleAssessmentItems(final WebDriver driver) {
+        //Get the HTML element of each assessment item
         List<WebElement> containerEls = driver.findElements(By.cssSelector(".itemContainer.showing"));
         List<AssessmentItem> items = new ArrayList<>();
 
+        //Iterate through each assessment item on the current page and construct the list of AssessmentItems to handle.
         for (WebElement itemDiv : containerEls) {
             String itemClassStr = getAssessmentItemTypeFromClassStr(itemDiv.getAttribute("class"));
             AssessmentItem item = new AssessmentItem(itemClassStr, itemDiv.getAttribute("id"));
@@ -77,21 +83,13 @@ public final class ItemSelector {
         }
     }
 
-    private static void handleShortAnswerAndWritingExtendedResponse(final String id, final WebDriver driver) {
-        WebElement werIFrame = driver.findElement(By.cssSelector("#" + id + " iframe"));
-        driver.switchTo().frame(werIFrame);
-        WebElement editable = driver.switchTo().activeElement();
-        editable.sendKeys("Practice Test");
-        //Get out of the iframe
-        driver.switchTo().defaultContent();
-    }
-
-    private static void handleTableInteraction(final String id, final WebDriver driver) {
-        WebElement tiInput = driver.findElement(By.cssSelector("#" + id + " input.ti-input"));
-        tiInput.clear();
-        tiInput.sendKeys("42");
-    }
-
+    /**
+     * Handles grid assessment item types. These item types can require either drag-and-drop, click an item, or draw an
+     * arrow/line functionality.
+     *
+     * @param id
+     * @param driver
+     */
     private static void handleGridItem(final String id, final WebDriver driver) {
         WebElement objectTag = driver.findElement(By.cssSelector("#" + id + " object"));
         WebElement origin = driver.findElement(By.cssSelector("#htmlBody"));
@@ -153,11 +151,7 @@ public final class ItemSelector {
                     .perform();
 
         }
-
-        LOG.info("Finished handling grid item");
-
     }
-
     private static Point getSourceContainerCoordinates(JavascriptExecutor jsDriver, WebElement objectTag) {
         Point sourcePt = null;
         Map<String, Object> srcPos = (Map) jsDriver.executeScript(
@@ -205,11 +199,47 @@ public final class ItemSelector {
         return dropPt;
     }
 
+    /**
+     * Handles short answer and WER item types by entering text into the text-editor iframe widget.
+     * @param id
+     * @param driver
+     */
+    private static void handleShortAnswerAndWritingExtendedResponse(final String id, final WebDriver driver) {
+        WebElement werIFrame = driver.findElement(By.cssSelector("#" + id + " iframe"));
+        driver.switchTo().frame(werIFrame);
+        WebElement editable = driver.switchTo().activeElement();
+        editable.sendKeys("Practice Test");
+        //Get out of the iframe
+        driver.switchTo().defaultContent();
+    }
+
+    /**
+     * Handles table interaction item types by entering numerical text into the item's input field.
+     * @param id
+     * @param driver
+     */
+    private static void handleTableInteraction(final String id, final WebDriver driver) {
+        WebElement tiInput = driver.findElement(By.cssSelector("#" + id + " input.ti-input"));
+        tiInput.clear();
+        tiInput.sendKeys("42");
+    }
+
+    /**
+     * Handles equation item types by clicking on keypad buttons.
+     *
+     * @param id
+     * @param driver
+     */
     private static void handleEquation(final String id, final WebDriver driver) {
         driver.findElement(By.cssSelector("#" + id + " .keypad-item[aria-label='four']")).click();
         driver.findElement(By.cssSelector("#" + id + " .keypad-item[aria-label='two']")).click();
     }
 
+    /**
+     * Handles multi select item types by clicking on every checkbox available.
+     * @param id
+     * @param driver
+     */
     private static void handleMultiSelect(final String id, final WebDriver driver) {
         List<WebElement> checkboxes = driver.findElements(By.cssSelector("#" + id + " .optionClicker"));
 
@@ -218,6 +248,12 @@ public final class ItemSelector {
         }
     }
 
+    /**
+     * Handles match interaction assessment item types by clicking every checkbox available.
+     *
+     * @param id
+     * @param driver
+     */
     private static void handleMatchInteraction(final String id, final WebDriver driver) {
         List<WebElement> checkboxes = driver.findElements(By.cssSelector("#" + id + " input[type='checkbox']"));
 
@@ -227,10 +263,22 @@ public final class ItemSelector {
         }
     }
 
+    /**
+     * Handles a basic multiple choice question by click on the first option.
+     *
+     * @param id
+     * @param driver
+     */
     private static void handleMultipleChoice(final String id, final WebDriver driver) {
         driver.findElement(By.cssSelector("#" + id + " .optionClicker")).click();
     }
 
+    /**
+     * Handles hot text items - can be orderable list of selections, or a set of clickable sentences/words.
+     *
+     * @param id
+     * @param driver
+     */
     private static void handleHotText(final String id, final WebDriver driver) {
         boolean orderable = false;
         List<WebElement> itemDivs = driver.findElements(By.cssSelector("#" + id + " .interaction"));
@@ -259,6 +307,12 @@ public final class ItemSelector {
 
     }
 
+    /**
+     * Handles extended response items by entering text into the item's textarea
+     *
+     * @param id
+     * @param driver
+     */
     private static void handleExtendedResponse(String id, WebDriver driver) {
         WebElement itemDiv = driver.findElement(By.cssSelector("#" + id + " textarea"));
         itemDiv.clear();

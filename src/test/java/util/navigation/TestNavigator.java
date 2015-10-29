@@ -1,6 +1,7 @@
 package util.navigation;
 
 import driver.SmarterBalancedFirefoxDriver;
+import enums.TestButton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -74,16 +75,20 @@ public class TestNavigator {
     }
 
     /**
-     * This method checks is the "next" button is available and active.
+     * This method checks to see if a button is available on the current screen based on the
+     * {@link TestButton}'s id.
      *
+     * @param buttonType
+     *          The type of {@link TestButton} to verify.
      * @return
+     *          true if the button is currently available and clickable, otherwise false.
      */
-    public boolean nextButtonAvailable() {
+    public boolean isButtonAvailable(TestButton buttonType) {
         boolean isAvailable = false;
         List<WebElement> activeButtons = driver.findElements(By.cssSelector("li.active a"));
 
         for (WebElement button : activeButtons) {
-            if (button.getAttribute("class").contains("next")) {
+            if (buttonType.getId().equals(button.getAttribute("id"))) {
                 isAvailable = true;
                 break;
             }
@@ -93,46 +98,22 @@ public class TestNavigator {
         return isAvailable;
     }
 
-    /**
-     * This method checks is the "next" button is available and active.
-     *
-     * @return
-     */
-    public boolean endButtonAvailable() {
-        boolean isAvailable = false;
-        List<WebElement> activeButtons = driver.findElements(By.cssSelector("li.active a"));
-
-        for (WebElement button : activeButtons) {
-            if (button.getAttribute("class").contains("endTest")) {
-                isAvailable = true;
-                break;
-            }
-        }
-
-        LOG.info("End button active and available?: {}", isAvailable);
-
-        return isAvailable;
+    public void clickButton(TestButton button) {
+        LOG.trace("Clicking the {} button.", button.name());
+        driver.findElement(By.cssSelector("#" + button.getId()));
     }
 
     /**
-     * Clicks the "Next" button and waits a specified amount of milliseconds.
+     * Clicks the "Next" button and waits a specified amount of milliseconds before navigating to the
+     * last available page.
      *
      * @param timeInMs
      * @throws InterruptedException
      */
     public void clickNextButtonAndWait(final long timeInMs) throws InterruptedException {
-        LOG.trace ("Clicking the \"NEXT PAGE\" button.");
-        driver.findElement(By.cssSelector("#btnNext")).click();
+        clickButton(TestButton.NEXT);
         Thread.sleep(timeInMs);
         navigateToLastPage();
-    }
-
-    /**
-     * Clicks the "end test" button (assumes it has been checked for aciveness/availability).
-     */
-    public void clickEndTestButton() {
-        LOG.trace ("Clicking the \"END TEST\" button.");
-        driver.findElement(By.cssSelector("#btnEnd")).click();
     }
 
     /**
@@ -159,7 +140,6 @@ public class TestNavigator {
      * @return true if a dialog is currently visible, otherwise false.
      */
     public boolean isDialogShown() {
-        //WebElement dialogEl = waiter.waitForAndGetElementByLocator(By.cssSelector("#yuiSimpleDialog"), 0);
         LOG.trace("Checking to see if a modal dialog is being displayed...");
         boolean isVisible =  driver.isElementVisibleNow(By.cssSelector("#yuiSimpleDialog"));
         LOG.trace("Modal dialog visible?: {}", isVisible);
@@ -201,6 +181,14 @@ public class TestNavigator {
             //Click second "Yes" button
             dialogBtns.get(0).click();
         }
+    }
+
+    /**
+     * Clicks the "hamburger" button and opens the assessment item menu, and then selects the specified option.
+     */
+    public void selectOptionFromItemMenu(String itemClassName) {
+        driver.findElement(By.cssSelector("a.itemMenu")).click();
+        driver.findElement(By.cssSelector(".yuimenu.visible ." + itemClassName)).click();
     }
 
     private void clearAndType(final String text, final By by) {

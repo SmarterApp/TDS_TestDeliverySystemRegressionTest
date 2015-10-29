@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
  * Created by emunoz on 10/28/15.
  */
 public class ColorContrastTest extends SeleniumBaseTest {
-    private static final String COLOR_CONTRAST_SELECT_CSS_SELECTOR =  "#accs-type-SBAC-Math-3-MATH-3-colorchoices";
+    private static final String COLOR_CONTRAST_SELECT_CSS_SELECTOR =  "select[id*='colorchoices']";
 
     private static final String BLACK_ON_ROSE_OPTION = "TDS_CCMagenta";
 
@@ -37,7 +37,7 @@ public class ColorContrastTest extends SeleniumBaseTest {
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
-        // Select ELA HS Test
+        // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
     }

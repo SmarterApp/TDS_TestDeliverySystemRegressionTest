@@ -13,6 +13,17 @@ import static org.junit.Assert.assertTrue;
  * Created by emunoz on 10/21/15.
  */
 public class UserTimeoutTest extends SeleniumBaseTest {
+
+    /**
+     * The time it takes for the timeout modal dialog to appear when user is idle
+     */
+    private static final int TIMEOUT_TIME_MS = 610000;
+
+    /**
+     * The time it takes for the timeout modal dialog to close once it appears
+     */
+    private static final int TIMEOUT_MODAL_CLOSE_MS = 31000;
+
     @Test
     public void testTimeout() throws Exception {
         driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
@@ -28,7 +39,7 @@ public class UserTimeoutTest extends SeleniumBaseTest {
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
-        // Select ELA HS Test
+        // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
 
@@ -43,12 +54,12 @@ public class UserTimeoutTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
 
         //Sleep 10 minutes.
-        Thread.sleep(610000);
+        Thread.sleep(TIMEOUT_TIME_MS);
 
         assertTrue(navigator.isDialogShown());
 
         //Wait another 30 seconds for the dialog to disappear.
-        Thread.sleep(30000);
+        Thread.sleep(TIMEOUT_MODAL_CLOSE_MS);
 
         //Back to login screen
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
@@ -69,7 +80,7 @@ public class UserTimeoutTest extends SeleniumBaseTest {
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
-        // Select ELA HS Test
+        // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
 
@@ -84,12 +95,12 @@ public class UserTimeoutTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
 
         //Sleep 10 minutes.
-        Thread.sleep(610000);
+        Thread.sleep(TIMEOUT_TIME_MS);
 
         assertTrue(navigator.isDialogShown());
 
         //Wait another 30 seconds for the dialog to disappear.
-        Thread.sleep(30000);
+        Thread.sleep(TIMEOUT_MODAL_CLOSE_MS);
 
         //Back to login screen
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());

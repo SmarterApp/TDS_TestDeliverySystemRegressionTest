@@ -44,6 +44,7 @@ public enum AssessmentItemType {
     private String className;
 
     /**
+     *
      * A description of the assement item type
      */
     private String description;

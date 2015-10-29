@@ -1,18 +1,13 @@
 package tests.student.general;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import enums.TestButton;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import tests.SeleniumBaseTest;
-import util.ItemSelector;
-
-import java.sql.Timestamp;
+import util.ItemHandler;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,6 +15,11 @@ import static org.junit.Assert.assertEquals;
  * Created by emunoz on 10/20/15.
  */
 public class FullEndTest extends SeleniumBaseTest {
+
+    /**
+     * The amount of time to wait
+     */
+    private static final int NEXT_PAGE_WAIT_IN_MS = 1000;
 
     @Before
     public void openHomeAndLogin() {
@@ -32,7 +32,7 @@ public class FullEndTest extends SeleniumBaseTest {
 
     @After
     public void endTest() {
-        navigator.clickEndTestButton();
+        navigator.clickButton(TestButton.END);
         navigator.clickDialogYesButton();
         //Test ends - click submit
         driver.waitForAndGetElementByLocator(By.cssSelector("#btnCompleteTest button[type=\"button\"]")).click();
@@ -52,7 +52,7 @@ public class FullEndTest extends SeleniumBaseTest {
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
-        // Select ELA HS Test
+        // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
 
@@ -67,14 +67,7 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
 
         //Test begins
-        do {
-            ItemSelector.getAssessmentItemsFromPage(driver);
-            navigator.clickNextButtonAndWait(1000);
-
-            if (navigator.isDialogShown()) {
-                navigator.clickDialogOkButton();
-            }
-        } while (navigator.nextButtonAvailable() && !navigator.endButtonAvailable());
+        takeTest();
     }
 
     @Test
@@ -86,7 +79,7 @@ public class FullEndTest extends SeleniumBaseTest {
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
-        // Select ELA HS Test
+        // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[3]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
 
@@ -101,14 +94,7 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
 
         //Test begins
-        do {
-            ItemSelector.getAssessmentItemsFromPage(driver);
-            navigator.clickNextButtonAndWait(1000);
-
-            if (navigator.isDialogShown()) {
-                navigator.clickDialogOkButton();
-            }
-        } while (navigator.nextButtonAvailable() && !navigator.endButtonAvailable());
+        takeTest();
     }
 
     @Test
@@ -120,7 +106,7 @@ public class FullEndTest extends SeleniumBaseTest {
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
-        // Select ELA HS Test
+        // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[5]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
 
@@ -135,14 +121,7 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
 
         //Test begins
-        do {
-            ItemSelector.getAssessmentItemsFromPage(driver);
-            navigator.clickNextButtonAndWait(1000);
-
-            if (navigator.isDialogShown()) {
-                navigator.clickDialogOkButton();
-            }
-        } while (navigator.nextButtonAvailable() && !navigator.endButtonAvailable());
+        takeTest();
     }
 
     @Test
@@ -153,7 +132,7 @@ public class FullEndTest extends SeleniumBaseTest {
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
-        // Select ELA HS Test
+        // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[4]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
 
@@ -173,14 +152,7 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
 
         //Test begins
-        do {
-            ItemSelector.getAssessmentItemsFromPage(driver);
-            navigator.clickNextButtonAndWait(1000);
-
-            if (navigator.isDialogShown()) {
-                navigator.clickDialogOkButton();
-            }
-        } while (navigator.nextButtonAvailable() && !navigator.endButtonAvailable());
+        takeTest();
     }
 
     @Test
@@ -191,7 +163,7 @@ public class FullEndTest extends SeleniumBaseTest {
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
-        // Select ELA HS Test
+        // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[6]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
 
@@ -211,14 +183,7 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
 
         //Test begins
-        do {
-            ItemSelector.getAssessmentItemsFromPage(driver);
-            navigator.clickNextButtonAndWait(1000);
-
-            if (navigator.isDialogShown()) {
-                navigator.clickDialogOkButton();
-            }
-        } while (navigator.nextButtonAvailable() && !navigator.endButtonAvailable());
+        takeTest();
     }
 
     @Test
@@ -229,7 +194,7 @@ public class FullEndTest extends SeleniumBaseTest {
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
-        // Select ELA HS Test
+        // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
 
@@ -243,14 +208,7 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
 
         //Test begins
-        do {
-            ItemSelector.getAssessmentItemsFromPage(driver);
-            navigator.clickNextButtonAndWait(1000);
-
-            if (navigator.isDialogShown()) {
-                navigator.clickDialogOkButton();
-            }
-        } while (navigator.nextButtonAvailable() && !navigator.endButtonAvailable());
+        takeTest();
 
     }
 
@@ -262,7 +220,7 @@ public class FullEndTest extends SeleniumBaseTest {
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
-        // Select ELA HS Test
+        // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[2]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
 
@@ -282,14 +240,24 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
 
         //Test begins
+        takeTest();
+    }
+
+    /**
+     * This method iterates through each test assessment page until the test is complete or an exception occurs.
+     * This process includes handling each individual item, clicking the next button, and checking for dialogs (and
+     * closing them appropriately).
+     *
+     * @throws InterruptedException
+     */
+    private void takeTest() throws InterruptedException {
         do {
-            ItemSelector.getAssessmentItemsFromPage(driver);
-            navigator.clickNextButtonAndWait(1000);
+            ItemHandler.getAndHandleAssessmentItems(driver);
+            navigator.clickNextButtonAndWait(NEXT_PAGE_WAIT_IN_MS);
 
             if (navigator.isDialogShown()) {
                 navigator.clickDialogOkButton();
             }
-        } while (navigator.nextButtonAvailable() && !navigator.endButtonAvailable());
-
+        } while (navigator.isButtonAvailable(TestButton.NEXT) && !navigator.isButtonAvailable(TestButton.END));
     }
 }

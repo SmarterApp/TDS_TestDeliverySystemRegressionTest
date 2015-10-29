@@ -2,12 +2,10 @@ package tests.student.designatedsupports;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import tests.SeleniumBaseTest;
-import util.ItemSelector;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -34,13 +32,13 @@ public class MaskingTest extends SeleniumBaseTest {
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
-        // Select ELA HS Test
+        // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
 
         //Turn masking on and continue
         driver.findElement(By.cssSelector(
-                "#accs-type-SBAC-Math-3-MATH-3-masking option[value='" + MASKING_ON_VALUE + "']")).click();
+                "select[id*='masking'] option[value='" + MASKING_ON_VALUE + "']")).click();
 
         driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
         WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
