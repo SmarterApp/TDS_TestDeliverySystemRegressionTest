@@ -100,7 +100,7 @@ public class TestNavigator {
 
     public void clickButton(TestButton button) {
         LOG.trace("Clicking the {} button.", button.name());
-        driver.findElement(By.cssSelector("#" + button.getId()));
+        driver.findElement(By.cssSelector("#" + button.getId())).click();
     }
 
     /**

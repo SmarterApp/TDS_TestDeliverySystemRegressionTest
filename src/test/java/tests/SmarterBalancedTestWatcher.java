@@ -13,6 +13,7 @@ import org.openqa.selenium.WebDriver;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class is responsible for handling failed test cases and error screen capturing.
@@ -28,9 +29,12 @@ public class SmarterBalancedTestWatcher extends TestWatcher implements TestRule 
 
     private WebDriver driver;
 
+    private static long startTime;
+
     @Override
     protected void starting(Description description) {
-        LOG.info("Starting SmarterBalanced {} run at {}", description.getMethodName(), new Date(System.currentTimeMillis()));
+        startTime = System.currentTimeMillis();
+        LOG.info("Starting SmarterBalanced {} run at {}", description.getMethodName(), new Date(startTime));
     }
 
     @Override
@@ -48,7 +52,9 @@ public class SmarterBalancedTestWatcher extends TestWatcher implements TestRule 
 
     @Override
     public void finished (final Description description) {
-        LOG.info("Test method {} finished executing. Quitting driver...", description.getMethodName());
+        long testTime = System.currentTimeMillis() - startTime;
+        LOG.info("Test method {} finished executing. Execution of test took approximately {} seconds. Quitting driver...",
+                description.getMethodName(), TimeUnit.MILLISECONDS.toSeconds(testTime));
         driver.quit();
     }
 

@@ -51,6 +51,7 @@ public class ColorContrastTest extends SeleniumBaseTest {
         assertEquals("GUEST SESSION", verifySessionIdEl.getText());
 
         WebElement htmlBodyEl = driver.findElement(By.cssSelector("body#htmlBody"));
+        // Verify that the <body> element contains the proper color-contrast class
         assertTrue(htmlBodyEl.getAttribute("class").contains(BLACK_ON_ROSE_OPTION));
         assertEquals(htmlBodyEl.getCssValue("background-color"), "rgba(255, 208, 255, 1)");
     }
@@ -64,6 +65,7 @@ public class ColorContrastTest extends SeleniumBaseTest {
         assertEquals("GUEST SESSION", verifySessionIdEl.getText());
 
         WebElement htmlBodyEl = driver.findElement(By.cssSelector("body#htmlBody"));
+        // Verify that the <body> element contains the proper color-contrast class
         assertTrue(htmlBodyEl.getAttribute("class").contains(YELLOW_ON_BLUE_OPTION));
         assertEquals(htmlBodyEl.getCssValue("background-color"), "rgba(0, 51, 153, 1)");
         assertEquals(htmlBodyEl.getCssValue("color"), "rgba(255, 204, 0, 1)");
@@ -78,6 +80,7 @@ public class ColorContrastTest extends SeleniumBaseTest {
         assertEquals("GUEST SESSION", verifySessionIdEl.getText());
 
         WebElement htmlBodyEl = driver.findElement(By.cssSelector("body#htmlBody"));
+        // Verify that the <body> element contains the proper color-contrast class
         assertTrue(htmlBodyEl.getAttribute("class").contains(MEDIUM_GRAY_ON_LIGHT_GRAY_OPTION));
         assertEquals(htmlBodyEl.getCssValue("background-color"), "rgba(229, 229, 229, 1)");
         assertEquals(htmlBodyEl.getCssValue("color"), "rgba(102, 102, 102, 1)");
@@ -92,6 +95,7 @@ public class ColorContrastTest extends SeleniumBaseTest {
         assertEquals("GUEST SESSION", verifySessionIdEl.getText());
 
         WebElement htmlBodyEl = driver.findElement(By.cssSelector("body#htmlBody"));
+        // Verify that the <body> element contains the proper color-contrast class
         assertTrue(htmlBodyEl.getAttribute("class").contains(REVERSE_CONTRAST_OPTION));
         assertEquals(htmlBodyEl.getCssValue("background-color"), "rgba(0, 0, 0, 1)");
         assertEquals(htmlBodyEl.getCssValue("color"), "rgba(255, 255, 255, 1)");
