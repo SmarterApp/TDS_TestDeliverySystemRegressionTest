@@ -24,6 +24,8 @@ public enum AssessmentItemType {
 //
 //    PASS("pass", "format_pass", "Passage Item"),
 
+    NL("nl", "format_nl", "Natural Language Item"), //Deprecated?
+
     SA("sa", "format_sa", "Short Answer Item"),
 
     TI("ti", "format_ti", "Table Interaction Item"),

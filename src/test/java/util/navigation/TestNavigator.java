@@ -1,11 +1,10 @@
 package util.navigation;
 
+import driver.SmarterBalancedFirefoxDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import util.SeleniumWaiter;
 
 import java.util.List;
 
@@ -19,13 +18,10 @@ public class TestNavigator {
 
     private static final String GUEST_KEY = "GUEST";
 
-    WebDriver driver;
+    SmarterBalancedFirefoxDriver driver;
 
-    SeleniumWaiter waiter;
-
-    public TestNavigator(WebDriver driver) {
+    public TestNavigator(SmarterBalancedFirefoxDriver driver) {
         this.driver = driver;
-        this.waiter = new SeleniumWaiter(driver);
     }
 
     /**
@@ -165,7 +161,7 @@ public class TestNavigator {
     public boolean isDialogShown() {
         //WebElement dialogEl = waiter.waitForAndGetElementByLocator(By.cssSelector("#yuiSimpleDialog"), 0);
         LOG.trace("Checking to see if a modal dialog is being displayed...");
-        boolean isVisible =  waiter.isElementVisibleNow(By.cssSelector("#yuiSimpleDialog"));
+        boolean isVisible =  driver.isElementVisibleNow(By.cssSelector("#yuiSimpleDialog"));
         LOG.trace("Modal dialog visible?: {}", isVisible);
 
         return isVisible;
@@ -215,11 +211,7 @@ public class TestNavigator {
         }
     }
 
-    public void setDriver(WebDriver driver) {
+    public void setDriver(SmarterBalancedFirefoxDriver driver) {
         this.driver = driver;
-    }
-
-    public void setWaiter(SeleniumWaiter waiter) {
-        this.waiter = waiter;
     }
 }

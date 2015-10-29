@@ -24,7 +24,7 @@ public class LoginTest extends SeleniumBaseTest {
     @Test
     public void testGuestLogin() {
         navigator.loginAsGuest();
-        waitHelper.waitForTitleAndAssert("Is This You?", true);
+        driver.waitForTitleAndAssert("Is This You?", true);
         assertEquals("GUEST",
                 driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[1]/span[2]")).getText());
         assertEquals("GUEST",
@@ -36,7 +36,7 @@ public class LoginTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#loginForm1 input#cbUser")).click();
         navigator.login("Bad", "Credentials");
 
-        waitHelper.waitForAndGetElementByLocator(By.cssSelector("#yuiSimpleDialog"), 2000);
+        driver.waitForAndGetElementByLocator(By.cssSelector("#yuiSimpleDialog"), 2000);
         assertTrue(navigator.isDialogShown());
 
         WebElement dialogHeader = driver.findElement(By.cssSelector("#yuiSimpleDialog h2"));
@@ -55,7 +55,7 @@ public class LoginTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#loginForm2 input#cbSession")).click();
         navigator.login("GUEST", "GUEST", "TESTS", "TESTS", "TESTS");
 
-        waitHelper.waitForAndGetElementByLocator(By.cssSelector("#yuiSimpleDialog"), 2000);
+        driver.waitForAndGetElementByLocator(By.cssSelector("#yuiSimpleDialog"), 2000);
         assertTrue(navigator.isDialogShown());
 
         WebElement dialogHeader = driver.findElement(By.cssSelector("#yuiSimpleDialog h2"));

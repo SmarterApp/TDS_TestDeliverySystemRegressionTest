@@ -27,8 +27,8 @@ public class HelpTest extends SeleniumBaseTest {
     public void testHelp() {
         final String HELP_DIALOG_CLASS = "tool-helpguide-container";
         driver.findElement(By.cssSelector("a#btnHelp")).click();
-        waitHelper.waitForAndGetElementByLocator(By.className(HELP_DIALOG_CLASS));
-        assertTrue(waitHelper.isElementVisibleNow(By.className(HELP_DIALOG_CLASS)));
+        driver.waitForAndGetElementByLocator(By.className(HELP_DIALOG_CLASS));
+        assertTrue(driver.isElementVisibleNow(By.className(HELP_DIALOG_CLASS)));
         WebElement helpContainer = driver.findElement(By.className(HELP_DIALOG_CLASS));
         assertTrue(helpContainer.findElement(By.cssSelector("h2.hd")).getText().contains("Help Guide"));
 
@@ -49,6 +49,6 @@ public class HelpTest extends SeleniumBaseTest {
 
         // Close help dialog
         driver.findElement(By.cssSelector("." + HELP_DIALOG_CLASS + " a.container - close")).click();
-                assertFalse(waitHelper.isElementVisibleNow(By.className(HELP_DIALOG_CLASS)));
+                assertFalse(driver.isElementVisibleNow(By.className(HELP_DIALOG_CLASS)));
     }
 }

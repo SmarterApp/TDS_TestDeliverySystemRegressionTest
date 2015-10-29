@@ -2,10 +2,7 @@ package util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
@@ -49,6 +46,7 @@ public final class ItemSelector {
                     handleEquation(item.getId(), driver);
                     break;
                 case ER:
+                case NL:
                     handleExtendedResponse(item.getId(), driver);
                     break;
                 case GI:
@@ -96,54 +94,61 @@ public final class ItemSelector {
 
     private static void handleGridItem(final String id, final WebDriver driver) {
         WebElement objectTag = driver.findElement(By.cssSelector("#" + id + " object"));
+        WebElement origin = driver.findElement(By.cssSelector("#htmlBody"));
         JavascriptExecutor jsDriver =(JavascriptExecutor) driver;
         Actions builder = new Actions(driver);
 
-        //Get the source element coordinates to be dragged and the destination container's coordinates
-        String xPos = (String) jsDriver.executeScript(
-                "return ($(arguments[0].contentDocument).find('image').eq(2).attr('x'))", objectTag);
-        String yPos = (String) jsDriver.executeScript(
-                "return ($(arguments[0].contentDocument).find('image').eq(2).attr('y'))", objectTag);
-        // Some destination containers are rects (x,y), but some are circles (cx, cy)
-        String dropX = (String) jsDriver.executeScript( // assuming its a circle container, this returns something...
-                "return ($(arguments[0].contentDocument).find('#shapes').children().eq(2).attr('cx'))", objectTag);
-        String dropY = (String) jsDriver.executeScript(
-                "return ($(arguments[0].contentDocument).find('#shapes').children().eq(2).attr('cy'))", objectTag);
+        Point dropContainer = getDropContainerCoordinates(jsDriver, objectTag);
+        Point sourceContainer = getSourceContainerCoordinates(jsDriver, objectTag);
 
-        if (dropX == null || dropY == null) { // this must be a "rect" container, so get the "x" attr instead
-            dropX = (String) jsDriver.executeScript(
-                    "return ($(arguments[0].contentDocument).find('#shapes').children().eq(2).attr('x'))", objectTag);
-            dropY = (String) jsDriver.executeScript(
-                    "return ($(arguments[0].contentDocument).find('#shapes').children().eq(2).attr('y'))", objectTag);
-        }
+        Map<String, Object> gridOffset = (Map) jsDriver.executeScript(
+                "return ($(arguments[0].contentDocument).find('#groupWrapper').offset())", objectTag);
 
-        if (xPos == null || yPos == null) { // This must be a "draw an arrow/line" question.
+        if (sourceContainer == null && dropContainer == null) { // This must be a "draw an arrow/line" question.
             //get the arrow button coordinates
             Map<String, Long> arrowPoint = (Map) jsDriver.executeScript(
                     "return ($(arguments[0].contentDocument).find('#button_arrow').offset())", objectTag);
 
-            builder.moveByOffset(
-                        arrowPoint.get("left").intValue() + objectTag.getLocation().getX() + 50,
-                        arrowPoint.get("top").intValue() + objectTag.getLocation().getY() + 10)
-                    .click()
+            builder.moveToElement(origin, 0, 0)
+                    .moveByOffset(
+                            arrowPoint.get("left").intValue() + objectTag.getLocation().getX() + 60,
+                            arrowPoint.get("top").intValue() + objectTag.getLocation().getY() + 15)
+                    .clickAndHold().release()
                     .moveByOffset(0, 200)
-                    .click()
-                    .moveByOffset(0, 200)
-                    .click()
+                    .clickAndHold()
+                    .moveByOffset(0, 100)
+                    .release().click()
                     .build()
                     .perform();
-        } else { // Otherwise, this is probably a drag-and-drop.
-            int srcAbsX = (int) Double.parseDouble(xPos) + objectTag.getLocation().getX() + 20;
-            int srcAbsY = (int) Double.parseDouble(yPos) + objectTag.getLocation().getY() + 10;
-            int dropAbsX = (int) Double.parseDouble(dropX) + objectTag.getLocation().getX() + 80;
-            int dropAbsY = (int) Double.parseDouble(dropY) + objectTag.getLocation().getY() + 10;
+        } else if (sourceContainer == null ||   //No drag/drop required - just click on target
+                (sourceContainer.getX() == 0 && sourceContainer.getY() == 0)) {
+            int dropAbsX = ((Long) gridOffset.get("left")).intValue() + dropContainer.getX()
+                    + objectTag.getLocation().getX() + 20;
+            int dropAbsY = ((Long) gridOffset.get("top")).intValue() + dropContainer.getY()
+                    + objectTag.getLocation().getY() + 20;
 
-            builder.moveByOffset(srcAbsX, srcAbsY)
+            builder.moveToElement(origin, 0, 0)
+                    .moveByOffset(dropAbsX, dropAbsY)
+                    .clickAndHold().release()
+                    .build()
+                    .perform();
+        } else {//Otherwise, drag and drop
+            int srcAbsX = sourceContainer.getX() + objectTag.getLocation().getX() + 20;
+            int srcAbsY = sourceContainer.getY() + objectTag.getLocation().getY() + 20;
+            int dropAbsX = ((Long) gridOffset.get("left")).intValue() + dropContainer.getX()
+                    + objectTag.getLocation().getX() + 20;
+            int dropAbsY = ((Long) gridOffset.get("top")).intValue() + dropContainer.getY()
+                    + objectTag.getLocation().getY() + 20;
+
+            builder.moveToElement(origin, 0, 0)
+                    .moveByOffset(srcAbsX, srcAbsY)
+                    //.click()
                     .clickAndHold()
                     .moveByOffset(
                             dropAbsX - srcAbsX,
                             dropAbsY - srcAbsY)
                     .release()
+                    .click()
                     .build()
                     .perform();
 
@@ -151,6 +156,53 @@ public final class ItemSelector {
 
         LOG.info("Finished handling grid item");
 
+    }
+
+    private static Point getSourceContainerCoordinates(JavascriptExecutor jsDriver, WebElement objectTag) {
+        Point sourcePt = null;
+        Map<String, Object> srcPos = (Map) jsDriver.executeScript(
+                "return ($(arguments[0].contentDocument).find('image').eq(1).offset())", objectTag);
+
+        if (srcPos != null) {
+            Double srcLeft = null;
+            Double srcTop = null;
+
+            if (srcPos.get("left") instanceof Long) {
+                srcLeft = ((Long) srcPos.get("left")).doubleValue();
+            } else {
+                srcLeft = (Double) srcPos.get("left");
+            }
+            if (srcPos.get("top") instanceof Long) {
+                srcTop = ((Long) srcPos.get("top")).doubleValue();
+            } else {
+                srcTop = (Double) srcPos.get("top");
+            }
+
+            sourcePt = new Point(srcLeft.intValue(), srcTop.intValue());
+        }
+
+        return sourcePt;
+    }
+
+    private static Point getDropContainerCoordinates(JavascriptExecutor driver, WebElement objectTag) {
+        Point dropPt = null;
+        String dropX = (String) driver.executeScript( // assuming its a circle container, this returns something...
+                "return ($(arguments[0].contentDocument).find('#shapes').children().eq(2).attr('cx'))", objectTag);
+        String dropY = (String) driver.executeScript(
+                "return ($(arguments[0].contentDocument).find('#shapes').children().eq(2).attr('cy'))", objectTag);
+
+        if (dropX == null || dropY == null) { // this must be a "rect" container, so get the "x" attr instead
+            dropX = (String) driver.executeScript(
+                    "return ($(arguments[0].contentDocument).find('#shapes').children().eq(2).attr('x'))", objectTag);
+            dropY = (String) driver.executeScript(
+                    "return ($(arguments[0].contentDocument).find('#shapes').children().eq(2).attr('y'))", objectTag);
+        }
+
+        if (dropX != null && dropY != null) {
+            dropPt = new Point((int) Double.parseDouble(dropX), (int) Double.parseDouble(dropY));
+        }
+
+        return dropPt;
     }
 
     private static void handleEquation(final String id, final WebDriver driver) {

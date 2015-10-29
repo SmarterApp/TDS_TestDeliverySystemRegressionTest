@@ -1,16 +1,14 @@
 package tests;
 
+import driver.SmarterBalancedFirefoxDriver;
+import driver.impl.SmarterBalancedFirefoxDriverImpl;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.junit.*;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import util.SeleniumWaiter;
 import util.navigation.TestNavigator;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,11 +23,9 @@ public abstract class SeleniumBaseTest {
     //TODO: Load this up from properties file once we begin using Spring in this project
     private static final String PHANTOMJS_EXECUTABLE_PATH = "/Users/emunoz/Documents/dev/phantomjs-2.0.0-macosx/bin/phantomjs";
 
-    protected WebDriver driver;
+    protected SmarterBalancedFirefoxDriver driver;
 
     protected final String BASE_URL = "https://practice.smarterbalanced.org/";
-
-    protected SeleniumWaiter waitHelper;
 
     protected TestNavigator navigator;
 
@@ -46,14 +42,12 @@ public abstract class SeleniumBaseTest {
         dCaps.setCapability("takesScreenshot", true);
 
         //driver = new PhantomJSDriver(dCaps);
-        driver = new FirefoxDriver();
+        driver = new SmarterBalancedFirefoxDriverImpl();
         driver.manage().window().setSize(new Dimension(1920, 1080));
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
         //TODO: Wire this guy up with Spring
-        waitHelper = new SeleniumWaiter(driver);
         navigator = new TestNavigator(driver);
-
         screenCapturer.setDriver(driver);
     }
 }
