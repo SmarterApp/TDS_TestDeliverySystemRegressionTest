@@ -10,6 +10,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * Tests the login functionality of the Test Delivery System
+ *
  * Created by emunoz on 10/21/15.
  */
 public class LoginTest extends SeleniumBaseTest {

@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 /**
  * Created by emunoz on 10/29/15.
  */
-public interface SmarterBalancedFirefoxDriver extends WebDriver{
-
+public interface SmarterBalancedWebDriver extends WebDriver{
+    final int DEFAULT_WAIT_TIMEOUT_IN_SECS = 30;
     /**
      * This helper method waits for an element to appear on the DOM and returns
      * the {@link WebElement} object that was located. Timeout is set to default.
@@ -51,4 +51,18 @@ public interface SmarterBalancedFirefoxDriver extends WebDriver{
      * @return true if the element is immediately visible, otherwise false.
      */
     boolean isElementVisibleNow(final By locator);
+
+    /**
+     * Convenience method that switches the {@link WebDriver}s context into the iframe defined
+     * by the {@link By} iframe selector
+     *
+     * @param iFrameSelector
+     *          The {@link By} selector object used to locate the iFrame on the DOM.
+     */
+    void switchToIframe(By iFrameSelector);
+
+    /**
+     * Convenience method that switches the context back to the default content/DOM.
+     */
+    void switchOutOfIFrame();
 }

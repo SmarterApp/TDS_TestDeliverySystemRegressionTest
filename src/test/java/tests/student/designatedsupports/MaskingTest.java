@@ -12,6 +12,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * Tests the Masking tool
+ *
  * Created by emunoz on 10/28/15.
  */
 public class MaskingTest extends SeleniumBaseTest {

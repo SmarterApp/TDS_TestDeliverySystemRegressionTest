@@ -1,6 +1,6 @@
 package util;
 
-import enums.AssessmentItemType;
+import driver.SmarterBalancedWebDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -23,7 +23,7 @@ public final class ItemHandler {
 
     private static final String ASSESSMENT_ITEM_FORMAT_REGEX = "format_[a-z]+\\s";
 
-    public static List<AssessmentItem> getAndHandleAssessmentItems(final WebDriver driver) {
+    public static List<AssessmentItem> getAndHandleAssessmentItems(final SmarterBalancedWebDriver driver) {
         //Get the HTML element of each assessment item
         List<WebElement> containerEls = driver.findElements(By.cssSelector(".itemContainer.showing"));
         List<AssessmentItem> items = new ArrayList<>();
@@ -40,7 +40,7 @@ public final class ItemHandler {
         return items;
     }
 
-    private static void handleTestQuestions (final List<AssessmentItem> items, final WebDriver driver) {
+    private static void handleTestQuestions (final List<AssessmentItem> items, final SmarterBalancedWebDriver driver) {
         //Handle each individual test item
         for (AssessmentItem item : items) {
             LOG.info("Handling an assessment item with the item type {}", item.getType().name());
@@ -90,7 +90,7 @@ public final class ItemHandler {
      * @param id
      * @param driver
      */
-    private static void handleGridItem(final String id, final WebDriver driver) {
+    private static void handleGridItem(final String id, final SmarterBalancedWebDriver driver) {
         WebElement objectTag = driver.findElement(By.cssSelector("#" + id + " object"));
         WebElement origin = driver.findElement(By.cssSelector("#htmlBody"));
         JavascriptExecutor jsDriver =(JavascriptExecutor) driver;
@@ -204,13 +204,11 @@ public final class ItemHandler {
      * @param id
      * @param driver
      */
-    private static void handleShortAnswerAndWritingExtendedResponse(final String id, final WebDriver driver) {
-        WebElement werIFrame = driver.findElement(By.cssSelector("#" + id + " iframe"));
-        driver.switchTo().frame(werIFrame);
+    private static void handleShortAnswerAndWritingExtendedResponse(final String id, final SmarterBalancedWebDriver driver) {
+        driver.switchToIframe(By.cssSelector("#" + id + " iframe"));
         WebElement editable = driver.switchTo().activeElement();
         editable.sendKeys("Practice Test");
-        //Get out of the iframe
-        driver.switchTo().defaultContent();
+        driver.switchOutOfIFrame();
     }
 
     /**
@@ -218,7 +216,7 @@ public final class ItemHandler {
      * @param id
      * @param driver
      */
-    private static void handleTableInteraction(final String id, final WebDriver driver) {
+    private static void handleTableInteraction(final String id, final SmarterBalancedWebDriver driver) {
         WebElement tiInput = driver.findElement(By.cssSelector("#" + id + " input.ti-input"));
         tiInput.clear();
         tiInput.sendKeys("42");
@@ -230,7 +228,7 @@ public final class ItemHandler {
      * @param id
      * @param driver
      */
-    private static void handleEquation(final String id, final WebDriver driver) {
+    private static void handleEquation(final String id, final SmarterBalancedWebDriver driver) {
         driver.findElement(By.cssSelector("#" + id + " .keypad-item[aria-label='four']")).click();
         driver.findElement(By.cssSelector("#" + id + " .keypad-item[aria-label='two']")).click();
     }
@@ -240,7 +238,7 @@ public final class ItemHandler {
      * @param id
      * @param driver
      */
-    private static void handleMultiSelect(final String id, final WebDriver driver) {
+    private static void handleMultiSelect(final String id, final SmarterBalancedWebDriver driver) {
         List<WebElement> checkboxes = driver.findElements(By.cssSelector("#" + id + " .optionClicker"));
 
         for (WebElement checkbox : checkboxes) {
@@ -254,7 +252,7 @@ public final class ItemHandler {
      * @param id
      * @param driver
      */
-    private static void handleMatchInteraction(final String id, final WebDriver driver) {
+    private static void handleMatchInteraction(final String id, final SmarterBalancedWebDriver driver) {
         List<WebElement> checkboxes = driver.findElements(By.cssSelector("#" + id + " input[type='checkbox']"));
 
         //Just check em all...
@@ -269,7 +267,7 @@ public final class ItemHandler {
      * @param id
      * @param driver
      */
-    private static void handleMultipleChoice(final String id, final WebDriver driver) {
+    private static void handleMultipleChoice(final String id, final SmarterBalancedWebDriver driver) {
         driver.findElement(By.cssSelector("#" + id + " .optionClicker")).click();
     }
 
@@ -279,7 +277,7 @@ public final class ItemHandler {
      * @param id
      * @param driver
      */
-    private static void handleHotText(final String id, final WebDriver driver) {
+    private static void handleHotText(final String id, final SmarterBalancedWebDriver driver) {
         boolean orderable = false;
         List<WebElement> itemDivs = driver.findElements(By.cssSelector("#" + id + " .interaction"));
 
@@ -313,7 +311,7 @@ public final class ItemHandler {
      * @param id
      * @param driver
      */
-    private static void handleExtendedResponse(String id, WebDriver driver) {
+    private static void handleExtendedResponse(String id, SmarterBalancedWebDriver driver) {
         WebElement itemDiv = driver.findElement(By.cssSelector("#" + id + " textarea"));
         itemDiv.clear();
         itemDiv.sendKeys("Practice Test");
@@ -325,7 +323,7 @@ public final class ItemHandler {
      * @param id
      * @param driver
      */
-    private static void handleEvidenceBasedSelectiveResponse(String id, WebDriver driver) {
+    private static void handleEvidenceBasedSelectiveResponse(String id, SmarterBalancedWebDriver driver) {
         List<WebElement> itemDivs = driver.findElements(By.cssSelector("#" + id + " .interactionContainer"));
 
         for (WebElement itemDiv : itemDivs) {

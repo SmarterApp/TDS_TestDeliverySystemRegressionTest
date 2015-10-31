@@ -49,7 +49,7 @@ public enum AssessmentItemType {
      */
     private String description;
 
-    AssessmentItemType(String code, String className, String description) {
+    AssessmentItemType(final String code, final String className, final String description) {
         this.code = code;
         this.className = className;
         this.description = description;
@@ -63,7 +63,7 @@ public enum AssessmentItemType {
      * @return
      *              The corresponding {@link AssessmentItemType}
      */
-    public static AssessmentItemType fromString(String formatStr) {
+    public static AssessmentItemType fromString(final String formatStr) {
         if (formatStr != null) {
             for (AssessmentItemType type : AssessmentItemType.values()) {
                 if (formatStr.equalsIgnoreCase(type.getClassName())) {

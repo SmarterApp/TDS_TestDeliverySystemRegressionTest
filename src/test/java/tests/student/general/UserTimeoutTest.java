@@ -1,6 +1,5 @@
 package tests.student.general;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -10,12 +9,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * Tests the idle user timeout
+ *
  * Created by emunoz on 10/21/15.
  */
 public class UserTimeoutTest extends SeleniumBaseTest {
 
     /**
-     * The time it takes for the timeout modal dialog to appear when user is idle
+     * The time it takes for the timeout modal dialog to appear
      */
     private static final int TIMEOUT_TIME_MS = 610000;
 

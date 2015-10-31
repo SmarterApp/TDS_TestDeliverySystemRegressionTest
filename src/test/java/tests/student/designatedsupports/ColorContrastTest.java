@@ -10,6 +10,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * Tests various color contrast options
+ *
  * Created by emunoz on 10/28/15.
  */
 public class ColorContrastTest extends SeleniumBaseTest {

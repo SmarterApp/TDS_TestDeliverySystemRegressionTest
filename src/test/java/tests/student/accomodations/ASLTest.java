@@ -8,7 +8,6 @@ import tests.SeleniumBaseTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by emunoz on 10/29/15.

@@ -1,6 +1,6 @@
 package util.navigation;
 
-import driver.SmarterBalancedFirefoxDriver;
+import driver.SmarterBalancedWebDriver;
 import enums.TestButton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,9 +19,9 @@ public class TestNavigator {
 
     private static final String GUEST_KEY = "GUEST";
 
-    SmarterBalancedFirefoxDriver driver;
+    SmarterBalancedWebDriver driver;
 
-    public TestNavigator(SmarterBalancedFirefoxDriver driver) {
+    public TestNavigator(SmarterBalancedWebDriver driver) {
         this.driver = driver;
     }
 
@@ -187,7 +187,7 @@ public class TestNavigator {
      * Clicks the "hamburger" button and opens the assessment item menu, and then selects the specified option.
      */
     public void selectOptionFromItemMenu(String itemClassName) {
-        driver.findElement(By.cssSelector("a.itemMenu")).click();
+        driver.findElement(By.cssSelector(".a.itemMenu")).click();
         driver.findElement(By.cssSelector(".yuimenu.visible ." + itemClassName)).click();
     }
 
@@ -199,7 +199,7 @@ public class TestNavigator {
         }
     }
 
-    public void setDriver(SmarterBalancedFirefoxDriver driver) {
+    public void setDriver(SmarterBalancedWebDriver driver) {
         this.driver = driver;
     }
 }

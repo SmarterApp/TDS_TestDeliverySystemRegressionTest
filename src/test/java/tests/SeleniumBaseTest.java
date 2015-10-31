@@ -1,7 +1,7 @@
 package tests;
 
-import driver.SmarterBalancedFirefoxDriver;
-import driver.impl.SmarterBalancedFirefoxDriverImpl;
+import driver.SmarterBalancedWebDriver;
+import driver.impl.SmarterBalancedWebDriverImpl;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.junit.*;
@@ -23,9 +23,11 @@ public abstract class SeleniumBaseTest {
     //TODO: Load this up from properties file once we begin using Spring in this project
     private static final String PHANTOMJS_EXECUTABLE_PATH = "/Users/emunoz/Documents/dev/phantomjs-2.0.0-macosx/bin/phantomjs";
 
-    protected SmarterBalancedFirefoxDriver driver;
+    private static final Dimension SCREEN_SIZE_DIMENSIONS = new Dimension(1920, 1080);
 
-    protected final String BASE_URL = "https://practice.smarterbalanced.org/";
+    protected static final String BASE_URL = "https://practice.smarterbalanced.org/";
+
+    protected SmarterBalancedWebDriver driver;
 
     protected TestNavigator navigator;
 
@@ -42,9 +44,10 @@ public abstract class SeleniumBaseTest {
         dCaps.setCapability("takesScreenshot", true);
 
         //driver = new PhantomJSDriver(dCaps);
-        driver = new SmarterBalancedFirefoxDriverImpl();
-        driver.manage().window().setSize(new Dimension(1920, 1080));
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver = new SmarterBalancedWebDriverImpl();
+        driver.manage().window().setSize(SCREEN_SIZE_DIMENSIONS);
+        driver.manage().timeouts().implicitlyWait(SmarterBalancedWebDriver.DEFAULT_WAIT_TIMEOUT_IN_SECS,
+                TimeUnit.SECONDS);
 
         //TODO: Wire this guy up with Spring
         navigator = new TestNavigator(driver);
