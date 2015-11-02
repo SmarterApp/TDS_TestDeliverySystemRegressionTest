@@ -52,7 +52,6 @@ public class GlobalNotesTest extends SeleniumBaseTest {
 
     @Test
     public void testGlobalNotes() throws InterruptedException {
-        driver.waitForTitleAndAssert("Student: Test", true);
         navigator.clickButton(TestButton.GLOBAL_NOTES); //Open global notes
         Thread.sleep(1000);
         assertTrue(driver.isElementVisibleNow(By.cssSelector(".yui-dialog #global")));
@@ -99,7 +98,6 @@ public class GlobalNotesTest extends SeleniumBaseTest {
 
     @Test
     public void testGlobalNotesMultiQuestion() throws InterruptedException {
-        driver.waitForTitleAndAssert("Student: Test", true);
         navigator.clickButton(TestButton.GLOBAL_NOTES); //Open global notes
         Thread.sleep(1000);
         assertTrue(driver.isElementVisibleNow(By.cssSelector(".yui-dialog #global")));

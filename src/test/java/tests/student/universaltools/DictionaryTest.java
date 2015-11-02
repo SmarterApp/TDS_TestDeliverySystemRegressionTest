@@ -52,7 +52,6 @@ public class DictionaryTest extends SeleniumBaseTest {
     @Test
     public void testEnglishDictionary() throws InterruptedException {
         final String searchTerm = "dog";
-        driver.waitForTitleAndAssert("Student: Test", true);
         // Answer questions
         ItemHandler.getAndHandleAssessmentItems(driver);
         navigator.clickNextButtonAndWait(1000);

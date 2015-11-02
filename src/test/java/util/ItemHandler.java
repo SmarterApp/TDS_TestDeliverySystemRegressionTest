@@ -1,6 +1,7 @@
 package util;
 
 import driver.SmarterBalancedWebDriver;
+import enums.AssessmentItemType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -15,7 +16,7 @@ import java.util.regex.Pattern;
 /**
  * Helper class with the primary function of reading assessment items from the current assessment page and handling
  * the questions according to their {@link AssessmentItemType}.
- *
+ * <p/>
  * Created by emunoz on 10/21/15.
  */
 public final class ItemHandler {
@@ -40,7 +41,7 @@ public final class ItemHandler {
         return items;
     }
 
-    private static void handleTestQuestions (final List<AssessmentItem> items, final SmarterBalancedWebDriver driver) {
+    private static void handleTestQuestions(final List<AssessmentItem> items, final SmarterBalancedWebDriver driver) {
         //Handle each individual test item
         for (AssessmentItem item : items) {
             LOG.info("Handling an assessment item with the item type {}", item.getType().name());
@@ -93,7 +94,7 @@ public final class ItemHandler {
     private static void handleGridItem(final String id, final SmarterBalancedWebDriver driver) {
         WebElement objectTag = driver.findElement(By.cssSelector("#" + id + " object"));
         WebElement origin = driver.findElement(By.cssSelector("#htmlBody"));
-        JavascriptExecutor jsDriver =(JavascriptExecutor) driver;
+        JavascriptExecutor jsDriver = (JavascriptExecutor) driver;
         Actions builder = new Actions(driver);
 
         Point dropContainer = getDropContainerCoordinates(jsDriver, objectTag);
@@ -140,7 +141,7 @@ public final class ItemHandler {
 
             builder.moveToElement(origin, 0, 0)
                     .moveByOffset(srcAbsX, srcAbsY)
-                    //.click()
+                            //.click()
                     .clickAndHold()
                     .moveByOffset(
                             dropAbsX - srcAbsX,
@@ -152,6 +153,7 @@ public final class ItemHandler {
 
         }
     }
+
     private static Point getSourceContainerCoordinates(JavascriptExecutor jsDriver, WebElement objectTag) {
         Point sourcePt = null;
         Map<String, Object> srcPos = (Map) jsDriver.executeScript(
@@ -201,6 +203,7 @@ public final class ItemHandler {
 
     /**
      * Handles short answer and WER item types by entering text into the text-editor iframe widget.
+     *
      * @param id
      * @param driver
      */
@@ -213,6 +216,7 @@ public final class ItemHandler {
 
     /**
      * Handles table interaction item types by entering numerical text into the item's input field.
+     *
      * @param id
      * @param driver
      */
@@ -235,6 +239,7 @@ public final class ItemHandler {
 
     /**
      * Handles multi select item types by clicking on every checkbox available.
+     *
      * @param id
      * @param driver
      */
@@ -298,7 +303,7 @@ public final class ItemHandler {
             builder.dragAndDrop(itemDivs.get(2), itemDivs.get(4)).perform();
         } else {
             //Selectable question type - click on all the options
-            for(WebElement itemDiv : itemDivs) {
+            for (WebElement itemDiv : itemDivs) {
                 itemDiv.click();
             }
         }

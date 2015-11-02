@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * This class provides utility methods for navigation within the SmarterBalanced assessment.
- *
+ * <p/>
  * Created by emunoz on 10/23/15.
  */
 public class TestNavigator {
@@ -36,10 +36,8 @@ public class TestNavigator {
      * Logs into the SmarterBalanced test using the specified SSID and firstname.
      * credentials (ignoring session fields).
      *
-     * @param ssid
-     *          The test user's SSID.
-     * @param firstname
-     *          The test user's firstname.
+     * @param ssid      The test user's SSID.
+     * @param firstname The test user's firstname.
      */
     public void login(final String ssid, final String firstname) {
         LOG.info("Attempting to log in using username {} and firstname {}.", ssid, firstname);
@@ -51,16 +49,11 @@ public class TestNavigator {
     /**
      * Logs ino the SmarterBalanced test using the specified.
      *
-     * @param ssid
-     *          The test user's SSID.
-     * @param firstname
-     *          The test user's first name.
-     * @param session1
-     *          First session input string
-     * @param session2
-     *          Second session input string
-     * @param session3
-     *          Third session input string
+     * @param ssid      The test user's SSID.
+     * @param firstname The test user's first name.
+     * @param session1  First session input string
+     * @param session2  Second session input string
+     * @param session3  Third session input string
      */
     public void login(final String ssid, final String firstname, final String session1,
                       final String session2, final String session3) {
@@ -78,12 +71,10 @@ public class TestNavigator {
      * This method checks to see if a button is available on the current screen based on the
      * {@link TestButton}'s id.
      *
-     * @param buttonType
-     *          The type of {@link TestButton} to verify.
-     * @return
-     *          true if the button is currently available and clickable, otherwise false.
+     * @param buttonType The type of {@link TestButton} to verify.
+     * @return true if the button is currently available and clickable, otherwise false.
      */
-    public boolean isButtonAvailable(TestButton buttonType) {
+    public boolean isButtonAvailable(final TestButton buttonType) {
         boolean isAvailable = false;
         List<WebElement> activeButtons = driver.findElements(By.cssSelector("li.active a"));
 
@@ -141,7 +132,7 @@ public class TestNavigator {
      */
     public boolean isDialogShown() {
         LOG.trace("Checking to see if a modal dialog is being displayed...");
-        boolean isVisible =  driver.isElementVisibleNow(By.cssSelector("#yuiSimpleDialog"));
+        boolean isVisible = driver.isElementVisibleNow(By.cssSelector("#yuiSimpleDialog"));
         LOG.trace("Modal dialog visible?: {}", isVisible);
 
         return isVisible;
@@ -151,7 +142,7 @@ public class TestNavigator {
      * Clicks the "OK" button of a currently visible modal dialog.
      */
     public void clickDialogOkButton() {
-        LOG.trace ("Clicking the modal dialog 'OK' button");
+        LOG.trace("Clicking the modal dialog 'OK' button");
         driver.findElement(By.cssSelector("#yuiSimpleDialog .yui-button")).click();
     }
 
@@ -159,7 +150,7 @@ public class TestNavigator {
      * Clicks the "YES" button of a currently visible modal dialog.
      */
     public void clickDialogYesButton() {
-        LOG.trace ("Clicking the modal dialog 'YES' button");
+        LOG.trace("Clicking the modal dialog 'YES' button");
         List<WebElement> dialogBtns = driver.findElements(By.cssSelector("#yuiSimpleDialog .yui-button"));
 
         if (dialogBtns.size() == 2) {
@@ -174,7 +165,7 @@ public class TestNavigator {
      * Clicks the "NO" button of a currently visible modal dialog.
      */
     public void clickDialogNoButton() {
-        LOG.trace ("Clicking the modal dialog 'NO' button");
+        LOG.trace("Clicking the modal dialog 'NO' button");
         List<WebElement> dialogBtns = driver.findElements(By.cssSelector("#yuiSimpleDialog .yui-button"));
 
         if (dialogBtns.size() == 2) {
@@ -184,10 +175,25 @@ public class TestNavigator {
     }
 
     /**
-     * Clicks the "hamburger" button and opens the assessment item menu, and then selects the specified option.
+     * Clicks the first item on the page's "hamburger" button and opens the assessment item menu,
+     * and then selects the specified option.
+     *
+     * @param itemClassName The classname of the option to select from the menu
      */
-    public void selectOptionFromItemMenu(String itemClassName) {
-        driver.findElement(By.cssSelector(".a.itemMenu")).click();
+    public void selectOptionFromItemMenu(final String itemClassName) {
+        driver.findElement(By.cssSelector(".showing a.itemMenu")).click();
+        driver.findElement(By.cssSelector(".yuimenu.visible ." + itemClassName)).click();
+    }
+
+    /**
+     * Clicks the "hamburger" button and opens the specified assessment item menu,
+     * and then selects the specified option.
+     *
+     * @param itemClassName The classname of the option to select from the menu
+     * @param itemNumber    The assessment item to target
+     */
+    public void selectOptionFromItemMenu(final String itemClassName, final int itemNumber) {
+        driver.findElement(By.cssSelector("#Item_" + itemNumber + " a.itemMenu")).click();
         driver.findElement(By.cssSelector(".yuimenu.visible ." + itemClassName)).click();
     }
 

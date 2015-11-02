@@ -54,7 +54,6 @@ public class DigitalNotepadTest extends SeleniumBaseTest {
 
     @Test
     public void testNotepadSaveAndCancel() {
-        driver.waitForTitleAndAssert("Student: Test", true);
         navigator.selectOptionFromItemMenu(NOTEPAD_ITEM_MENU_CLASSNAME);
         assertTrue(driver.isElementVisibleNow(By.cssSelector(".yui-dialog #comment")));
         assertEquals("Notepad", driver.findElement(By.cssSelector(".yui-dialog #comment h2.hd")).getText());
@@ -100,7 +99,6 @@ public class DigitalNotepadTest extends SeleniumBaseTest {
 
     @Test
     public void testNotepadMultiQuestion() throws InterruptedException {
-        driver.waitForTitleAndAssert("Student: Test", true);
         navigator.selectOptionFromItemMenu(NOTEPAD_ITEM_MENU_CLASSNAME);
         assertTrue(driver.isElementVisibleNow(By.cssSelector(".yui-dialog #comment")));
         assertEquals("Notepad", driver.findElement(By.cssSelector(".yui-dialog #comment h2.hd")).getText());

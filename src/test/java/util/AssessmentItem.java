@@ -4,7 +4,7 @@ import enums.AssessmentItemType;
 
 /**
  * This object encapsulates a test assessment item element
- *
+ * <p/>
  * Created by emunoz on 10/21/15.
  */
 public class AssessmentItem {

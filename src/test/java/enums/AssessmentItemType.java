@@ -2,7 +2,7 @@ package enums;
 
 /**
  * Enumeration defining different test item types and their descriptions.
- *
+ * <p/>
  * Created by emunoz on 10/20/15.
  */
 public enum AssessmentItemType {
@@ -44,7 +44,6 @@ public enum AssessmentItemType {
     private String className;
 
     /**
-     *
      * A description of the assement item type
      */
     private String description;
@@ -58,10 +57,8 @@ public enum AssessmentItemType {
     /**
      * Retrieves an {@link AssessmentItemType} enum corresponding to the specified className string.
      *
-     * @param formatStr
-     *              in the form of "format_<item-type>"
-     * @return
-     *              The corresponding {@link AssessmentItemType}
+     * @param formatStr in the form of "format_<item-type>"
+     * @return The corresponding {@link AssessmentItemType}
      */
     public static AssessmentItemType fromString(final String formatStr) {
         if (formatStr != null) {
@@ -78,7 +75,9 @@ public enum AssessmentItemType {
         return code;
     }
 
-    public String getClassName() { return className; }
+    public String getClassName() {
+        return className;
+    }
 
     public String getDescription() {
         return description;
