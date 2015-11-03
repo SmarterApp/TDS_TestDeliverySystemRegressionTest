@@ -90,7 +90,7 @@ public class StrikethroughTest extends SeleniumBaseTest {
     }
 
     @Test
-    public void testStrikethroughRightClickMenu() {
+    public void testStrikethroughContextMenu() {
         WebElement optionB = driver.findElement(By.cssSelector("#" + MC_ITEM_ID + " .optionB"));
         WebElement optionC = driver.findElement(By.cssSelector("#" + MC_ITEM_ID + " .optionC"));
         assertFalse(driver.isElementVisibleNow(By.cssSelector(".optionB .striked")));

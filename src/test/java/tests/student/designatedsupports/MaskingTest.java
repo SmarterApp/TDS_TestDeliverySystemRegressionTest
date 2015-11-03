@@ -80,7 +80,7 @@ public class MaskingTest extends SeleniumBaseTest {
         // Turn off masking
         driver.findElement(By.cssSelector("a#btnMask")).click();
 
-        //Assert masking is turned on
+        //Assert masking is turned off
         assertFalse(driver.findElement(By.cssSelector("body#htmlBody")).getAttribute("class").contains("msk-enabled"));
 
         // This shouldn't actually draw anything, since we have disabled masking.

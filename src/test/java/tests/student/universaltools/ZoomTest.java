@@ -70,7 +70,7 @@ public class ZoomTest extends SeleniumBaseTest {
     }
 
     @Test
-    public void testMarkForReview() {
+    public void testZoom() {
         //Ensure we are at default ZOOM level (0)
         assertTrue(driver.findElement(By.cssSelector("body#htmlBody")).getAttribute("class").contains(ZOOM_LEVEL_0));
         assertEquals(ZOOM_0_PX, getRoundedFontSize());
@@ -97,6 +97,11 @@ public class ZoomTest extends SeleniumBaseTest {
         assertEquals(ZOOM_3_PX, getRoundedFontSize());
 
         //Zoom to level 4
+        navigator.clickButton(TestButton.ZOOM_IN);
+        assertTrue(driver.findElement(By.cssSelector("body#htmlBody")).getAttribute("class").contains(ZOOM_LEVEL_4));
+        assertEquals(ZOOM_4_PX, getRoundedFontSize());
+
+        //Try to zoom again, but verify that level 4 is maintained.
         navigator.clickButton(TestButton.ZOOM_IN);
         assertTrue(driver.findElement(By.cssSelector("body#htmlBody")).getAttribute("class").contains(ZOOM_LEVEL_4));
         assertEquals(ZOOM_4_PX, getRoundedFontSize());
