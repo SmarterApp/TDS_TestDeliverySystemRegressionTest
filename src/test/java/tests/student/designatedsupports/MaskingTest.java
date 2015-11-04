@@ -1,5 +1,6 @@
 package tests.student.designatedsupports;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
@@ -20,8 +21,8 @@ public class MaskingTest extends SeleniumBaseTest {
 
     private static final String MASKING_ON_VALUE = "TDS_Masking1";
 
-    @Test
-    public void testMasking() {
+    @Before
+    public void loginAndBeginTest() {
         driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
 
         // Login Phase (GUEST)
@@ -50,7 +51,10 @@ public class MaskingTest extends SeleniumBaseTest {
         //Instructions
         driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
         driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
+    }
 
+    @Test
+    public void testMasking() {
         //Assert masking is not turned on
         assertFalse(driver.findElement(By.cssSelector("body#htmlBody")).getAttribute("class").contains("msk-enabled"));
 

@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import tests.SeleniumBaseTest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -53,16 +54,50 @@ public class CalculatorTest extends SeleniumBaseTest {
     }
 
     @Test
+    public void testInverseRegressionCalculator() throws InterruptedException {
+        navigator.clickButton(TestButton.CALCULATOR);
+        driver.switchToIframe(By.cssSelector("#" + CALCULATOR_IFRAME_ID));
+        //Switch to regression calculator
+        driver.findElement(By.cssSelector("#Regression")).click();
+        driver.findElement(By.cssSelector("#reg-X-1")).sendKeys("1");
+        driver.findElement(By.cssSelector("#reg-X-2")).sendKeys("2");
+        driver.findElement(By.cssSelector("#reg-X-3")).sendKeys("3");
+        driver.findElement(By.cssSelector("#reg-X-4")).sendKeys("4");
+        driver.findElement(By.cssSelector("#reg-X-5")).sendKeys("5");
+        driver.findElement(By.cssSelector("#reg-Y1-1")).sendKeys("6");
+        driver.findElement(By.cssSelector("#reg-Y1-2")).sendKeys("7");
+        driver.findElement(By.cssSelector("#reg-Y1-3")).sendKeys("8");
+        driver.findElement(By.cssSelector("#reg-Y1-4")).sendKeys("9");
+        driver.findElement(By.cssSelector("#reg-Y1-5")).sendKeys("12");
+        clickCalcButton("Linear");
+        assertEquals("Y1=(1.4)x+(4.2)",
+                driver.findElement(By.cssSelector("#calculatorwidget textarea#textinput")).getAttribute("value").trim());
+    }
+
+    @Test
     public void testGraphingCalculator() {
+        navigator.clickButton(TestButton.CALCULATOR);
+        driver.switchToIframe(By.cssSelector("#" + CALCULATOR_IFRAME_ID));
         //Switch to graphing calculator
         driver.findElement(By.cssSelector("#GraphingInv")).click();
+        clickCalcButton("variable");
+        clickCalcButton("plus");
+        clickCalcButton("num1");
+        assertEquals("x+1", driver.findElement(By.cssSelector("#equa1")).getAttribute("value"));
+        driver.findElement(By.cssSelector("#tableview")).click();
+        assertEquals("-4", driver.findElement(By.cssSelector("#datatable tr:nth-child(2) td:nth-child(1)")).getText());
+        driver.findElement(By.cssSelector("#graphview")).click();
+        assertTrue(driver.findElement(By.cssSelector("#canvasHolder #canvas")).isDisplayed());
+        driver.switchOutOfIFrame();
 
+        //Close calculator
+        driver.findElement(By.cssSelector(".tool-calculator-container a.container-close")).click();
+        assertFalse(driver.isElementVisibleNow(By.className("tool-calculator-container")));
     }
 
     @Test
     public void testScientificCalculator() {
         navigator.clickButton(TestButton.CALCULATOR);
-
         assertTrue(driver.isElementVisibleNow(By.className(CALCULATOR_SCIENTIFIC_CLASSNAME)));
 
         driver.switchToIframe(By.cssSelector("#" + CALCULATOR_IFRAME_ID));
@@ -96,10 +131,14 @@ public class CalculatorTest extends SeleniumBaseTest {
         clickCalcButton("pi");
         clickCalcButton("equals");
         assertEquals("-1", getCalculatorValue());
+        driver.switchOutOfIFrame();
+        //Close calculator
+        driver.findElement(By.cssSelector(".tool-calculator-container a.container-close")).click();
+        assertFalse(driver.isElementVisibleNow(By.className("tool-calculator-container")));
     }
 
     private void clickCalcButton(String id) {
-        driver.findElement(By.cssSelector(".calcButtons #" + id)).click();
+        driver.findElement(By.cssSelector(".calculatorWidget #" + id)).click();
     }
 
     private String getCalculatorValue() {

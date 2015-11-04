@@ -116,6 +116,15 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
         return isVisible;
     }
 
+    public void hoverOver(WebElement el) {
+        String javaScript =
+                "var evObj = document.createEvent('MouseEvents');" +
+                "evObj.initMouseEvent(\"mouseover\",true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);" +
+                "arguments[0].dispatchEvent(evObj);";
+
+        this.executeScript(javaScript, el);
+    }
+
     /**
      * @inheritDoc
      */

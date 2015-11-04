@@ -2,12 +2,14 @@ package tests;
 
 import driver.SmarterBalancedWebDriver;
 import driver.impl.SmarterBalancedWebDriverImpl;
+import java.util.logging.Level;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.junit.*;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import util.navigation.TestNavigator;
 import java.util.concurrent.TimeUnit;
 
@@ -48,7 +50,7 @@ public abstract class SeleniumBaseTest {
         driver.manage().window().setSize(SCREEN_SIZE_DIMENSIONS);
         driver.manage().timeouts().implicitlyWait(SmarterBalancedWebDriver.DEFAULT_WAIT_TIMEOUT_IN_SECS,
                 TimeUnit.SECONDS);
-
+        ((RemoteWebDriver) driver).setLogLevel(Level.ALL);
         //TODO: Wire this guy up with Spring
         navigator = new TestNavigator(driver);
         screenCapturer.setDriver(driver);

@@ -53,6 +53,13 @@ public interface SmarterBalancedWebDriver extends WebDriver{
     boolean isElementVisibleNow(final By locator);
 
     /**
+     * Performs a "hover" action on the sepecified {@link WebElement}
+     *
+     * @param el the {@link WebElement} to hover over.
+     */
+    void hoverOver(WebElement el);
+
+    /**
      * Convenience method that switches the {@link WebDriver}s context into the iframe defined
      * by the {@link By} iframe selector
      *
