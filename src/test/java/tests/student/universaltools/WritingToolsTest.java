@@ -28,7 +28,7 @@ public class WritingToolsTest extends SeleniumBaseTest {
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
         navigator.loginAsGuest();
 
-        //Grade 11
+        //Grade 12
         driver.findElement(By.cssSelector("option[value=\"12\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
         // Test Configuration
@@ -49,7 +49,7 @@ public class WritingToolsTest extends SeleniumBaseTest {
     }
 
     @Test
-    public void testWritingToolsTextTools() throws InterruptedException {
+    public void testWritingTextTools() throws InterruptedException {
         //Get to question 2
         ItemHandler.getAndHandleAssessmentItems(driver);
         navigator.clickNextButtonAndWait(2000);
@@ -101,7 +101,7 @@ public class WritingToolsTest extends SeleniumBaseTest {
     }
 
     @Test
-    public void testWritingToolsSpellcheck() throws InterruptedException {
+    public void testWritingSpellcheckTool() throws InterruptedException {
         //Get to question 2
         ItemHandler.getAndHandleAssessmentItems(driver);
         navigator.clickNextButtonAndWait(2000);
@@ -126,7 +126,7 @@ public class WritingToolsTest extends SeleniumBaseTest {
     }
 
     @Test
-    public void testWritingToolsFormatTools() throws InterruptedException {
+    public void testWritingFormatTools() throws InterruptedException {
         //Get to question 2
         ItemHandler.getAndHandleAssessmentItems(driver);
         navigator.clickNextButtonAndWait(2000);

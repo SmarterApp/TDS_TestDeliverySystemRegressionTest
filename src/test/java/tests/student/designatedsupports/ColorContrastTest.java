@@ -60,6 +60,7 @@ public class ColorContrastTest extends SeleniumBaseTest {
 
     @Test
     public void testYellowOnBlue() {
+        //Select color contrast
         driver.findElement(By.cssSelector(
                 COLOR_CONTRAST_SELECT_CSS_SELECTOR + " option[value='" + YELLOW_ON_BLUE_OPTION + "']")).click();
         driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
@@ -75,6 +76,7 @@ public class ColorContrastTest extends SeleniumBaseTest {
 
     @Test
     public void testGrayOnLtGray() {
+        //Select color contrast
         driver.findElement(By.cssSelector(
                 COLOR_CONTRAST_SELECT_CSS_SELECTOR + " option[value='" + MEDIUM_GRAY_ON_LIGHT_GRAY_OPTION + "']")).click();
         driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
@@ -90,6 +92,7 @@ public class ColorContrastTest extends SeleniumBaseTest {
 
     @Test
     public void testReverseContrast() {
+        //Select color contrast
         driver.findElement(By.cssSelector(
                 COLOR_CONTRAST_SELECT_CSS_SELECTOR + " option[value='" + REVERSE_CONTRAST_OPTION + "']")).click();
         driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();

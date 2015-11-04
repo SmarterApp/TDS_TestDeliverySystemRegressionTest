@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import tests.SeleniumBaseTest;
 
 import static org.junit.Assert.assertEquals;
@@ -26,7 +25,7 @@ public class GlossaryTest extends SeleniumBaseTest {
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
         navigator.loginAsGuest();
 
-        //Grade 11
+        //Grade 12
         driver.findElement(By.cssSelector("option[value=\"12\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
         // Test Configuration

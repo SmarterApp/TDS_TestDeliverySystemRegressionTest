@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
  * Created by emunoz on 10/28/15.
  */
 public class MaskingTest extends SeleniumBaseTest {
+    private static final String MASKING_SELECT_CSS_SELECTOR =  "select[id*='masking']";
 
     private static final String MASKING_ON_VALUE = "TDS_Masking1";
 
@@ -41,7 +42,7 @@ public class MaskingTest extends SeleniumBaseTest {
 
         //Turn masking on and continue
         driver.findElement(By.cssSelector(
-                "select[id*='masking'] option[value='" + MASKING_ON_VALUE + "']")).click();
+                MASKING_SELECT_CSS_SELECTOR + " option[value='" + MASKING_ON_VALUE + "']")).click();
 
         driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
         WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));

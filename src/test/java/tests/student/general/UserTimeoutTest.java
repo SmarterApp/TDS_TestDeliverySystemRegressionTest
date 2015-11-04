@@ -34,7 +34,7 @@ public class UserTimeoutTest extends SeleniumBaseTest {
         navigator.loginAsGuest();
 
         //Select grade level and continue
-        driver.findElement(By.cssSelector("option[value=\"3\"]")).click();     //Select 12th Grade
+        driver.findElement(By.cssSelector("option[value=\"3\"]")).click();     //Select 3rd Grade
         driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
 
         // Test Configuration

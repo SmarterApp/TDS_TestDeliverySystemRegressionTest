@@ -112,7 +112,7 @@ public class TestNavigator {
      * question page.
      */
     private void navigateToLastPage() {
-        LOG.trace("Navigating to the last available questions page.");
+        LOG.info("Navigating to the last available questions page.");
         List<WebElement> questionOptions = driver.findElements(By.cssSelector("#ddlNavigation option:not(.hidden)"));
 
         if (questionOptions.size() > 0) {

@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -51,9 +52,9 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
                     found = true;
                     break;
                 } catch ( StaleElementReferenceException e ) {
-                    LOG.info("Stale element: \n" + e.getMessage() + "\n");
+                    LOG.trace("Stale element: \n" + e.getMessage() + "\n");
                 } catch ( NoSuchElementException nse ) {
-                    LOG.info( "No such element: \n" + nse.getMessage() + "\n");
+                    LOG.trace("No such element: \n" + nse.getMessage() + "\n");
                 }
             }
         } finally {
@@ -65,9 +66,9 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
 
         if (found)
         {
-            LOG.debug("Located element {} after waiting approximately {} ms", locator.toString(), totalTime);
+            LOG.info("Located element {} after waiting approximately {} ms", locator.toString(), totalTime);
         } else {
-            LOG.debug("Failed to locate element {} after {} ms", locator.toString(), totalTime);
+            LOG.info("Failed to locate element {} after {} ms", locator.toString(), totalTime);
         }
 
         return element;
@@ -90,7 +91,7 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
             wait.until(ExpectedConditions.titleIs(expectedTitle));
             assertEquals(expectedTitle, getTitle());
         }
-        LOG.debug("The wait for the title to be {} took approximately {} ms.", expectedTitle,
+        LOG.info("The wait for the title to be {} took approximately {} ms.", expectedTitle,
                 System.currentTimeMillis() - startTime);
     }
 
@@ -101,17 +102,21 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
         boolean isVisible = false;
         //Temporarily disable implicit wait time.
         manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        LOG.info("Checking for immediate visiblity of element {}", locator);
 
         try {
             isVisible = !ExpectedConditions.invisibilityOfElementLocated(locator).apply(this);
         } catch ( StaleElementReferenceException e ) {
-            LOG.info("Stale element: \n" + e.getMessage() + "\n");
+            LOG.trace("Stale element: \n" + e.getMessage() + "\n");
         } catch ( NoSuchElementException nse ) {
-            LOG.info( "No such element: \n" + nse.getMessage() + "\n");
+            LOG.trace( "No such element: \n" + nse.getMessage() + "\n");
         } finally {
             //Re-enable implicit waits
             manage().timeouts().implicitlyWait(DEFAULT_WAIT_TIMEOUT_IN_SECS, TimeUnit.SECONDS);
         }
+
+        LOG.info("Element {} {} currently visible at {}.", locator,
+                isVisible ? "is" : "is not", new Date(System.currentTimeMillis()));
 
         return isVisible;
     }
@@ -130,6 +135,7 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
      */
     @Override
     public void switchToIframe(By iFrameSelector) {
+        LOG.info("Switching into iframe {}", iFrameSelector);
         WebElement iFrameEl = findElement(iFrameSelector);
         switchTo().frame(iFrameEl);
     }
@@ -139,6 +145,7 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
      */
     @Override
     public void switchOutOfIFrame() {
+        LOG.info("Switching back to the default content frame");
         switchTo().defaultContent();
     }
 
