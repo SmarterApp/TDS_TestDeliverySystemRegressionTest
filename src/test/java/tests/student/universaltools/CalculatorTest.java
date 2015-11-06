@@ -4,7 +4,6 @@ import enums.TestButton;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import tests.SeleniumBaseTest;
 
 import static org.junit.Assert.assertEquals;
@@ -16,14 +15,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class CalculatorTest extends SeleniumBaseTest {
     private static final String CALCULATOR_IFRAME_ID = "frame-tool-calculator-ScientificInv-GraphingInv-Regression";
-
     private static final String CALCULATOR_ON_OPTION = "TDS_CalcSciInv&TDS_CalcGraphingInv&TDS_CalcRegress";
-
     private static final String CALCULATOR_SCIENTIFIC_CLASSNAME = "TDS_CalcSciInv";
-
-    private static final String CALCULATOR_GRAPH_CLASSNAME = "TDS_CalcGraphingInv";
-
-    private static final String CALCULATOR_REGRESSION_CLASSNAME = "TDS_CalcRegress";
 
     @Before
     public void loginAndConfigureCalculator() {
@@ -35,7 +28,7 @@ public class CalculatorTest extends SeleniumBaseTest {
 
         //Grade 3
         driver.findElement(By.cssSelector("option[value=\"11\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
@@ -43,14 +36,14 @@ public class CalculatorTest extends SeleniumBaseTest {
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
         driver.findElement(By.cssSelector("select[id*='calculator'] option[value='" + CALCULATOR_ON_OPTION + "']")).click();
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
         driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
 
         //Instructions
         driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
     }
 
     @Test

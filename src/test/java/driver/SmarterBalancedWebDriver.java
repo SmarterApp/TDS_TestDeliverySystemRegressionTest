@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
  * Created by emunoz on 10/29/15.
  */
 public interface SmarterBalancedWebDriver extends WebDriver{
-    final int DEFAULT_WAIT_TIMEOUT_IN_SECS = 30;
+    int DEFAULT_WAIT_TIMEOUT_IN_SECS = 30;
     /**
      * This helper method waits for an element to appear on the DOM and returns
      * the {@link WebElement} object that was located. Timeout is set to default.
@@ -47,7 +47,7 @@ public interface SmarterBalancedWebDriver extends WebDriver{
     /**
      * Checks for the immediate visibility of an element specified by the {@link By} locator.
      *
-     * @param locator
+     * @param locator the {@link By} locator that is used to locate the {@link WebElement}
      * @return true if the element is immediately visible, otherwise false.
      */
     boolean isElementVisibleNow(final By locator);

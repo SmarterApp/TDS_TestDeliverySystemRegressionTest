@@ -3,7 +3,6 @@ package tests.student.designatedsupports;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import tests.SeleniumBaseTest;
 
 import static org.junit.Assert.assertEquals;
@@ -13,7 +12,6 @@ import static org.junit.Assert.assertEquals;
  */
 public class TranslatedDirectionsTest extends SeleniumBaseTest {
     private static final String LANGUAGE_SELECT_CSS_SELECTOR =  "select[id*='language']";
-
     private static final String SPANISH_LANGUAGE_OPTION = "ESN";
 
     @Before
@@ -26,7 +24,7 @@ public class TranslatedDirectionsTest extends SeleniumBaseTest {
 
         //Grade 12
         driver.findElement(By.cssSelector("option[value=\"12\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
@@ -41,7 +39,7 @@ public class TranslatedDirectionsTest extends SeleniumBaseTest {
         //Set language to Spanish
         driver.findElement(By.cssSelector(
                 LANGUAGE_SELECT_CSS_SELECTOR + " option[value='" + SPANISH_LANGUAGE_OPTION + "']")).click();
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
 
         //Test verification screen
         assertTestVerificationTranslated();

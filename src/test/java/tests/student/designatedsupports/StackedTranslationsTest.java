@@ -3,7 +3,6 @@ package tests.student.designatedsupports;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import tests.SeleniumBaseTest;
 
 import static junit.framework.TestCase.assertTrue;
@@ -14,12 +13,9 @@ import static org.junit.Assert.assertEquals;
  */
 public class StackedTranslationsTest extends SeleniumBaseTest {
     private static final String LANGUAGE_SELECT_CSS_SELECTOR =  "select[id*='language']";
-
     private static final String SPANISH_LANGUAGE_OPTION = "ESN";
-
     // The following LANG_VALUE constants represent language "lang" attribute values for localized text.
     private static final String LANG_VALUE_SPANISH_MX = "es-mx";
-
     private static final String LANG_VALUE_ENGLISH_US = "en-us";
 
     @Before
@@ -32,7 +28,7 @@ public class StackedTranslationsTest extends SeleniumBaseTest {
 
         //Grade 12
         driver.findElement(By.cssSelector("option[value=\"12\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
@@ -43,15 +39,14 @@ public class StackedTranslationsTest extends SeleniumBaseTest {
         //Select Spanish language
         driver.findElement(By.cssSelector(
                 LANGUAGE_SELECT_CSS_SELECTOR + " option[value='" + SPANISH_LANGUAGE_OPTION + "']")).click();
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
 
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
         driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
 
         //Instructions
-        driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
     }
 
     @Test

@@ -1,11 +1,9 @@
 package tests.student.universaltools;
 
-import com.thoughtworks.selenium.Selenium;
 import enums.TestButton;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import tests.SeleniumBaseTest;
 import util.ItemHandler;
 
@@ -27,26 +25,26 @@ public class DictionaryTest extends SeleniumBaseTest {
 
         //Grade 11
         driver.findElement(By.cssSelector("option[value=\"11\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[6]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
         driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
 
         //Sound check dialog
         driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
         driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
-        driver.findElement(By.cssSelector("#btnSoundYes > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnSoundYes button")).click();
 
         //Instructions
         driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
     }
 
     @Test

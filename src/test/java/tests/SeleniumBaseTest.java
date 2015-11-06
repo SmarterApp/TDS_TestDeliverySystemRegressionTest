@@ -21,20 +21,15 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class SeleniumBaseTest {
     private static final Logger LOG = LogManager.getLogger(SeleniumBaseTest.class);
-
     //TODO: Load this up from properties file once we begin using Spring in this project
     private static final String PHANTOMJS_EXECUTABLE_PATH = "/Users/emunoz/Documents/dev/phantomjs-2.0.0-macosx/bin/phantomjs";
-
     private static final Dimension SCREEN_SIZE_DIMENSIONS = new Dimension(1920, 1080);
-
     protected static final String BASE_URL = "https://practice.smarterbalanced.org/";
-
     protected SmarterBalancedWebDriver driver;
-
     protected TestNavigator navigator;
 
     @Rule
-    public SmarterBalancedTestWatcher screenCapturer = new SmarterBalancedTestWatcher();
+    public final SmarterBalancedTestWatcher screenCapturer = new SmarterBalancedTestWatcher();
 
     @Before
     public void setUp() throws Exception {

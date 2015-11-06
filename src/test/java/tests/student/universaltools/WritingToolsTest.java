@@ -30,21 +30,21 @@ public class WritingToolsTest extends SeleniumBaseTest {
 
         //Grade 12
         driver.findElement(By.cssSelector("option[value=\"12\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
         driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
 
         //Instructions
         driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
         driver.waitForTitleAndAssert("Student: Test", true);
     }
 

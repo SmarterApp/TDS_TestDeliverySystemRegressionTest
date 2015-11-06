@@ -14,7 +14,6 @@ import static org.junit.Assert.*;
  */
 public class ClosedCaptioningTest extends SeleniumBaseTest {
     private static final String CLOSED_CAPTIONING_SELECT_CSS_SELECTOR = "select[id*='-closedcaptioning']";
-
     private static final String CLOSED_CAPTIONING_OPTION = "TDS_ClosedCap1";
 
     @Before
@@ -27,7 +26,7 @@ public class ClosedCaptioningTest extends SeleniumBaseTest {
 
         //Grade 8
         driver.findElement(By.cssSelector("option[value=\"8\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
@@ -38,19 +37,19 @@ public class ClosedCaptioningTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector(
                 CLOSED_CAPTIONING_SELECT_CSS_SELECTOR + " option[value='" + CLOSED_CAPTIONING_OPTION + "']")).click();
 
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
         driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
 
         //Sound check dialog
         driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
         driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
-        driver.findElement(By.cssSelector("#btnSoundYes > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnSoundYes button")).click();
 
         //Instructions
         driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
         do {
             ItemHandler.getAndHandleAssessmentItems(driver);
             navigator.clickNextButtonAndWait(1000);

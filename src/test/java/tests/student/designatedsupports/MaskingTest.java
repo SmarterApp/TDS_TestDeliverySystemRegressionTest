@@ -19,7 +19,6 @@ import static org.junit.Assert.assertTrue;
  */
 public class MaskingTest extends SeleniumBaseTest {
     private static final String MASKING_SELECT_CSS_SELECTOR =  "select[id*='masking']";
-
     private static final String MASKING_ON_VALUE = "TDS_Masking1";
 
     @Before
@@ -32,7 +31,7 @@ public class MaskingTest extends SeleniumBaseTest {
 
         //Grade 3
         driver.findElement(By.cssSelector("option[value=\"3\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
@@ -44,14 +43,14 @@ public class MaskingTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector(
                 MASKING_SELECT_CSS_SELECTOR + " option[value='" + MASKING_ON_VALUE + "']")).click();
 
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
         driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
 
         //Instructions
         driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
     }
 
     @Test

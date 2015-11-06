@@ -3,8 +3,6 @@ package tests.student.universaltools;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import tests.SeleniumBaseTest;
@@ -20,9 +18,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class HighlighterTest extends SeleniumBaseTest {
     private static final String HIGHLIGHT_REMOVE_CLASS = "highlightremove";
-
     private static final String HIGHLIGHT_TEXT_CLASS = "highlighttext";
-
     private static final String HIGHLIGHT_RESET_CLASS = "highlightclear";
 
     @Before
@@ -34,26 +30,26 @@ public class HighlighterTest extends SeleniumBaseTest {
 
         //Grade 11
         driver.findElement(By.cssSelector("option[value=\"11\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[6]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
         driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
 
         //Sound check dialog
         driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
         driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
-        driver.findElement(By.cssSelector("#btnSoundYes > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnSoundYes button")).click();
 
         //Instructions
         driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
     }
 
     @Test

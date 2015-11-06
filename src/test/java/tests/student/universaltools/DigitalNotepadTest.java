@@ -18,9 +18,7 @@ import static org.junit.Assert.assertTrue;
  * Created by emunoz on 10/30/15.
  */
 public class DigitalNotepadTest extends SeleniumBaseTest {
-
     private static final String NOTEPAD_ON_OPTION = "TDS_SCNotepad";
-
     private static final String NOTEPAD_ITEM_MENU_CLASSNAME = "comment";
 
     @Before
@@ -33,7 +31,7 @@ public class DigitalNotepadTest extends SeleniumBaseTest {
 
         //Grade 11
         driver.findElement(By.cssSelector("option[value=\"11\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
@@ -41,14 +39,14 @@ public class DigitalNotepadTest extends SeleniumBaseTest {
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
         driver.findElement(By.cssSelector("select[id*='-studentcomments'] option[value='" + NOTEPAD_ON_OPTION + "']")).click();
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
         driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
 
         //Instructions
         driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
 
     }
 

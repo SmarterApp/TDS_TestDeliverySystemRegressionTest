@@ -3,7 +3,10 @@ package driver.impl;
 import driver.SmarterBalancedWebDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -24,6 +27,7 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
     /**
      * @inheritDoc
      */
+    @Override
     public WebElement waitForAndGetElementByLocator(final By locator) {
        return waitForAndGetElementByLocator(locator, DEFAULT_WAIT_TIMEOUT_IN_SECS);
     }
@@ -31,6 +35,7 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
     /**
      * @inheritDoc
      */
+    @Override
     public WebElement waitForAndGetElementByLocator(final By locator, final int timeoutInSeconds) {
         final long startTime = System.currentTimeMillis();
         boolean found = false;
@@ -77,6 +82,7 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
     /**
      * @inheritDoc
      */
+    @Override
     public void waitForTitleAndAssert(final String expectedTitle, final boolean isContains)
     {
         long startTime = System.currentTimeMillis();
@@ -98,6 +104,7 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
     /**
      * @inheritDoc
      */
+    @Override
     public boolean isElementVisibleNow(final By locator) {
         boolean isVisible = false;
         //Temporarily disable implicit wait time.
@@ -121,6 +128,10 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
         return isVisible;
     }
 
+    /**
+     * @inheritDoc
+     */
+    @Override
     public void hoverOver(WebElement el) {
         String javaScript =
                 "var evObj = document.createEvent('MouseEvents');" +

@@ -16,10 +16,8 @@ import java.util.List;
  */
 public class TestNavigator {
     private static final Logger LOG = LogManager.getLogger(TestNavigator.class);
-
     private static final String GUEST_KEY = "GUEST";
-
-    SmarterBalancedWebDriver driver;
+    private SmarterBalancedWebDriver driver;
 
     public TestNavigator(SmarterBalancedWebDriver driver) {
         this.driver = driver;
@@ -84,7 +82,7 @@ public class TestNavigator {
                 break;
             }
         }
-        LOG.info("Next button active and available?: {}", isAvailable);
+        LOG.info("{} button active and available?: {}", buttonType.name(), isAvailable);
 
         return isAvailable;
     }
@@ -98,7 +96,7 @@ public class TestNavigator {
      * Clicks the "Next" button and waits a specified amount of milliseconds before navigating to the
      * last available page.
      *
-     * @param timeInMs
+     * @param timeInMs the time to wait after the next button click in milliseconds.
      * @throws InterruptedException
      */
     public void clickNextButtonAndWait(final long timeInMs) throws InterruptedException {

@@ -24,7 +24,7 @@ public final class ItemHandler {
 
     private static final String ASSESSMENT_ITEM_FORMAT_REGEX = "format_[a-z]+\\s";
 
-    public static List<AssessmentItem> getAndHandleAssessmentItems(final SmarterBalancedWebDriver driver) {
+    public static void getAndHandleAssessmentItems(final SmarterBalancedWebDriver driver) {
         //Get the HTML element of each assessment item
         List<WebElement> containerEls = driver.findElements(By.cssSelector(".itemContainer.showing"));
         List<AssessmentItem> items = new ArrayList<>();
@@ -37,14 +37,13 @@ public final class ItemHandler {
         }
 
         handleTestQuestions(items, driver);
-
-        return items;
     }
 
     private static void handleTestQuestions(final List<AssessmentItem> items, final SmarterBalancedWebDriver driver) {
         //Handle each individual test item
         for (AssessmentItem item : items) {
-            LOG.info("Handling an assessment item with the item type {}", item.getType().name());
+            LOG.info("Handling an assessment item with the item type {}: {}", item.getType().name(),
+                    item.getType().getDescription());
             switch (item.getType()) {
                 case EBSR:
                     handleEvidenceBasedSelectiveResponse(item.getId(), driver);
@@ -63,13 +62,11 @@ public final class ItemHandler {
                     handleHotText(item.getId(), driver);
                     break;
                 case MC:
-                    handleMultipleChoice(item.getId(), driver);
+                case MS:
+                    handleMultiSelectAndMultipleChoice(item.getId(), driver);
                     break;
                 case MI:
                     handleMatchInteraction(item.getId(), driver);
-                    break;
-                case MS:
-                    handleMultiSelect(item.getId(), driver);
                     break;
                 case TI:
                     handleTableInteraction(item.getId(), driver);
@@ -91,6 +88,7 @@ public final class ItemHandler {
      * @param id
      * @param driver
      */
+    @SuppressWarnings("unchecked")
     private static void handleGridItem(final String id, final SmarterBalancedWebDriver driver) {
         WebElement objectTag = driver.findElement(By.cssSelector("#" + id + " object"));
         WebElement origin = driver.findElement(By.cssSelector("#htmlBody"));
@@ -100,12 +98,12 @@ public final class ItemHandler {
         Point dropContainer = getDropContainerCoordinates(jsDriver, objectTag);
         Point sourceContainer = getSourceContainerCoordinates(jsDriver, objectTag);
 
-        Map<String, Object> gridOffset = (Map) jsDriver.executeScript(
+        Map<String, Object> gridOffset = (Map<String, Object>) jsDriver.executeScript(
                 "return ($(arguments[0].contentDocument).find('#groupWrapper').offset())", objectTag);
 
         if (sourceContainer == null && dropContainer == null) { // This must be a "draw an arrow/line" question.
             //get the arrow button coordinates
-            Map<String, Long> arrowPoint = (Map) jsDriver.executeScript(
+            Map<String, Long> arrowPoint = (Map<String, Long>) jsDriver.executeScript(
                     "return ($(arguments[0].contentDocument).find('#button_arrow').offset())", objectTag);
 
             builder.moveToElement(origin, 0, 0)
@@ -154,14 +152,15 @@ public final class ItemHandler {
         }
     }
 
-    private static Point getSourceContainerCoordinates(JavascriptExecutor jsDriver, WebElement objectTag) {
+    @SuppressWarnings("unchecked")
+    private static Point getSourceContainerCoordinates(final JavascriptExecutor jsDriver, final WebElement objectTag) {
         Point sourcePt = null;
-        Map<String, Object> srcPos = (Map) jsDriver.executeScript(
+        Map<String, Object> srcPos = (Map<String, Object>) jsDriver.executeScript(
                 "return ($(arguments[0].contentDocument).find('image').eq(1).offset())", objectTag);
 
         if (srcPos != null) {
-            Double srcLeft = null;
-            Double srcTop = null;
+            Double srcLeft;
+            Double srcTop;
 
             if (srcPos.get("left") instanceof Long) {
                 srcLeft = ((Long) srcPos.get("left")).doubleValue();
@@ -180,7 +179,7 @@ public final class ItemHandler {
         return sourcePt;
     }
 
-    private static Point getDropContainerCoordinates(JavascriptExecutor driver, WebElement objectTag) {
+    private static Point getDropContainerCoordinates(final JavascriptExecutor driver, final WebElement objectTag) {
         Point dropPt = null;
         String dropX = (String) driver.executeScript( // assuming its a circle container, this returns something...
                 "return ($(arguments[0].contentDocument).find('#shapes').children().eq(2).attr('cx'))", objectTag);
@@ -238,17 +237,13 @@ public final class ItemHandler {
     }
 
     /**
-     * Handles multi select item types by clicking on every checkbox available.
+     * Handles multi select or multiple choice item types by clicking on every checkbox available.
      *
      * @param id
      * @param driver
      */
-    private static void handleMultiSelect(final String id, final SmarterBalancedWebDriver driver) {
-        List<WebElement> checkboxes = driver.findElements(By.cssSelector("#" + id + " .optionClicker"));
-
-        for (WebElement checkbox : checkboxes) {
-            checkbox.click();
-        }
+    private static void handleMultiSelectAndMultipleChoice(final String id, final SmarterBalancedWebDriver driver) {
+        driver.findElement(By.cssSelector("#" + id + " .optionClicker")).click();
     }
 
     /**
@@ -258,22 +253,7 @@ public final class ItemHandler {
      * @param driver
      */
     private static void handleMatchInteraction(final String id, final SmarterBalancedWebDriver driver) {
-        List<WebElement> checkboxes = driver.findElements(By.cssSelector("#" + id + " input[type='checkbox']"));
-
-        //Just check em all...
-        for (WebElement checkbox : checkboxes) {
-            checkbox.click();
-        }
-    }
-
-    /**
-     * Handles a basic multiple choice question by click on the first option.
-     *
-     * @param id
-     * @param driver
-     */
-    private static void handleMultipleChoice(final String id, final SmarterBalancedWebDriver driver) {
-        driver.findElement(By.cssSelector("#" + id + " .optionClicker")).click();
+        driver.findElement(By.cssSelector("#" + id + " input[type='checkbox']")).click();
     }
 
     /**
@@ -316,7 +296,7 @@ public final class ItemHandler {
      * @param id
      * @param driver
      */
-    private static void handleExtendedResponse(String id, SmarterBalancedWebDriver driver) {
+    private static void handleExtendedResponse(final String id, final SmarterBalancedWebDriver driver) {
         WebElement itemDiv = driver.findElement(By.cssSelector("#" + id + " textarea"));
         itemDiv.clear();
         itemDiv.sendKeys("Practice Test");

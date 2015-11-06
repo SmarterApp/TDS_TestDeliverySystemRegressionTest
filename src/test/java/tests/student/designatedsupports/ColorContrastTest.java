@@ -16,13 +16,9 @@ import static org.junit.Assert.assertTrue;
  */
 public class ColorContrastTest extends SeleniumBaseTest {
     private static final String COLOR_CONTRAST_SELECT_CSS_SELECTOR =  "select[id*='colorchoices']";
-
     private static final String BLACK_ON_ROSE_OPTION = "TDS_CCMagenta";
-
     private static final String YELLOW_ON_BLUE_OPTION =  "TDS_CCYellowB";
-
     private static final String MEDIUM_GRAY_ON_LIGHT_GRAY_OPTION = "TDS_CCMedGrayLtGray";
-
     private static final String REVERSE_CONTRAST_OPTION = "TDS_CCInvert";
 
     @Before
@@ -35,7 +31,7 @@ public class ColorContrastTest extends SeleniumBaseTest {
 
         //Grade 3
         driver.findElement(By.cssSelector("option[value=\"3\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
@@ -48,9 +44,9 @@ public class ColorContrastTest extends SeleniumBaseTest {
     public void testBlackOnRose() {
         driver.findElement(By.cssSelector(
                 COLOR_CONTRAST_SELECT_CSS_SELECTOR + " option[value='" + BLACK_ON_ROSE_OPTION + "']")).click();
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
 
         WebElement htmlBodyEl = driver.findElement(By.cssSelector("body#htmlBody"));
         // Verify that the <body> element contains the proper color-contrast class
@@ -63,9 +59,9 @@ public class ColorContrastTest extends SeleniumBaseTest {
         //Select color contrast
         driver.findElement(By.cssSelector(
                 COLOR_CONTRAST_SELECT_CSS_SELECTOR + " option[value='" + YELLOW_ON_BLUE_OPTION + "']")).click();
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
 
         WebElement htmlBodyEl = driver.findElement(By.cssSelector("body#htmlBody"));
         // Verify that the <body> element contains the proper color-contrast class
@@ -79,9 +75,9 @@ public class ColorContrastTest extends SeleniumBaseTest {
         //Select color contrast
         driver.findElement(By.cssSelector(
                 COLOR_CONTRAST_SELECT_CSS_SELECTOR + " option[value='" + MEDIUM_GRAY_ON_LIGHT_GRAY_OPTION + "']")).click();
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
 
         WebElement htmlBodyEl = driver.findElement(By.cssSelector("body#htmlBody"));
         // Verify that the <body> element contains the proper color-contrast class
@@ -95,9 +91,9 @@ public class ColorContrastTest extends SeleniumBaseTest {
         //Select color contrast
         driver.findElement(By.cssSelector(
                 COLOR_CONTRAST_SELECT_CSS_SELECTOR + " option[value='" + REVERSE_CONTRAST_OPTION + "']")).click();
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
 
         WebElement htmlBodyEl = driver.findElement(By.cssSelector("body#htmlBody"));
         // Verify that the <body> element contains the proper color-contrast class

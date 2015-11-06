@@ -21,8 +21,6 @@ public enum AssessmentItemType {
     MI("mi", "format_mi", "Match Interaction Item"),
 
     MS("ms", "format_ms", "Multi-Select Item"),
-//
-//    PASS("pass", "format_pass", "Passage Item"),
 
     NL("nl", "format_nl", "Natural Language Item"), //Deprecated?
 
@@ -35,18 +33,18 @@ public enum AssessmentItemType {
     /**
      * The short-form code corresponding to the assessmentment item type.
      */
-    private String code;
+    private final String code;
 
     /**
      * The HTML class name that the itemContainer div element contains for this
      * assessment item type.
      */
-    private String className;
+    private final String className;
 
     /**
      * A description of the assement item type
      */
-    private String description;
+    private final String description;
 
     AssessmentItemType(final String code, final String className, final String description) {
         this.code = code;
@@ -75,9 +73,7 @@ public enum AssessmentItemType {
         return code;
     }
 
-    public String getClassName() {
-        return className;
-    }
+    public String getClassName() { return className; }
 
     public String getDescription() {
         return description;

@@ -1,6 +1,5 @@
 package tests.student.universaltools;
 
-import com.thoughtworks.selenium.Selenium;
 import enums.TestButton;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,26 +27,26 @@ public class GlobalNotesTest extends SeleniumBaseTest {
 
         //Grade 11
         driver.findElement(By.cssSelector("option[value=\"11\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[6]")).click(); //Performance Test
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
         driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
 
         //Sound check dialog
         driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
         driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
-        driver.findElement(By.cssSelector("#btnSoundYes > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnSoundYes button")).click();
 
         //Instructions
         driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
     }
 
     @Test
@@ -98,7 +97,8 @@ public class GlobalNotesTest extends SeleniumBaseTest {
 
     @Test
     public void testGlobalNotesMultiQuestion() throws InterruptedException {
-        navigator.clickButton(TestButton.GLOBAL_NOTES); //Open global notes
+        //Open global notes
+        navigator.clickButton(TestButton.GLOBAL_NOTES);
         Thread.sleep(1000);
         assertTrue(driver.isElementVisibleNow(By.cssSelector(".yui-dialog #global")));
         assertEquals("Notepad", driver.findElement(By.cssSelector(".yui-dialog #global h2.hd")).getText());
@@ -107,7 +107,7 @@ public class GlobalNotesTest extends SeleniumBaseTest {
         WebElement notepadInputEl1 = driver.findElement(
                 By.cssSelector(".yui-dialog #global textarea.comment-input"));
 
-        final String comment = "This quite the comment";
+        final String comment = "This is quite the comment";
 
         notepadInputEl1.clear();
         notepadInputEl1.sendKeys(comment);
@@ -121,9 +121,9 @@ public class GlobalNotesTest extends SeleniumBaseTest {
         ItemHandler.getAndHandleAssessmentItems(driver);
         navigator.clickNextButtonAndWait(1000);
         navigator.clickButton(TestButton.NEXT);
+        //Confirm navigation to next page
         navigator.clickDialogYesButton();
 
-        // driver.waitForAndGetElementByLocator(By.className(NOTEPAD_ITEM_MENU_CLASSNAME));
         //Open notepad for item 2
         navigator.clickButton(TestButton.GLOBAL_NOTES); //Open global notes
         assertTrue(driver.isElementVisibleNow(By.cssSelector(".yui-dialog #global")));

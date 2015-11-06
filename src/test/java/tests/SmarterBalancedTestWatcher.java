@@ -22,13 +22,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class SmarterBalancedTestWatcher extends TestWatcher implements TestRule {
     private static final Logger LOG = LogManager.getLogger(SmarterBalancedTestWatcher.class);
-
     private static final String SCREENSHOT_DIR = System.getProperty("user.dir") + "/failure-snapshots/";
-
     private static final String SCREENSHOT_FILE_TYPE = ".png";
-
     private WebDriver driver;
-
     private static long startTime;
 
     @Override
@@ -59,10 +55,8 @@ public class SmarterBalancedTestWatcher extends TestWatcher implements TestRule 
     }
 
     private String getPicturePath(final Description description) {
-        String path = SCREENSHOT_DIR + description.getMethodName() + "_"
+        return SCREENSHOT_DIR + description.getMethodName() + "_"
                 + new Date(System.currentTimeMillis()) + SCREENSHOT_FILE_TYPE;
-
-        return path;
     }
 
     private void saveScreenshot(final String path) throws IOException {

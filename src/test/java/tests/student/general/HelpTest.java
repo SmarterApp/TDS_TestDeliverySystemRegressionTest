@@ -17,9 +17,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class HelpTest extends SeleniumBaseTest {
     private static final String STREAMLINED_ON_OPTION = "TDS_SLM1";
-
     private static final String STREAMLINED_SELECT_CSS_SELECTOR = "select[id*='streamlinedmode']";
-
     private static final String HELP_DIALOG_CLASS = "tool-helpguide-container";
 
     @Before
@@ -63,7 +61,7 @@ public class HelpTest extends SeleniumBaseTest {
     public void testHelpStreamlined() {
         //Grade 3
         driver.findElement(By.cssSelector("option[value=\"3\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
 
@@ -72,14 +70,14 @@ public class HelpTest extends SeleniumBaseTest {
         driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
         driver.findElement(By.cssSelector(
                 STREAMLINED_SELECT_CSS_SELECTOR + " option[value='" + STREAMLINED_ON_OPTION + "']")).click();
-        driver.findElement(By.cssSelector("#btnAccSelect > span > button[type=\"button\"]")).click();
-        WebElement verifySessionIdEl = driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID"));
-        assertEquals("GUEST SESSION", verifySessionIdEl.getText());
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
         driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
 
         //Instructions
         driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest > span > button[type=\"button\"]")).click();
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
 
         //Wait for test to load
         driver.waitForTitleAndAssert("Student: Test", true);
@@ -92,7 +90,7 @@ public class HelpTest extends SeleniumBaseTest {
         assertTrue(helpContainer.findElement(By.cssSelector("h2.hd")).getText().contains("Help Guide"));
 
         //Switch into "help" iframe
-        WebElement helpFrame = driver.findElement(By.cssSelector("." + HELP_DIALOG_CLASS+ " iframe"));
+        WebElement helpFrame = driver.findElement(By.cssSelector("." + HELP_DIALOG_CLASS + " iframe"));
         driver.switchTo().frame(helpFrame);
 
         //Ensure HELP links are available and visible
