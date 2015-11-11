@@ -6,10 +6,17 @@ import java.util.logging.Level;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.junit.*;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import util.navigation.TestNavigator;
 import java.util.concurrent.TimeUnit;
 
@@ -19,35 +26,39 @@ import java.util.concurrent.TimeUnit;
  *
  * Created by emunoz on 10/20/15.
  */
-public abstract class SeleniumBaseTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("/spring-config.xml")
+public abstract class SeleniumBaseTest implements ApplicationContextAware {
     private static final Logger LOG = LogManager.getLogger(SeleniumBaseTest.class);
-    //TODO: Load this up from properties file once we begin using Spring in this project
-    private static final String PHANTOMJS_EXECUTABLE_PATH = "/Users/emunoz/Documents/dev/phantomjs-2.0.0-macosx/bin/phantomjs";
+
     private static final Dimension SCREEN_SIZE_DIMENSIONS = new Dimension(1920, 1080);
-    protected static final String BASE_URL = "https://practice.smarterbalanced.org/";
-    protected SmarterBalancedWebDriver driver;
-    protected TestNavigator navigator;
+
+    private ApplicationContext applicationContext;
+
+    @Value( "${tds.baseurl}" )
+    protected String BASE_URL;
 
     @Rule
     public final SmarterBalancedTestWatcher screenCapturer = new SmarterBalancedTestWatcher();
 
+    //@Autowired
+    protected SmarterBalancedWebDriver driver;
+
+    @Autowired
+    protected TestNavigator navigator;
+
     @Before
     public void setUp() throws Exception {
-        // Used for PhantomJS WebDriver setup
-        DesiredCapabilities dCaps = new DesiredCapabilities();
-        dCaps.setJavascriptEnabled(true);
-        dCaps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-                PHANTOMJS_EXECUTABLE_PATH);
-        dCaps.setCapability("takesScreenshot", true);
-
-        //driver = new PhantomJSDriver(dCaps);
         driver = new SmarterBalancedWebDriverImpl();
         driver.manage().window().setSize(SCREEN_SIZE_DIMENSIONS);
         driver.manage().timeouts().implicitlyWait(SmarterBalancedWebDriver.DEFAULT_WAIT_TIMEOUT_IN_SECS,
                 TimeUnit.SECONDS);
         ((RemoteWebDriver) driver).setLogLevel(Level.ALL);
-        //TODO: Wire this guy up with Spring
-        navigator = new TestNavigator(driver);
         screenCapturer.setDriver(driver);
+        navigator.setDriver(driver);
+    }
+
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
     }
 }

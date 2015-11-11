@@ -5,9 +5,10 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import tests.SeleniumBaseTest;
-import util.ItemHandler;
 
 import static org.junit.Assert.*;
+import static org.openqa.selenium.By.*;
+import static util.ItemHandler.getAndHandleAssessmentItems;
 
 /**
  * Created by emunoz on 11/4/15.
@@ -25,39 +26,35 @@ public class ClosedCaptioningTest extends SeleniumBaseTest {
         navigator.loginAsGuest();
 
         //Grade 8
-        driver.findElement(By.cssSelector("option[value=\"8\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
+        driver.findElement(cssSelector("option[value=\"8\"]")).click();
+        driver.findElement(cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select test type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[2]")).click(); //Performance Test
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
+        driver.findElement(xpath("//ul[@id='testSelections']/li[2]")).click(); //Performance Test
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         //Enable closed captioning
-        driver.findElement(By.cssSelector(
+        driver.findElement(cssSelector(
                 CLOSED_CAPTIONING_SELECT_CSS_SELECTOR + " option[value='" + CLOSED_CAPTIONING_OPTION + "']")).click();
 
-        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        driver.findElement(cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
-
-        //Sound check dialog
-        driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
-        driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
-        driver.findElement(By.cssSelector("#btnSoundYes button")).click();
+                driver.waitForAndGetElementByLocator(id("lblVerifySessionID")).getText());
+        driver.waitForAndGetElementByLocator(cssSelector("#btnApproveAccommodations button")).click();
+        navigator.doSoundCheckAndContinue();
 
         //Instructions
-        driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest button")).click();
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
+        driver.findElement(cssSelector("#btnStartTest button")).click();
         do {
-            ItemHandler.getAndHandleAssessmentItems(driver);
+            getAndHandleAssessmentItems(driver);
             navigator.clickNextButtonAndWait(1000);
 
             if (navigator.isDialogShown()) {
                 navigator.clickDialogOkButton();
             }
-        } while (!driver.isElementVisibleNow(By.cssSelector(".slides_container")));
+        } while (!driver.isElementVisibleNow(cssSelector(".slides_container")));
     }
 
     @Test

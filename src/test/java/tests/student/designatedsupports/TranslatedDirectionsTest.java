@@ -26,11 +26,11 @@ public class TranslatedDirectionsTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("option[value=\"12\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
     }
 
     @Test
@@ -43,10 +43,10 @@ public class TranslatedDirectionsTest extends SeleniumBaseTest {
 
         //Test verification screen
         assertTestVerificationTranslated();
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
-        driver.waitForTitleAndAssert(SPANISH_INSTRUCTIONS_TITLE, false);
+        driver.waitForTitle(SPANISH_INSTRUCTIONS_TITLE, false);
         assertTestInstructionsTranslated();
     }
 

@@ -6,6 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,14 +16,13 @@ import java.util.List;
  * <p/>
  * Created by emunoz on 10/23/15.
  */
+@Service
 public class TestNavigator {
     private static final Logger LOG = LogManager.getLogger(TestNavigator.class);
     private static final String GUEST_KEY = "GUEST";
-    private SmarterBalancedWebDriver driver;
 
-    public TestNavigator(SmarterBalancedWebDriver driver) {
-        this.driver = driver;
-    }
+    @Autowired
+    private SmarterBalancedWebDriver driver;
 
     /**
      * Logs into the SmarterBalanced test using guest user and session credentials.
@@ -85,6 +86,15 @@ public class TestNavigator {
         LOG.info("{} button active and available?: {}", buttonType.name(), isAvailable);
 
         return isAvailable;
+    }
+
+    /**
+     * Handles the sound check interaction for English items and continues the test flow.
+     */
+    public void doSoundCheckAndContinue() {
+        driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
+        driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
+        driver.findElement(By.cssSelector("#btnSoundYes button")).click();
     }
 
     public void clickButton(TestButton button) {

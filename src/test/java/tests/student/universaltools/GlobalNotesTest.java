@@ -4,13 +4,16 @@ import enums.TestButton;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import tests.SeleniumBaseTest;
 import util.ItemHandler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.openqa.selenium.By.*;
 
 /**
  * Created by emunoz on 10/30/15.
@@ -26,27 +29,23 @@ public class GlobalNotesTest extends SeleniumBaseTest {
         navigator.loginAsGuest();
 
         //Grade 11
-        driver.findElement(By.cssSelector("option[value=\"11\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
+        driver.findElement(cssSelector("option[value=\"11\"]")).click();
+        driver.findElement(cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[6]")).click(); //Performance Test
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
-        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        driver.findElement(xpath("//ul[@id='testSelections']/li[6]")).click(); //Performance Test
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
+        driver.findElement(cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
-
-        //Sound check dialog
-        driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
-        driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
-        driver.findElement(By.cssSelector("#btnSoundYes button")).click();
+                driver.waitForAndGetElementByLocator(id("lblVerifySessionID")).getText());
+        driver.waitForAndGetElementByLocator(cssSelector("#btnApproveAccommodations button")).click();
+        navigator.doSoundCheckAndContinue();
 
         //Instructions
-        driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest button")).click();
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
+        driver.findElement(cssSelector("#btnStartTest button")).click();
     }
 
     @Test
@@ -93,6 +92,26 @@ public class GlobalNotesTest extends SeleniumBaseTest {
         assertTrue(driver.isElementVisibleNow(By.cssSelector(".yui-dialog #global")));
         //Ensure the original text was preserved and not overwritten
         assertEquals(comment, notepadInputEl.getAttribute("value"));
+    }
+
+    @Test
+    public void testDragDialog() throws InterruptedException {
+        //Open global notes
+        navigator.clickButton(TestButton.GLOBAL_NOTES);
+        WebElement header = driver.findElement(By.cssSelector(".yui-dialog #global h2.hd"));
+        Point headerLocation = header.getLocation();
+        driver.findElement(By.cssSelector(".yui-dialog #global h2.hd"));
+        Point moveTo = new Point(200, -100);
+
+        Actions builder = new Actions(driver);
+        builder.moveToElement(header, 10, 10)
+                .clickAndHold()
+                .moveByOffset(moveTo.getX(), moveTo.getY())
+                .release()
+                .build().perform();
+        //Ensure that the dialog was moved
+        assertEquals(header.getLocation(),
+                new Point(headerLocation.getX() + moveTo.getX(), headerLocation.getY() + moveTo.getY()));
     }
 
     @Test

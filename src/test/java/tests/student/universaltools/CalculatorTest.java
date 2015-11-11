@@ -4,6 +4,9 @@ import enums.TestButton;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import tests.SeleniumBaseTest;
 
 import static org.junit.Assert.assertEquals;
@@ -30,20 +33,42 @@ public class CalculatorTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("option[value=\"11\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         driver.findElement(By.cssSelector("select[id*='calculator'] option[value='" + CALCULATOR_ON_OPTION + "']")).click();
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
                 driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
-        driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
+    }
+
+    @Test
+    public void testDragDialog() throws InterruptedException {
+        driver.waitForTitle("Student: Test", true);
+        navigator.clickButton(TestButton.CALCULATOR);
+        WebElement header = driver.findElement(By.cssSelector(".tool-calculator h2.hd"));
+        Point headerLocation = header.getLocation();
+        driver.findElement(By.cssSelector(".tool-calculator h2.hd"));
+        Point moveTo = new Point(200, -100);
+        // This wait is necessary for the UI to update and for test to succeed in non-debug mode
+        Thread.sleep(500);
+        Actions builder = new Actions(driver);
+        builder.moveToElement(header, 10, 10)
+                .clickAndHold()
+                .moveByOffset(moveTo.getX(), moveTo.getY())
+                .release()
+                .build().perform();
+        //Ensure that the dialog was moved
+        assertEquals(header.getLocation(),
+                new Point(headerLocation.getX() + moveTo.getX(), headerLocation.getY() + moveTo.getY()));
+
     }
 
     @Test

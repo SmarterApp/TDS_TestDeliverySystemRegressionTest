@@ -9,6 +9,7 @@ import tests.SeleniumBaseTest;
 import util.ItemHandler;
 
 import static org.junit.Assert.assertEquals;
+import static org.openqa.selenium.By.*;
 
 /**
  * Created by emunoz on 10/20/15.
@@ -54,7 +55,7 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.waitForAndGetElementByLocator(By.cssSelector("#btnCompleteTest button[type=\"button\"]")).click();
         //Submit test dialog confirmation
         navigator.clickDialogYesButton();
-        driver.waitForTitleAndAssert("Test Successfully Submitted", true);
+        driver.waitForTitle("Test Successfully Submitted", true);
         assertEquals("Test Successfully Submitted",
                 driver.findElement(By.cssSelector("#sectionTestResultsHeader")).getText());
     }
@@ -62,30 +63,26 @@ public class FullEndTest extends SeleniumBaseTest {
     @Test
     public void testGrade3ELAPracticeTest() throws Exception {
         //Select 3rd grade
-        driver.findElement(By.cssSelector("option[value=\"3\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
+        driver.findElement(cssSelector("option[value=\"3\"]")).click();
+        driver.findElement(cssSelector("#btnVerifyApprove button")).click();
 
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[4]")).click();
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
+        driver.findElement(xpath("//ul[@id='testSelections']/li[4]")).click();
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         // Continue with default settings
-        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        driver.findElement(cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
-
-        //Sound check dialog
-        driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
-        driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
-        driver.findElement(By.cssSelector("#btnSoundYes button")).click();
+                driver.waitForAndGetElementByLocator(id("lblVerifySessionID")).getText());
+        driver.waitForAndGetElementByLocator(cssSelector("#btnApproveAccommodations button")).click();
+        navigator.doSoundCheckAndContinue();
 
         //Instructions
-        driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest button")).click();
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
+        driver.findElement(cssSelector("#btnStartTest button")).click();
 
         //Test begins
         takeTest();
@@ -98,20 +95,20 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
 
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         // Continue with default settings
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
                 driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
-        driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", true);
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", true);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
 
         //Test begins
@@ -125,20 +122,20 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
 
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[3]")).click();
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         // Continue with default settings
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
                 driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
-        driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", true);
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", true);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
 
         //Test begins
@@ -152,20 +149,20 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
 
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[5]")).click();
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         // Continue with default settings
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
                 driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
-        driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", true);
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", true);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
 
         //Test begins
@@ -178,11 +175,11 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
 
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[6]")).click();
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         // Continue with default settings
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
@@ -190,13 +187,13 @@ public class FullEndTest extends SeleniumBaseTest {
                 driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
 
         //Sound check dialog
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
         driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
         driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
         driver.findElement(By.cssSelector("#btnSoundYes button")).click();
 
         //Instructions
-        driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
 
         //Test begins
@@ -209,19 +206,19 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
 
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         // Continue with default settings
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
                 driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
         //Instructions
-        driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
 
         //Test begins
@@ -235,11 +232,11 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
 
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[2]")).click();
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         // Continue with default settings
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
@@ -247,13 +244,13 @@ public class FullEndTest extends SeleniumBaseTest {
                 driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
 
         //Sound check dialog
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
         driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
         driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
         driver.findElement(By.cssSelector("#btnSoundYes button")).click();
 
         //Instructions
-        driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
 
         //Test begins

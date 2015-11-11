@@ -3,24 +3,21 @@ package driver.impl;
 import driver.SmarterBalancedWebDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 /**
  * Created by emunoz on 10/29/15.
  */
+@Component
 public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements SmarterBalancedWebDriver {
     private static final Logger LOG = LogManager.getLogger(SmarterBalancedWebDriverImpl.class);
 
@@ -83,7 +80,7 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
      * @inheritDoc
      */
     @Override
-    public void waitForTitleAndAssert(final String expectedTitle, final boolean isContains)
+    public void waitForTitle(final String expectedTitle, final boolean isContains)
     {
         long startTime = System.currentTimeMillis();
         Wait<SmarterBalancedWebDriverImpl> wait = new FluentWait<>(this)
@@ -92,10 +89,8 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
 
         if (isContains) {
             wait.until(ExpectedConditions.titleContains(expectedTitle));
-            assertTrue(getTitle().contains(expectedTitle));
         } else {
             wait.until(ExpectedConditions.titleIs(expectedTitle));
-            assertEquals(expectedTitle, getTitle());
         }
         LOG.info("The wait for the title to be {} took approximately {} ms.", expectedTitle,
                 System.currentTimeMillis() - startTime);
@@ -108,7 +103,7 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
     public boolean isElementVisibleNow(final By locator) {
         boolean isVisible = false;
         //Temporarily disable implicit wait time.
-        manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
         LOG.info("Checking for immediate visiblity of element {}", locator);
 
         try {
@@ -158,6 +153,14 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
     public void switchOutOfIFrame() {
         LOG.info("Switching back to the default content frame");
         switchTo().defaultContent();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public boolean hasQuit () {
+        return getSessionId() == null;
     }
 
 }

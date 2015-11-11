@@ -42,7 +42,7 @@ public interface SmarterBalancedWebDriver extends WebDriver{
      *               If true, title must only contain the expected string
      *               otherwise, an exact title match must be made.
      */
-    void waitForTitleAndAssert(final String expectedTitle, final boolean isContains);
+    void waitForTitle(final String expectedTitle, final boolean isContains);
 
     /**
      * Checks for the immediate visibility of an element specified by the {@link By} locator.
@@ -72,4 +72,6 @@ public interface SmarterBalancedWebDriver extends WebDriver{
      * Convenience method that switches the context back to the default content/DOM.
      */
     void switchOutOfIFrame();
+
+    boolean hasQuit();
 }

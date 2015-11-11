@@ -33,11 +33,11 @@ public class MaskingTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("option[value=\"3\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         //Turn masking on and continue
         driver.findElement(By.cssSelector(
@@ -46,10 +46,10 @@ public class MaskingTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
                 driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
-        driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
     }
 

@@ -8,6 +8,7 @@ import tests.SeleniumBaseTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.openqa.selenium.By.*;
 
 /**
  * Created by emunoz on 11/3/15.
@@ -25,32 +26,28 @@ public class ExpandablePassagesTest extends SeleniumBaseTest {
         navigator.loginAsGuest();
 
         //Grade 12
-        driver.findElement(By.cssSelector("option[value=\"12\"]")).click();
-        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
+        driver.findElement(cssSelector("option[value=\"12\"]")).click();
+        driver.findElement(cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
-        driver.waitForTitleAndAssert("Student: Login Shell Your Tests", false);
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[2]")).click();
-        driver.waitForTitleAndAssert("Student: Login Shell Choose Settings:", false);
-        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        driver.findElement(xpath("//ul[@id='testSelections']/li[2]")).click();
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
+        driver.findElement(cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
-
-        //Sound check dialog
-        driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
-        driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
-        driver.findElement(By.cssSelector("#btnSoundYes button")).click();
+                driver.waitForAndGetElementByLocator(id("lblVerifySessionID")).getText());
+        driver.waitForAndGetElementByLocator(cssSelector("#btnApproveAccommodations button")).click();
+        navigator.doSoundCheckAndContinue();
 
         //Instructions
-        driver.waitForTitleAndAssert("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest button")).click();
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
+        driver.findElement(cssSelector("#btnStartTest button")).click();
     }
 
     @Test
     public void testExpandablePassage() throws InterruptedException {
-        driver.waitForTitleAndAssert("Student: Test", true);
+        driver.waitForTitle("Student: Test", true);
         assertTrue(driver.isElementVisibleNow(By.className(PASSAGE_COLLAPSED_CLASS)));
         assertFalse(driver.isElementVisibleNow(By.className(PASSAGE_EXPANDED_CLASS)));
         assertFalse(driver.isElementVisibleNow(By.className(MASK_QUESTIONS_CLASS)));

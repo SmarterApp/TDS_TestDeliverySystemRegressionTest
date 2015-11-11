@@ -26,7 +26,7 @@ public class LoginTest extends SeleniumBaseTest {
     @Test
     public void testGuestLogin() {
         navigator.loginAsGuest();
-        driver.waitForTitleAndAssert("Is This You?", true);
+        driver.waitForTitle("Is This You?", true);
         assertEquals("GUEST",
                 driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[1]/span[2]")).getText());
         assertEquals("GUEST",
