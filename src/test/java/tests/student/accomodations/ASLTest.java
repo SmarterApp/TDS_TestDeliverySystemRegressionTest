@@ -20,7 +20,7 @@ public class ASLTest extends SeleniumBaseTest {
 
     @Before
     public void loginAndEnableAsl() {
-        driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
+        driver.get(BASE_URL);
 
         // Login Phase (GUEST)
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
@@ -39,8 +39,8 @@ public class ASLTest extends SeleniumBaseTest {
                 ASL_SELECT_CSS_SELECTOR + " option[value='" + ASL_ON_OPTION + "']")).click();
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
@@ -70,7 +70,7 @@ public class ASLTest extends SeleniumBaseTest {
     public void testASL() {
         navigator.selectOptionFromItemMenu("ASL");
         // Assert that the video is open and visible
-        driver.waitForAndGetElementByLocator(By.cssSelector(".tool-video-container div[id*='_jwplayer_display']"), 1);
+        driver.waitForAndFindElement(By.cssSelector(".tool-video-container div[id*='_jwplayer_display']"), 1);
 
         // Close ASL video by clicking close button on top right corner
         driver.findElement(By.cssSelector(".tool-video-container a.container-close")).click();

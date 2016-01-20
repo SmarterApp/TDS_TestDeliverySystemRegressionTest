@@ -18,7 +18,7 @@ public class LoginTest extends SeleniumBaseTest {
 
     @Before
     public void openHomeAndLogin() {
-        driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
+        driver.get(BASE_URL);
 
         // Login Phase (GUEST)
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
@@ -38,7 +38,7 @@ public class LoginTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#loginForm1 input#cbUser")).click();
         navigator.login("Bad", "Credentials");
 
-        driver.waitForAndGetElementByLocator(By.cssSelector("#yuiSimpleDialog"), 2000);
+        driver.waitForAndFindElement(By.cssSelector("#yuiSimpleDialog"), 2000);
         assertTrue(navigator.isDialogShown());
 
         WebElement dialogHeader = driver.findElement(By.cssSelector("#yuiSimpleDialog h2"));
@@ -57,7 +57,7 @@ public class LoginTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("#loginForm2 input#cbSession")).click();
         navigator.login("GUEST", "GUEST", "TESTS", "TESTS", "TESTS");
 
-        driver.waitForAndGetElementByLocator(By.cssSelector("#yuiSimpleDialog"), 2000);
+        driver.waitForAndFindElement(By.cssSelector("#yuiSimpleDialog"), 2000);
         assertTrue(navigator.isDialogShown());
 
         WebElement dialogHeader = driver.findElement(By.cssSelector("#yuiSimpleDialog h2"));

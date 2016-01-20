@@ -3,11 +3,13 @@ package tests.student.universaltools;
 import enums.TestButton;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import tests.SeleniumBaseTest;
+import tests.categories.UniversalToolsTest;
 import util.ItemHandler;
 
 import static org.junit.Assert.assertEquals;
@@ -18,11 +20,12 @@ import static org.openqa.selenium.By.*;
 /**
  * Created by emunoz on 10/30/15.
  */
+@Category(UniversalToolsTest.class)
 public class DictionaryTest extends SeleniumBaseTest {
 
     @Before
     public void loginAndBeginTest() {
-        driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
+        driver.get(BASE_URL);
         // Login Phase (GUEST)
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
         navigator.loginAsGuest();
@@ -38,8 +41,8 @@ public class DictionaryTest extends SeleniumBaseTest {
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         driver.findElement(cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(cssSelector("#btnApproveAccommodations button")).click();
+                driver.waitForAndFindElement(id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(cssSelector("#btnApproveAccommodations button")).click();
         navigator.doSoundCheckAndContinue();
 
         //Instructions

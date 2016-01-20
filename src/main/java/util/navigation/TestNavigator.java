@@ -1,7 +1,9 @@
 package util.navigation;
 
+import driver.BrowserInteractionType;
 import driver.SmarterBalancedWebDriver;
 import enums.TestButton;
+import enums.TestName;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -21,7 +23,7 @@ public class TestNavigator {
     private static final Logger LOG = LogManager.getLogger(TestNavigator.class);
     private static final String GUEST_KEY = "GUEST";
 
-    @Autowired
+   // @Autowired
     private SmarterBalancedWebDriver driver;
 
     /**
@@ -58,6 +60,8 @@ public class TestNavigator {
                       final String session2, final String session3) {
         LOG.info("Attempting to log in using username {} and firstname {} with session {}-{}-{}.",
                 ssid, firstname, session1, session2, session3);
+        driver.findElement(By.id("cbUser")).click();
+        driver.findElement(By.id("cbSession")).click();
         clearAndType(ssid, By.cssSelector("#loginRow_ID"));
         clearAndType(firstname, By.cssSelector("#loginRow_FirstName"));
         clearAndType(session1, By.cssSelector("#loginSessionID1"));
@@ -92,8 +96,8 @@ public class TestNavigator {
      * Handles the sound check interaction for English items and continues the test flow.
      */
     public void doSoundCheckAndContinue() {
-        driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
-        driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
+        driver.waitForAndFindElement(By.cssSelector(".sound_repeat")).click();
+        driver.waitForAndFindElement(By.cssSelector(".playing_done"));
         driver.findElement(By.cssSelector("#btnSoundYes button")).click();
     }
 
@@ -112,7 +116,9 @@ public class TestNavigator {
     public void clickNextButtonAndWait(final long timeInMs) throws InterruptedException {
         clickButton(TestButton.NEXT);
         Thread.sleep(timeInMs);
-        navigateToLastPage();
+        if (!isDialogShown()) {
+            navigateToLastPage();
+        }
     }
 
     /**
@@ -122,7 +128,6 @@ public class TestNavigator {
     private void navigateToLastPage() {
         LOG.info("Navigating to the last available questions page.");
         List<WebElement> questionOptions = driver.findElements(By.cssSelector("#ddlNavigation option:not(.hidden)"));
-
         if (questionOptions.size() > 0) {
             WebElement lastEl = questionOptions.get(questionOptions.size() - 1);
             //Go to the last available page
@@ -211,6 +216,16 @@ public class TestNavigator {
             input.clear();
             input.sendKeys(text);
         }
+    }
+
+    public void selectTest(TestName test, BrowserInteractionType interactionType) {
+        if (interactionType == BrowserInteractionType.MOUSE) {
+            driver.findElement(getSelectorForTest(test)).click();
+        }
+    }
+
+    private By getSelectorForTest(TestName test) {
+        return By.xpath("id('testSelections')/li/div/strong[contains(text(), '" + test.getKey() + "')]");
     }
 
     public void setDriver(SmarterBalancedWebDriver driver) {

@@ -3,11 +3,13 @@ package tests.student.universaltools;
 import enums.TestButton;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import tests.SeleniumBaseTest;
+import tests.categories.UniversalToolsTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -23,7 +25,7 @@ public class CalculatorTest extends SeleniumBaseTest {
 
     @Before
     public void loginAndConfigureCalculator() {
-        driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
+        driver.get(BASE_URL);
 
         // Login Phase (GUEST)
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
@@ -41,14 +43,15 @@ public class CalculatorTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("select[id*='calculator'] option[value='" + CALCULATOR_ON_OPTION + "']")).click();
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
     }
 
+    @Category(UniversalToolsTest.class)
     @Test
     public void testDragDialog() throws InterruptedException {
         driver.waitForTitle("Student: Test", true);
@@ -71,6 +74,7 @@ public class CalculatorTest extends SeleniumBaseTest {
 
     }
 
+    @Category(UniversalToolsTest.class)
     @Test
     public void testInverseRegressionCalculator() throws InterruptedException {
         navigator.clickButton(TestButton.CALCULATOR);
@@ -92,6 +96,7 @@ public class CalculatorTest extends SeleniumBaseTest {
                 driver.findElement(By.cssSelector("#calculatorwidget textarea#textinput")).getAttribute("value").trim());
     }
 
+    @Category(UniversalToolsTest.class)
     @Test
     public void testGraphingCalculator() {
         navigator.clickButton(TestButton.CALCULATOR);
@@ -113,6 +118,7 @@ public class CalculatorTest extends SeleniumBaseTest {
         assertFalse(driver.isElementVisibleNow(By.className("tool-calculator-container")));
     }
 
+    @Category(UniversalToolsTest.class)
     @Test
     public void testScientificCalculator() {
         navigator.clickButton(TestButton.CALCULATOR);

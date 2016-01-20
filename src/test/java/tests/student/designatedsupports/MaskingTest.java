@@ -23,7 +23,7 @@ public class MaskingTest extends SeleniumBaseTest {
 
     @Before
     public void loginAndBeginTest() {
-        driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
+        driver.get(BASE_URL);
 
         // Login Phase (GUEST)
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
@@ -45,8 +45,8 @@ public class MaskingTest extends SeleniumBaseTest {
 
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);

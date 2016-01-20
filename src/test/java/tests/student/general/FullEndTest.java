@@ -1,11 +1,16 @@
 package tests.student.general;
 
+import com.googlecode.zohhak.api.TestWith;
+import driver.BrowserInteractionType;
 import enums.TestButton;
+import enums.TestName;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.openqa.selenium.By;
 import tests.SeleniumBaseTest;
+import tests.categories.StudentGuestTest;
 import util.ItemHandler;
 
 import static org.junit.Assert.assertEquals;
@@ -22,7 +27,7 @@ public class FullEndTest extends SeleniumBaseTest {
 
     @Before
     public void openHomeAndLogin() {
-        driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
+        driver.get(BASE_URL);
 
         // Login Phase (GUEST)
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
@@ -36,9 +41,9 @@ public class FullEndTest extends SeleniumBaseTest {
      *
      * @throws InterruptedException
      */
-    private void takeTest() throws InterruptedException {
+    private void takeTest(BrowserInteractionType interactionType) throws InterruptedException {
         do {
-            ItemHandler.getAndHandleAssessmentItems(driver);
+            ItemHandler.getAndHandleAssessmentItems(driver, interactionType);
             navigator.clickNextButtonAndWait(NEXT_PAGE_WAIT_IN_MS);
 
             if (navigator.isDialogShown()) {
@@ -52,7 +57,7 @@ public class FullEndTest extends SeleniumBaseTest {
         navigator.clickButton(TestButton.END);
         navigator.clickDialogYesButton();
         //Test ends - click submit
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnCompleteTest button[type=\"button\"]")).click();
+        driver.waitForAndFindElement(By.cssSelector("#btnCompleteTest button[type=\"button\"]")).click();
         //Submit test dialog confirmation
         navigator.clickDialogYesButton();
         driver.waitForTitle("Test Successfully Submitted", true);
@@ -60,36 +65,36 @@ public class FullEndTest extends SeleniumBaseTest {
                 driver.findElement(By.cssSelector("#sectionTestResultsHeader")).getText());
     }
 
-    @Test
-    public void testGrade3ELAPracticeTest() throws Exception {
+    @Category(StudentGuestTest.class)
+    //@TestWith({"MOUSE", "KEYBOARD"})
+    @TestWith("MOUSE")
+    public void testGrades3_5ELATest(BrowserInteractionType interactionType) throws Exception {
         //Select 3rd grade
         driver.findElement(cssSelector("option[value=\"3\"]")).click();
-        driver.findElement(cssSelector("#btnVerifyApprove button")).click();
+        driver.findElement(cssSelector("#btnVerifyApprove button"), interactionType).click();
 
         // Test Configuration
         driver.waitForTitle("Student: Login Shell Your Tests", false);
-
-        // Select Test Type
-        driver.findElement(xpath("//ul[@id='testSelections']/li[4]")).click();
+        navigator.selectTest(TestName.GRADES_3_TO_5_ELA, interactionType);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
-
         // Continue with default settings
-        driver.findElement(cssSelector("#btnAccSelect button")).click();
+        driver.findElement(cssSelector("#btnAccSelect button"), interactionType).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(cssSelector("#btnApproveAccommodations button")).click();
-        navigator.doSoundCheckAndContinue();
+                driver.waitForAndFindElement(id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(cssSelector("#btnStartTest button")).click();
+        driver.findElement(cssSelector("#btnStartTest button"), interactionType).click();
 
         //Test begins
-        takeTest();
+        takeTest(interactionType);
     }
 
-    @Test
-    public void testGrade3Math35TrainingTest() throws Exception {
+    @Category(StudentGuestTest.class)
+    //@TestWith({"MOUSE", "KEYBOARD"})
+    @TestWith("MOUSE")
+    public void testGrade3ELATest(BrowserInteractionType interactionType) throws Exception {
 
         driver.findElement(By.cssSelector("option[value=\"3\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
@@ -98,25 +103,27 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
+        navigator.selectTest(TestName.GRADE_3_ELA, interactionType);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         // Continue with default settings
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", true);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
 
         //Test begins
-        takeTest();
+        takeTest(interactionType);
     }
 
-    @Test
-    public void testGrade3MathPracticeTest() throws Exception {
+    @Category(StudentGuestTest.class)
+    //@TestWith({"MOUSE", "KEYBOARD"})
+    @TestWith("MOUSE")
+    public void testGrade3MathTest(BrowserInteractionType interactionType) throws Exception {
 
         driver.findElement(By.cssSelector("option[value=\"3\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
@@ -125,25 +132,27 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[3]")).click();
+        navigator.selectTest(TestName.GRADE_3_MATH, interactionType);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         // Continue with default settings
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", true);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
 
         //Test begins
-        takeTest();
+        takeTest(interactionType);
     }
 
-    @Test
-    public void testGrade3MathPerformanceTest() throws Exception {
+    @Category(StudentGuestTest.class)
+    //@TestWith({"MOUSE", "KEYBOARD"})
+    @TestWith("MOUSE")
+    public void testGrades3_5MathTest(BrowserInteractionType interactionType) throws Exception {
 
         driver.findElement(By.cssSelector("option[value=\"3\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
@@ -152,109 +161,20 @@ public class FullEndTest extends SeleniumBaseTest {
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[5]")).click();
+        navigator.selectTest(TestName.GRADES_3_TO_5_MATH, interactionType);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         // Continue with default settings
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", true);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
 
         //Test begins
-        takeTest();
+        takeTest(interactionType);
     }
-
-    @Test
-    public void testGrade12ELAPerformanceTest() throws Exception {
-        driver.findElement(By.cssSelector("option[value=\"3\"]")).click();     //Select 3rd Grade
-        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
-
-        // Test Configuration
-        driver.waitForTitle("Student: Login Shell Your Tests", false);
-
-        // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[6]")).click();
-        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
-
-        // Continue with default settings
-        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
-        assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-
-        //Sound check dialog
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
-        driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
-        driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
-        driver.findElement(By.cssSelector("#btnSoundYes button")).click();
-
-        //Instructions
-        driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest button")).click();
-
-        //Test begins
-        takeTest();
-    }
-
-    @Test
-    public void testGrade12MathTest() throws Exception {
-        driver.findElement(By.cssSelector("option[value=\"12\"]")).click();     //Select 12th Grade
-        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
-
-        // Test Configuration
-        driver.waitForTitle("Student: Login Shell Your Tests", false);
-
-        // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
-        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
-
-        // Continue with default settings
-        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
-        assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
-        //Instructions
-        driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest button")).click();
-
-        //Test begins
-        takeTest();
-
-    }
-
-    @Test
-    public void testGrade12ELAHSTest() throws Exception {
-        driver.findElement(By.cssSelector("option[value=\"12\"]")).click();     //Select 12th Grade
-        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
-
-        // Test Configuration
-        driver.waitForTitle("Student: Login Shell Your Tests", false);
-
-        // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[2]")).click();
-        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
-
-        // Continue with default settings
-        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
-        assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-
-        //Sound check dialog
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
-        driver.waitForAndGetElementByLocator(By.cssSelector(".sound_repeat")).click();
-        driver.waitForAndGetElementByLocator(By.cssSelector(".playing_done"));
-        driver.findElement(By.cssSelector("#btnSoundYes button")).click();
-
-        //Instructions
-        driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
-        driver.findElement(By.cssSelector("#btnStartTest button")).click();
-
-        //Test begins
-        takeTest();
-    }
-
 }

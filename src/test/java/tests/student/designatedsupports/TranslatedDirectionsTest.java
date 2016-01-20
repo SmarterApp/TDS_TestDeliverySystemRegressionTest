@@ -16,7 +16,7 @@ public class TranslatedDirectionsTest extends SeleniumBaseTest {
 
     @Before
     public void loginAndBeginTest() {
-        driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
+        driver.get(BASE_URL);
 
         // Login Phase (GUEST)
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
@@ -43,7 +43,7 @@ public class TranslatedDirectionsTest extends SeleniumBaseTest {
 
         //Test verification screen
         assertTestVerificationTranslated();
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
         driver.waitForTitle(SPANISH_INSTRUCTIONS_TITLE, false);
@@ -58,7 +58,7 @@ public class TranslatedDirectionsTest extends SeleniumBaseTest {
                 "Si es así, haga clic en [Sí, comenzar la prueba], de lo contrario, haga clic en [No].";
 
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
         assertEquals(SPANISH_TEST_VERIFY_HEADER,
                 driver.findElement(By.cssSelector("#sectionTestVerify h1#sectionTestVerifyHeader")).getText());
         assertEquals(SPANISH_TEST_VERIFY_SESSIONID_LABEL,

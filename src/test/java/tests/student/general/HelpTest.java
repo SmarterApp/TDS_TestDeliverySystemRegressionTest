@@ -1,12 +1,17 @@
 package tests.student.general;
 
+import com.googlecode.zohhak.api.TestWith;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import tests.SeleniumBaseTest;
+import driver.BrowserInteractionType;
+import tests.categories.StudentGuestTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -24,7 +29,7 @@ public class HelpTest extends SeleniumBaseTest {
 
     @Before
     public void openHomeAndLogin() {
-        driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
+        driver.get(BASE_URL);
 
         // Login Phase (GUEST)
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
@@ -32,16 +37,18 @@ public class HelpTest extends SeleniumBaseTest {
     }
 
     @Test
+    @Category(StudentGuestTest.class)
     public void testDragDialog() throws InterruptedException {
-        driver.findElement(By.cssSelector("a#btnHelp")).click();
-        driver.waitForAndGetElementByLocator(By.className(HELP_DIALOG_CLASS));
+        Thread.sleep(2000);
+        driver.waitForAndFindElement(By.cssSelector("a#btnHelp")).click();
+        driver.waitForAndFindElement(By.className(HELP_DIALOG_CLASS));
         WebElement header = driver.findElement(By.cssSelector("." + HELP_DIALOG_CLASS+ " h2.hd"));
                 Point headerLocation = header.getLocation();
         driver.findElement(By.cssSelector("." + HELP_DIALOG_CLASS+ " h2.hd"));
 
         Point moveTo = new Point(200, -100);
         // This wait is necessary for the UI to update and for test to succeed in non-debug mode
-        Thread.sleep(500);
+        Thread.sleep(2000);
         Actions builder = new Actions(driver);
         builder.moveToElement(header, 10, 10)
                 .clickAndHold()
@@ -54,10 +61,17 @@ public class HelpTest extends SeleniumBaseTest {
                 new Point(headerLocation.getX() + moveTo.getX(), headerLocation.getY() + moveTo.getY()));
     }
 
-    @Test
-    public void testHelp() {
-        driver.findElement(By.cssSelector("a#btnHelp")).click();
-        driver.waitForAndGetElementByLocator(By.className(HELP_DIALOG_CLASS));
+    @Category(StudentGuestTest.class)
+    //@TestWith({ "KEYBOARD", "MOUSE" })
+    @TestWith({"MOUSE"})
+    public void testHelp(BrowserInteractionType interactionType) throws Exception {
+        Thread.sleep(3000);
+        if (interactionType == BrowserInteractionType.KEYBOARD) {
+            driver.findElement(By.cssSelector("a#btnHelp"), interactionType).sendKeys(Keys.ENTER);
+        } else {
+            driver.findElement(By.cssSelector("a#btnHelp"), interactionType).click();
+        }
+        driver.waitForAndFindElement(By.className(HELP_DIALOG_CLASS));
         assertTrue(driver.isElementVisibleNow(By.className(HELP_DIALOG_CLASS)));
         WebElement helpContainer = driver.findElement(By.className(HELP_DIALOG_CLASS));
         assertTrue(helpContainer.findElement(By.cssSelector("h2.hd")).getText().contains("Help Guide"));
@@ -78,8 +92,13 @@ public class HelpTest extends SeleniumBaseTest {
         driver.switchTo().defaultContent();
 
         // Close help dialog
-        driver.findElement(By.cssSelector("." + HELP_DIALOG_CLASS + " a.container-close")).click();
-                assertFalse(driver.isElementVisibleNow(By.className(HELP_DIALOG_CLASS)));
+        if (interactionType == BrowserInteractionType.KEYBOARD) {
+            driver.pressKey(Keys.ESCAPE);
+        } else {
+            driver.findElement(By.cssSelector("." + HELP_DIALOG_CLASS + " a.container-close")).click();
+        }
+
+        assertFalse(driver.isElementVisibleNow(By.className(HELP_DIALOG_CLASS)));
     }
 
     @Test
@@ -97,8 +116,8 @@ public class HelpTest extends SeleniumBaseTest {
                 STREAMLINED_SELECT_CSS_SELECTOR + " option[value='" + STREAMLINED_ON_OPTION + "']")).click();
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
@@ -109,7 +128,7 @@ public class HelpTest extends SeleniumBaseTest {
 
         //Click help button
         driver.findElement(By.cssSelector("a#btnHelp")).click();
-        driver.waitForAndGetElementByLocator(By.className(HELP_DIALOG_CLASS));
+        driver.waitForAndFindElement(By.className(HELP_DIALOG_CLASS));
         assertTrue(driver.isElementVisibleNow(By.className(HELP_DIALOG_CLASS)));
         WebElement helpContainer = driver.findElement(By.className(HELP_DIALOG_CLASS));
         assertTrue(helpContainer.findElement(By.cssSelector("h2.hd")).getText().contains("Help Guide"));

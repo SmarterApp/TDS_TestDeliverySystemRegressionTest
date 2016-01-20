@@ -1,6 +1,7 @@
 package driver;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -9,6 +10,24 @@ import org.openqa.selenium.WebElement;
  */
 public interface SmarterBalancedWebDriver extends WebDriver{
     int DEFAULT_WAIT_TIMEOUT_IN_SECS = 30;
+
+    /**
+     * Sends a key press to the browser.
+     *
+     * @param key being pressed
+     */
+    void pressKey(Keys key);
+
+    /**
+     * Overloaded findElement() method that specifies what kind of browser interaction approach should be used
+     * to locate elements on the page.
+     *
+     * @param locator The locator for the target element.
+     * @param interactionType the interaction approach that should be used - either MOUSE or KEYBOARD
+     * @return the located {@link WebElement}
+     */
+    WebElement findElement(final By locator, final BrowserInteractionType interactionType);
+
     /**
      * This helper method waits for an element to appear on the DOM and returns
      * the {@link WebElement} object that was located. Timeout is set to default.
@@ -18,7 +37,7 @@ public interface SmarterBalancedWebDriver extends WebDriver{
      *
      * @return the {@link WebElement} object that was located
      */
-    WebElement waitForAndGetElementByLocator(final By locator);
+    WebElement waitForAndFindElement(final By locator);
 
     /**
      * This helper method waits for an element to appear on the DOM and returns
@@ -31,7 +50,7 @@ public interface SmarterBalancedWebDriver extends WebDriver{
      *
      * @return the {@link WebElement} object that was located
      */
-    WebElement waitForAndGetElementByLocator(final By locator, final int timeoutInSeconds);
+    WebElement waitForAndFindElement(final By locator, final int timeoutInSeconds);
 
     /**
      *  This helper method waits for the title of page to match the provided string.

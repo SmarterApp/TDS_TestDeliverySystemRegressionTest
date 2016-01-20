@@ -1,9 +1,14 @@
 package tests.student.general;
 
+import com.googlecode.zohhak.api.TestWith;
+import driver.BrowserInteractionType;
+import enums.TestName;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.openqa.selenium.By;
 import tests.SeleniumBaseTest;
+import tests.categories.StudentGuestTest;
 
 import static org.junit.Assert.*;
 
@@ -14,33 +19,34 @@ public class TutorialTest extends SeleniumBaseTest {
 
     @Before
     public void loginAndBeginTest() {
-        driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
+        driver.get(BASE_URL);
 
         // Login Phase (GUEST)
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
         navigator.loginAsGuest();
 
         //Grade 12
-        driver.findElement(By.cssSelector("option[value=\"12\"]")).click();
+        driver.findElement(By.cssSelector("option[value=\"3\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
+        navigator.selectTest(TestName.GRADES_3_TO_5_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
     }
 
-    @Test
-    public void testTutorial() {
+    //@TestWith({"KEYBOARD", "MOUSE"})
+    @TestWith({"MOUSE"})
+    public void testTutorial(BrowserInteractionType interactionTypes) {
         //Assert the tutorial window is closed
         assertFalse(driver.isElementVisibleNow(By.cssSelector("#dialogs #dialogContent")));
 

@@ -3,11 +3,13 @@ package tests.student.universaltools;
 import enums.TestButton;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import tests.SeleniumBaseTest;
+import tests.categories.UniversalToolsTest;
 import util.ItemHandler;
 
 import static org.junit.Assert.assertEquals;
@@ -19,13 +21,14 @@ import static org.junit.Assert.assertTrue;
  *
  * Created by emunoz on 10/30/15.
  */
+@Category(UniversalToolsTest.class)
 public class DigitalNotepadTest extends SeleniumBaseTest {
     private static final String NOTEPAD_ON_OPTION = "TDS_SCNotepad";
     private static final String NOTEPAD_ITEM_MENU_CLASSNAME = "comment";
 
     @Before
     public void loginAndConfigureNotepad() {
-        driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
+        driver.get(BASE_URL);
 
         // Login Phase (GUEST)
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
@@ -43,8 +46,8 @@ public class DigitalNotepadTest extends SeleniumBaseTest {
         driver.findElement(By.cssSelector("select[id*='-studentcomments'] option[value='" + NOTEPAD_ON_OPTION + "']")).click();
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
@@ -142,7 +145,7 @@ public class DigitalNotepadTest extends SeleniumBaseTest {
         ItemHandler.getAndHandleAssessmentItems(driver);
         navigator.clickNextButtonAndWait(1000);
 
-       // driver.waitForAndGetElementByLocator(By.className(NOTEPAD_ITEM_MENU_CLASSNAME));
+       // driver.waitForAndFindElement(By.className(NOTEPAD_ITEM_MENU_CLASSNAME));
         //Open notepad for item 2
         navigator.selectOptionFromItemMenu(NOTEPAD_ITEM_MENU_CLASSNAME);
         assertTrue(driver.isElementVisibleNow(By.cssSelector(".yui-dialog #comment")));

@@ -1,10 +1,14 @@
 package tests.student.universaltools;
 
+import driver.BrowserInteractionType;
 import enums.TestButton;
+import enums.TestName;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.openqa.selenium.By;
 import tests.SeleniumBaseTest;
+import tests.categories.StudentGuestTest;
 
 import java.text.DecimalFormat;
 
@@ -14,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by emunoz on 11/2/15.
  */
+@Category(StudentGuestTest.class)
 public class ZoomTest extends SeleniumBaseTest {
     private static final DecimalFormat decimalFormat = new DecimalFormat("###.##");
     private static final String ZOOM_LEVEL_0 = "TDS_PS_L0";     //Default, no zoom
@@ -22,35 +27,35 @@ public class ZoomTest extends SeleniumBaseTest {
     private static final String ZOOM_LEVEL_3 = "TDS_PS_L3";
     private static final String ZOOM_LEVEL_4 = "TDS_PS_L4";     //Max zoom
     // The font-size of a "p" element rounded to 2 decimal places
-    private static final Double ZOOM_0_PX = 19.93;
+    private static final Double ZOOM_0_PX = 17.03;
     //(16 [original font size] * 1.04 [.theQuestions em mod] * 2 [.bigTable em mod] * .9 [.bigTable table em mod] ) * .76 [% factor]
-    private static final Double ZOOM_1_PX = 22.77;
+    private static final Double ZOOM_1_PX = 21.9;
     private static final Double ZOOM_2_PX = 27.38;
-    private static final Double ZOOM_3_PX = 31.08;
-    private static final Double ZOOM_4_PX = 36.80;
+    private static final Double ZOOM_3_PX = 36.13;
+    private static final Double ZOOM_4_PX = 45.98;
 
 
     @Before
     public void loginAndBeginTest() {
-        driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
+        driver.get(BASE_URL);
 
         // Login Phase (GUEST)
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
         navigator.loginAsGuest();
 
         //Grade 11
-        driver.findElement(By.cssSelector("option[value=\"11\"]")).click();
+        driver.findElement(By.cssSelector("option[value=\"3\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
+        navigator.selectTest(TestName.GRADE_3_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(By.id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(By.cssSelector("#btnApproveAccommodations button")).click();
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);

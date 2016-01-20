@@ -24,7 +24,7 @@ public class HighlighterTest extends SeleniumBaseTest {
 
     @Before
     public void loginAndBeginTest() {
-        driver.get(BASE_URL + "/student/Pages/LoginShell.xhtml");
+        driver.get(BASE_URL);
         // Login Phase (GUEST)
         assertEquals("Student: Login Shell Please Sign In", driver.getTitle());
         navigator.loginAsGuest();
@@ -40,8 +40,8 @@ public class HighlighterTest extends SeleniumBaseTest {
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         driver.findElement(cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
-                driver.waitForAndGetElementByLocator(id("lblVerifySessionID")).getText());
-        driver.waitForAndGetElementByLocator(cssSelector("#btnApproveAccommodations button")).click();
+                driver.waitForAndFindElement(id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(cssSelector("#btnApproveAccommodations button")).click();
         navigator.doSoundCheckAndContinue();
 
         //Instructions
