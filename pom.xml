@@ -8,7 +8,7 @@
     <artifactId>tds-regressions</artifactId>
     <version>1.0</version>
 
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
         <!-- Testing -->
@@ -18,7 +18,6 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-
         <!-- Selenium/PhantomJS -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -41,7 +40,21 @@
             <version>1.1.0</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
         <!-- Logging -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -66,6 +79,11 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.surefire</groupId>
+                <artifactId>surefire-junit47</artifactId>
+                <version>2.19.1</version>
             </plugin>
         </plugins>
     </build>
