@@ -26,6 +26,10 @@ public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements Smart
 
     private static final int MAX_TAB_ATTEMPTS = 100;
 
+    public SmarterBalancedWebDriverImpl() {
+        super();
+    }
+
     public SmarterBalancedWebDriverImpl(DesiredCapabilities capabilities) {
         super(capabilities);
     }

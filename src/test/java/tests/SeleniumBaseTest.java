@@ -3,7 +3,6 @@ package tests;
 import com.googlecode.zohhak.api.runners.ZohhakRunner;
 import driver.SmarterBalancedWebDriver;
 import driver.impl.SmarterBalancedWebDriverImpl;
-import enums.TestName;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
@@ -12,19 +11,15 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
-import util.navigation.TestNavigator;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -45,14 +40,8 @@ public abstract class SeleniumBaseTest implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    @Value( "${tds.baseurl}" )
-    protected String BASE_URL;
-
     @Rule
     public final SmarterBalancedTestWatcher screenCapturer = new SmarterBalancedTestWatcher();
-
-    @Autowired
-    protected TestNavigator navigator;
 
     //@Autowired
     protected SmarterBalancedWebDriver driver;
@@ -81,7 +70,6 @@ public abstract class SeleniumBaseTest implements ApplicationContextAware {
                 TimeUnit.SECONDS);
         ((RemoteWebDriver) driver).setLogLevel(Level.ALL);
         screenCapturer.setDriver(driver);
-        navigator.setDriver(driver);
     }
 
     public void setApplicationContext(ApplicationContext applicationContext) {

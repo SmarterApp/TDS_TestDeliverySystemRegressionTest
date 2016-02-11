@@ -1,19 +1,16 @@
 package tests.suites;
 
 import org.junit.experimental.categories.Categories;
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import tests.categories.AccessibilityTest;
 import tests.categories.DesignatedSupportsTest;
 import tests.categories.StudentGuestTest;
 import tests.categories.UniversalToolsTest;
-import tests.student.accomodations.BrailleTest;
-import tests.student.general.FullEndTest;
-import tests.student.general.HelpTest;
-import tests.student.general.LoginTest;
-import tests.student.general.TutorialTest;
-import tests.student.universaltools.ZoomTest;
+import tests.student.practicetest.general.FullEndTest;
+import tests.student.practicetest.general.HelpTest;
+import tests.student.practicetest.general.LoginTest;
+import tests.student.practicetest.universaltools.ZoomTest;
 
 /**
  * Created by emunoz on 1/20/16.

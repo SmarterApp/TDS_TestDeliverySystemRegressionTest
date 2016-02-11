@@ -55,8 +55,8 @@ public class SmarterBalancedTestWatcher extends TestWatcher implements TestRule 
     }
 
     private String getPicturePath(final Description description) {
-        return SCREENSHOT_DIR + description.getMethodName() + "_"
-                + new Date(System.currentTimeMillis()) + SCREENSHOT_FILE_TYPE;
+        return (SCREENSHOT_DIR + description.getMethodName() + "_"
+                + new Date(System.currentTimeMillis()) + SCREENSHOT_FILE_TYPE).replace(' ', '_');
     }
 
     private void saveScreenshot(final String path) throws IOException {
