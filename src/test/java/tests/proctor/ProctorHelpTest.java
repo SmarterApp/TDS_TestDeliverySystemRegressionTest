@@ -17,16 +17,6 @@ public class ProctorHelpTest extends ProctorBaseTest {
 
     private static final String USER_GUIDE_LINK_TEXT = "Access the Practice and Training Test User Guide";
 
-
-    @Before
-    public void login() {
-        driver.get(BASE_URL);
-        navigator.proctorLogin(PROCTOR_USERNAME, PROCTOR_PASSWORD);
-        driver.findElement(By.cssSelector("#customOverlay input[type='radio']")).click();
-        driver.findElement(By.cssSelector("#customOverlay input[type='submit']")).click();
-        assertEquals("TA Training Site", driver.getTitle());
-    }
-
     @Test
     public void testHelpLinks() {
         driver.findElement(By.id("btnHelp")).click();
@@ -40,6 +30,7 @@ public class ProctorHelpTest extends ProctorBaseTest {
         assertEquals(USER_GUIDE_LINK_TEXT, driver.findElement(By.linkText(USER_GUIDE_LINK_TEXT)).getText());
         assertEquals("Sample BRF file", driver.findElement(By.linkText("Sample BRF file")).getText());
         assertEquals("Sample PRN file", driver.findElement(By.linkText("Sample PRN file")).getText());
+        driver.findElement(By.id("btnHelpClose")).click();
         driver.switchOutOfIFrame();
     }
 }

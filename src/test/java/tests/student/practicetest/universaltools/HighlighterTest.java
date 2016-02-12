@@ -1,5 +1,7 @@
 package tests.student.practicetest.universaltools;
 
+import driver.BrowserInteractionType;
+import enums.TestName;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -30,13 +32,13 @@ public class HighlighterTest extends StudentPracticeTestBaseTest {
         navigator.loginAsGuest();
 
         //Grade 11
-        driver.findElement(cssSelector("option[value=\"11\"]")).click();
+        driver.findElement(cssSelector("option[value=\"12\"]")).click();
         driver.findElement(cssSelector("#btnVerifyApprove button")).click();
         // Test Configuration
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(xpath("//ul[@id='testSelections']/li[6]")).click();
+        navigator.selectTest(TestName.HIGH_SCHOOL_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         driver.findElement(cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",

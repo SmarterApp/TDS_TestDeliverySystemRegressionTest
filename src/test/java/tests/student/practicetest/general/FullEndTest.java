@@ -125,7 +125,7 @@ public class FullEndTest extends StudentPracticeTestBaseTest {
         assertEquals("GUEST SESSION",
                 driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
         driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
-        navigator.doSoundCheckAndContinue();
+        //navigator.doSoundCheckAndContinue();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", true);

@@ -37,20 +37,13 @@ public class PauseSessionTest extends StudentBaseTest {
         driver.get(BASE_URL);
         navigator.login(STUDENT_SSID, STUDENT_FIRSTNAME, sessionId.split("-")[0], sessionId.split("-")[1], "");
         driver.waitForTitle("Is This You", true);
-        assertEquals("ARRSSID", driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[2]/span[2]")).getText());
-        assertEquals("Randy", driver.findElement(By.cssSelector("span.confirmData")).getText());
+        assertEquals(STUDENT_SSID, driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[2]/span[2]")).getText());
+        assertEquals(STUDENT_FIRSTNAME, driver.findElement(By.cssSelector("span.confirmData")).getText());
         driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
         navigator.selectTest(TestName.GRADE_3_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Waiting for TA approval", true);
         assertEquals("Waiting for TA approval…", driver.findElement(By.id("sectionTestApprovalHeader")).getText());
-
-        Thread.sleep(30000);
-        if (Integer.parseInt(proctorDriver.findElement(By.id("lblWaitingForApprovalsCount")).getText()) > 0) {
-            proctorDriver.findElement(By.id("btnApprovals")).click();
-            proctorDriver.findElement(By.id("btnApprovalAll")).click();
-            proctorDriver.findElement(By.cssSelector(".dialogs a.confirm")).click();
-        }
-
+        proctorApproveStudent();
         driver.waitForTitle("Is This Your Test", true);
         assertEquals(sessionId.toUpperCase(), driver.findElement(By.id("lblVerifySessionID")).getText());
         driver.findElement(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
@@ -69,7 +62,6 @@ public class PauseSessionTest extends StudentBaseTest {
         ));
 
         navigator.clickDialogYesButton();
-
         //Now at login page again
         driver.waitForTitle("Please Sign In", true);
         navigator.login(STUDENT_SSID, STUDENT_FIRSTNAME, sessionId.split("-")[0], sessionId.split("-")[1], "");
@@ -80,14 +72,7 @@ public class PauseSessionTest extends StudentBaseTest {
         driver.findElement(By.xpath("//ul[@id='testSelections']/li[2]/div/p")).click();
         driver.waitForTitle("Waiting for TA approval", true);
         assertEquals("Waiting for TA approval…", driver.findElement(By.id("sectionTestApprovalHeader")).getText());
-
-        Thread.sleep(30000);
-        if (Integer.parseInt(proctorDriver.findElement(By.id("lblWaitingForApprovalsCount")).getText()) > 0) {
-            proctorDriver.findElement(By.id("btnApprovals")).click();
-            proctorDriver.findElement(By.id("btnApprovalAll")).click();
-            proctorDriver.findElement(By.cssSelector(".dialogs a.confirm")).click();
-        }
-
+        proctorApproveStudent();
         driver.waitForTitle("Is This Your Test", true);
         assertEquals(sessionId.toUpperCase(), driver.findElement(By.id("lblVerifySessionID")).getText());
         driver.findElement(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();

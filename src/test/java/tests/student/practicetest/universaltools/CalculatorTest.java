@@ -63,7 +63,7 @@ public class CalculatorTest extends StudentPracticeTestBaseTest {
         driver.findElement(By.cssSelector(".tool-calculator h2.hd"));
         Point moveTo = new Point(200, -100);
         // This wait is necessary for the UI to update and for test to succeed in non-debug mode
-        Thread.sleep(500);
+        Thread.sleep(2000);
         Actions builder = new Actions(driver);
         builder.moveToElement(header, 10, 10)
                 .clickAndHold()

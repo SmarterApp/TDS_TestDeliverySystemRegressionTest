@@ -102,7 +102,7 @@ public class HelpTest extends StudentPracticeTestBaseTest {
     }
 
     @Test
-    public void testHelpStreamlined() {
+    public void     testHelpStreamlined() {
         //Grade 3
         driver.findElement(By.cssSelector("option[value=\"3\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
@@ -118,6 +118,7 @@ public class HelpTest extends StudentPracticeTestBaseTest {
         assertEquals("GUEST SESSION",
                 driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
         driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
+        navigator.doSoundCheckAndContinue();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);

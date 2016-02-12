@@ -50,6 +50,20 @@ public abstract class StudentBaseTest extends SeleniumBaseTest {
 
     protected String sessionId;
 
+    /**
+     * This method causes the proctor to approve any students pending test approval after a 30 second pause.
+     *
+     * @throws Exception
+     */
+    protected void proctorApproveStudent() throws Exception {
+        Thread.sleep(30000);
+        if (Integer.parseInt(proctorDriver.findElement(By.id("lblWaitingForApprovalsCount")).getText()) > 0) {
+            proctorDriver.findElement(By.id("btnApprovals")).click();
+            proctorDriver.findElement(By.id("btnApprovalAll")).click();
+            proctorDriver.findElement(By.cssSelector(".dialogs a.confirm")).click();
+        }
+    }
+
     @Before
     public void setup() {
         proctorDriver = new SmarterBalancedWebDriverImpl();
@@ -85,7 +99,7 @@ public abstract class StudentBaseTest extends SeleniumBaseTest {
         //Confirm close session
         proctorDriver.findElement(By.cssSelector(".dialogs .action a.confirm")).click();
         proctorDriver.findElement(By.id("btnLogout")).click();
-        proctorDriver.findElement(By.cssSelector(".dialogs a.close")).click();
+        proctorDriver.waitForAndFindElement(By.cssSelector(".dialogs a.close")).click();
         proctorDriver.quit();
     }
 
