@@ -30,7 +30,7 @@ public class ProctorPauseStudentTest extends StudentBaseTest {
         navigator.selectTest(TestName.GRADE_3_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Waiting for TA approval", true);
         assertEquals("Waiting for TA approval…", driver.findElement(By.id("sectionTestApprovalHeader")).getText());
-        proctorApproveStudent();
+        proctorApproveStudent(true);
         driver.waitForTitle("Is This Your Test", true);
         //Proctor side should see 1 student in progress
         assertEquals("1", proctorDriver.findElement(By.id("lblTotalOppsCount")).getText());

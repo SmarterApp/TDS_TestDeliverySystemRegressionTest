@@ -55,12 +55,26 @@ public abstract class StudentBaseTest extends SeleniumBaseTest {
      *
      * @throws Exception
      */
-    protected void proctorApproveStudent() throws Exception {
+    protected void proctorApproveStudent(boolean approveAll) throws Exception {
         Thread.sleep(30000);
         if (Integer.parseInt(proctorDriver.findElement(By.id("lblWaitingForApprovalsCount")).getText()) > 0) {
             proctorDriver.findElement(By.id("btnApprovals")).click();
-            proctorDriver.findElement(By.id("btnApprovalAll")).click();
-            proctorDriver.findElement(By.cssSelector(".dialogs a.confirm")).click();
+            if (approveAll) {
+                proctorDriver.findElement(By.id("btnApprovalAll")).click();
+                proctorDriver.findElement(By.cssSelector(".dialogs a.confirm")).click();
+            } else {
+                proctorDriver.findElement(By.cssSelector(".approvals_holder td.approve a")).click();
+            }
+        }
+    }
+
+    protected void proctorDenyStudent(String reason) throws Exception {
+        Thread.sleep(30000);
+        if (Integer.parseInt(proctorDriver.findElement(By.id("lblWaitingForApprovalsCount")).getText()) > 0) {
+            proctorDriver.findElement(By.id("btnApprovals")).click();
+            proctorDriver.findElement(By.cssSelector(".approvals_holder td.deny a")).click();
+            proctorDriver.findElement(By.id("txtReasonForDenial")).sendKeys(reason);
+            proctorDriver.findElement(By.id("btnDenialOK")).click();
         }
     }
 
