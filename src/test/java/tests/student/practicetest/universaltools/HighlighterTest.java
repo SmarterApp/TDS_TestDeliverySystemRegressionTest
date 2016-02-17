@@ -59,10 +59,9 @@ public class HighlighterTest extends StudentPracticeTestBaseTest {
         // Highlight word
         builder.moveToElement(wordEl, 0, 0)
                 .clickAndHold()
-                .moveByOffset(wordEl.getSize().getWidth(), 0)
+                .moveByOffset(wordEl.getSize().getWidth() - 1, 0)
                 .release()
                 .contextClick()
-                .build()
                 .perform();
         // Click "highlight text" menu option
         driver.findElement(By.cssSelector(".yuimenu.visible ." + HIGHLIGHT_TEXT_CLASS)).click();
@@ -75,7 +74,7 @@ public class HighlighterTest extends StudentPracticeTestBaseTest {
     }
 
     @Test
-    public void testHighlighterItemMenu() {
+    public void testHighlighterItemMenu() throws Exception {
         WebElement paragraphEl = driver.findElement(By.cssSelector(".itemContainer .questionContainer p"));
         final String text = paragraphEl.getText();
         Actions builder = new Actions(driver);
@@ -123,7 +122,6 @@ public class HighlighterTest extends StudentPracticeTestBaseTest {
                 .clickAndHold()
                 .moveByOffset(paragraphEl.getSize().getWidth(), paragraphEl.getSize().getHeight() - 10)
                 .release()
-                .build()
                 .perform();
     }
 }

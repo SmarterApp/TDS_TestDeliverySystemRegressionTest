@@ -55,7 +55,10 @@ public abstract class SeleniumBaseTest implements ApplicationContextAware {
     @Before
     public void setUp() throws Exception {
         new TestContextManager(getClass()).prepareTestInstance(this);
+        initializeDriver();
+    }
 
+    protected void initializeDriver() {
         proxy = new BrowserMobProxyServer();
         proxy.start(0);    // get the Selenium proxy object
         Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);

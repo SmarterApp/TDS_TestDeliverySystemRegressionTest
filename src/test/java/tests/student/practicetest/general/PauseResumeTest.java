@@ -1,6 +1,7 @@
-package tests.student;
+package tests.student.practicetest.general;
 
 import driver.BrowserInteractionType;
+import driver.impl.SmarterBalancedWebDriverImpl;
 import enums.TestButton;
 import enums.TestName;
 import org.junit.After;
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by emunoz on 2/9/16.
  */
-public class PauseSessionTest extends StudentBaseTest {
+public class PauseResumeTest extends StudentBaseTest {
 
     /**
      * Summary:
@@ -85,6 +86,57 @@ public class PauseSessionTest extends StudentBaseTest {
         driver.waitForTitle("Page 1", true);
         assertTrue(driver.getTitle().contains("Page 1"));
 
+    }
+
+    @Test
+    public void testReturnToQuestionAfterBrowserClose() throws Exception {
+        driver.get(BASE_URL);
+        navigator.login(STUDENT_SSID, STUDENT_FIRSTNAME, sessionId.split("-")[0], sessionId.split("-")[1], "");
+        driver.waitForTitle("Is This You", true);
+        assertEquals(STUDENT_SSID, driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[2]/span[2]")).getText());
+        assertEquals(STUDENT_FIRSTNAME, driver.findElement(By.cssSelector("span.confirmData")).getText());
+        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        navigator.selectTest(TestName.GRADE_3_ELA, BrowserInteractionType.MOUSE);
+        driver.waitForTitle("Waiting for TA approval", true);
+        assertEquals("Waiting for TA approval…", driver.findElement(By.id("sectionTestApprovalHeader")).getText());
+        proctorApproveStudent(true);
+        driver.waitForTitle("Is This Your Test", true);
+        assertEquals(sessionId.toUpperCase(), driver.findElement(By.id("lblVerifySessionID")).getText());
+        driver.findElement(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        assertEquals("Student: Login Shell Test Instructions and Help", driver.getTitle());
+        assertEquals("Test Instructions and Help", driver.findElement(By.id("sectionInstructionsHeader")).getText());
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
+
+        //Answer questions, but stay on same page
+        ItemHandler.getAndHandleAssessmentItems(driver, BrowserInteractionType.MOUSE);
+        //Browser is closed unexpectedly!
+        driver.quit();
+
+        initializeDriver();
+        navigator.setDriver(driver);
+        driver.get(BASE_URL);
+        //Now at login page again
+        driver.waitForTitle("Please Sign In", true);
+        navigator.login(STUDENT_SSID, STUDENT_FIRSTNAME, sessionId.split("-")[0], sessionId.split("-")[1], "");
+        driver.waitForTitle("Is This You", true);
+        assertEquals("ARRSSID", driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[2]/span[2]")).getText());
+        assertEquals("Randy", driver.findElement(By.cssSelector("span.confirmData")).getText());
+        driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
+        navigator.selectTest(TestName.GRADE_3_ELA, BrowserInteractionType.MOUSE);
+        driver.waitForTitle("Waiting for TA approval", true);
+        assertEquals("Waiting for TA approval…", driver.findElement(By.id("sectionTestApprovalHeader")).getText());
+        proctorApproveStudent(true);
+        driver.waitForTitle("Is This Your Test", true);
+        assertEquals(sessionId.toUpperCase(), driver.findElement(By.id("lblVerifySessionID")).getText());
+        driver.findElement(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        assertEquals("Student: Login Shell Test Instructions and Help", driver.getTitle());
+        assertEquals("Test Instructions and Help", driver.findElement(By.id("sectionInstructionsHeader")).getText());
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
+        driver.waitForTitle("Test, Page", true);
+        assertTrue(driver.getTitle().contains("Page 2"));
+        navigator.clickButton(TestButton.BACK);
+        driver.waitForTitle("Page 1", true);
+        assertTrue(driver.getTitle().contains("Page 1"));
     }
 
     @After

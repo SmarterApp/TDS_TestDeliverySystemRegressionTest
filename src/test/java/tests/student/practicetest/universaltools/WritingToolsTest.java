@@ -1,5 +1,7 @@
 package tests.student.practicetest.universaltools;
 
+import driver.BrowserInteractionType;
+import enums.TestName;
 import enums.WritingToolsButton;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +37,7 @@ public class WritingToolsTest extends StudentPracticeTestBaseTest {
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
+        navigator.selectTest(TestName.HIGH_SCHOOL_MATH, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
@@ -136,6 +138,7 @@ public class WritingToolsTest extends StudentPracticeTestBaseTest {
         //Test numbered list <ol> <li>
         final String numberedListText = "numbered";
         clickToolButtonAndEnterEditor(WritingToolsButton.NUMBERED_LIST);
+        Thread.sleep(1000);
         editable.sendKeys(numberedListText);
         assertEquals(numberedListText, driver.findElement(By.cssSelector("body ol li")).getText());
         editable.clear();
