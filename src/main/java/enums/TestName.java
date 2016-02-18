@@ -13,6 +13,7 @@ public enum TestName {
     GRADE_6_MATH("Grade 6 MATH"),
     GRADES_6_TO_8_ELA("Grades 6 - 8 ELA"),
     GRADE_7_ELA("Grade 7 ELA"),
+    GRADE_7_MATH("Grade 7 MATH"),
     GRADES_7_TO_8_MATH("Grades 7 - 8 MATH"),
     HIGH_SCHOOL_ELA("High School ELA"),
     HIGH_SCHOOL_MATH("High School MATH");

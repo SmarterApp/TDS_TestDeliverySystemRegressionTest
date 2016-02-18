@@ -6,6 +6,7 @@ import enums.TestButton;
 import enums.TestName;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.openqa.selenium.By;
 import tests.StudentPracticeTestBaseTest;
@@ -139,7 +140,6 @@ public class FullEndTest extends StudentPracticeTestBaseTest {
     //@TestWith({"MOUSE", "KEYBOARD"})
     @TestWith("MOUSE")
     public void testGrade3MathTest(BrowserInteractionType interactionType) throws Exception {
-
         driver.findElement(By.cssSelector("option[value=\"3\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
 
@@ -191,5 +191,60 @@ public class FullEndTest extends StudentPracticeTestBaseTest {
 
         //Test begins
         takeTest(interactionType);
+    }
+
+
+    @Test
+    public void testGrades6_8ELA() throws Exception {
+        driver.findElement(By.cssSelector("option[value=\"6\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
+
+        // Test Configuration
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
+
+        // Select Test Type
+        navigator.selectTest(TestName.GRADES_6_TO_8_ELA, BrowserInteractionType.MOUSE);
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
+
+        // Continue with default settings
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
+        navigator.doSoundCheckAndContinue();
+
+        //Instructions
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", true);
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
+
+        //Test begins
+        takeTest(BrowserInteractionType.MOUSE);
+    }
+
+    @Test
+    public void testGrade7ELA() throws Exception {
+        driver.findElement(By.cssSelector("option[value=\"7\"]")).click();
+        driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
+
+        // Test Configuration
+        driver.waitForTitle("Student: Login Shell Your Tests", false);
+
+        // Select Test Type
+        navigator.selectTest(TestName.GRADE_7_ELA, BrowserInteractionType.MOUSE);
+        driver.waitForTitle("Student: Login Shell Choose Settings:", false);
+
+        // Continue with default settings
+        driver.findElement(By.cssSelector("#btnAccSelect button")).click();
+        assertEquals("GUEST SESSION",
+                driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
+        driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
+        //navigator.doSoundCheckAndContinue();
+
+        //Instructions
+        driver.waitForTitle("Student: Login Shell Test Instructions and Help", true);
+        driver.findElement(By.cssSelector("#btnStartTest button")).click();
+
+        //Test begins
+        takeTest(BrowserInteractionType.MOUSE);
     }
 }

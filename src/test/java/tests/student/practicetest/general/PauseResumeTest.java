@@ -109,6 +109,7 @@ public class PauseResumeTest extends StudentBaseTest {
 
         //Answer questions, but stay on same page
         ItemHandler.getAndHandleAssessmentItems(driver, BrowserInteractionType.MOUSE);
+        navigator.clickButton(TestButton.NEXT);
         //Browser is closed unexpectedly!
         driver.quit();
 

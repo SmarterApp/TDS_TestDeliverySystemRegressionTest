@@ -1,5 +1,7 @@
 package tests.student.practicetest.accomodations;
 
+import driver.BrowserInteractionType;
+import enums.TestName;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,12 +32,10 @@ public class StreamlineTest extends StudentPracticeTestBaseTest {
         //Grade 12
         driver.findElement(By.cssSelector("option[value=\"12\"]")).click();
         driver.findElement(By.cssSelector("#btnVerifyApprove button")).click();
-
         // Test Configuration
         driver.waitForTitle("Student: Login Shell Your Tests", false);
-
         // Select test type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
+        navigator.selectTest(TestName.HIGH_SCHOOL_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         //Enable streamlined mode
         driver.findElement(By.cssSelector(
@@ -45,6 +45,7 @@ public class StreamlineTest extends StudentPracticeTestBaseTest {
         assertEquals("GUEST SESSION",
                 driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
         driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
+        navigator.doSoundCheckAndContinue();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
