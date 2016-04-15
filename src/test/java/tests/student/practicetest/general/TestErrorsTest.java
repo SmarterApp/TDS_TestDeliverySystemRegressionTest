@@ -61,7 +61,7 @@ public class TestErrorsTest extends StudentPracticeTestBaseTest {
         WebElement numericInput = driver.findElement(By.cssSelector(".format_ti .answerContainer input.ti-input"));
         numericInput.sendKeys("a");
 
-        assertTrue(driver.findElement(By.cssSelector(".yuiSimpleDialog .bd")).getText().contains(INVALID_DATA_TYPE_ERROR));
+        assertTrue(driver.findElement(By.cssSelector("#yuiSimpleDialog .bd")).getText().contains(INVALID_DATA_TYPE_ERROR));
         navigator.clickDialogOkButton();
     }
 

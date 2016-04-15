@@ -8,6 +8,10 @@ package enums;
 public enum TestName {
     GRADE_3_MATH("Grade 3 MATH"),
     GRADE_3_ELA("Grade 3 ELA"),
+    PERF_GRADE_3_ELA("Perf Grade 3 ELA"),
+    PERF_GRADE_3_MATH("Perf Grade 3 MATH"),
+    IRP_PERF_GRADE_3_MATH("IRP Perf Grade 3 MATH"),
+    IRP_GRADE_3_ELA("IRP Grade 3 ELA"),
     GRADES_3_TO_5_ELA("Grades 3 - 5 ELA"),
     GRADES_3_TO_5_MATH("Grades 3 - 5 MATH"),
     GRADE_6_MATH("Grade 6 MATH"),

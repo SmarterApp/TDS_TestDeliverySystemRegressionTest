@@ -36,6 +36,7 @@ public class StudentTestStatusTest extends StudentBaseTest {
         assertTrue(proctorDriver.findElement(By.cssSelector("td.table_status span")).getText().startsWith("approved: 0/"));
         assertEquals(sessionId.toUpperCase(), driver.findElement(By.id("lblVerifySessionID")).getText());
         driver.findElement(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        navigator.doSoundCheckAndContinue();
         assertEquals("Student: Login Shell Test Instructions and Help", driver.getTitle());
         assertEquals("Test Instructions and Help", driver.findElement(By.id("sectionInstructionsHeader")).getText());
         driver.findElement(By.cssSelector("#btnStartTest button")).click();

@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import util.navigation.ProctorTestNavigator;
@@ -56,7 +57,9 @@ public abstract class StudentBaseTest extends SeleniumBaseTest {
      * @throws Exception
      */
     protected void proctorApproveStudent(boolean approveAll) throws Exception {
-        Thread.sleep(30000);
+        Thread.sleep(1000);
+        proctorDriver.findElement(By.id("btnRefresh")).click();
+        Thread.sleep(1000);
         if (Integer.parseInt(proctorDriver.findElement(By.id("lblWaitingForApprovalsCount")).getText()) > 0) {
             proctorDriver.findElement(By.id("btnApprovals")).click();
             if (approveAll) {
@@ -79,7 +82,7 @@ public abstract class StudentBaseTest extends SeleniumBaseTest {
     }
 
     @Before
-    public void setup() {
+    public void setup() throws InterruptedException {
         proctorDriver = new SmarterBalancedWebDriverImpl();
         navigator.setDriver(driver);
         proctorNavigator.setDriver(proctorDriver);
@@ -87,7 +90,7 @@ public abstract class StudentBaseTest extends SeleniumBaseTest {
         sessionId = loginAndStartSession();
     }
 
-    private String loginAndStartSession() {
+    private String loginAndStartSession() throws InterruptedException {
         String sessionId;
         proctorDriver.get(PROCTOR_BASE_URL);
         proctorNavigator.proctorLogin(PROCTOR_USERNAME, PROCTOR_PASSWORD);
@@ -98,21 +101,27 @@ public abstract class StudentBaseTest extends SeleniumBaseTest {
 
         List<WebElement> testCheckBoxEls = proctorDriver.findElements(By.cssSelector("#selTestsListBox input[type='checkbox']"));
         for (WebElement checkBox : testCheckBoxEls) {
-            checkBox.click();
+            // scroll to checkbox
+            Actions actions = new Actions(proctorDriver);
+            actions.moveToElement(checkBox);
+            actions.click();
+            actions.perform();
         }
 
         proctorDriver.findElement(By.id("btnStartSession")).click();
+        Thread.sleep(1000);
         sessionId = proctorDriver.findElement(By.id("lblSessionID")).getText();
 
         return sessionId;
     }
 
     @After
-    public void proctorLogout() {
+    public void proctorLogout() throws InterruptedException {
         proctorDriver.findElement(By.id("btnStopSession")).click();
         //Confirm close session
         proctorDriver.findElement(By.cssSelector(".dialogs .action a.confirm")).click();
         proctorDriver.findElement(By.id("btnLogout")).click();
+        Thread.sleep(1000);
         proctorDriver.waitForAndFindElement(By.cssSelector(".dialogs a.close")).click();
         proctorDriver.quit();
     }

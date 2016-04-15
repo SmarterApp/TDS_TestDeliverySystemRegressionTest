@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -46,6 +47,8 @@ public abstract class SeleniumBaseTest implements ApplicationContextAware {
     //@Autowired
     protected SmarterBalancedWebDriver driver;
 
+    protected JavascriptExecutor jsExecutor;
+
     /**
      * The {@link BrowserMobProxy} proxy allows us to manage and store all HTTP requests and responses using the
      * proxy's HAR log.
@@ -72,6 +75,8 @@ public abstract class SeleniumBaseTest implements ApplicationContextAware {
         driver.manage().timeouts().implicitlyWait(SmarterBalancedWebDriver.DEFAULT_WAIT_TIMEOUT_IN_SECS,
                 TimeUnit.SECONDS);
         ((RemoteWebDriver) driver).setLogLevel(Level.ALL);
+
+        jsExecutor = (JavascriptExecutor) driver;
         screenCapturer.setDriver(driver);
     }
 
