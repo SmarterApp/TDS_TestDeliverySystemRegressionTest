@@ -9,7 +9,7 @@ Selenium, a web browser automation test framework. By default, the TDS Regressio
 The following steps are required in order to prepare the TDS-Regression test suite for execution.
 
 ### TDS Environment
-* The IRP and Practice Test packages must be loaded into TDS.
+* The Implementation Rea diness Package (IRP) and Practice Test packages must be loaded into TDS.
 * The configs.client_testtool and client_testtooltype tables must be seeded with the proper accommodations for each test in the IRP and Practice test package.
 * The tdsregression.properties file must be updated to include credentials for a proctor user, student user (grade 3), as well as the TDS student and proctor host URLs.
 
@@ -45,3 +45,8 @@ for more information.
 ## Other Notes
 Currently, all tools, accommodations, and designated supports are found in tests within IRP Test package with the exception of the "Global Notes" and "Dictionary" accommodation.
 These two tools are found within the Grade 11 Performance test (from the "Practice Test" package).
+
+
+## Links
+* [Implementation Readiness Package (IRP)](ftp://ftps.smarterbalanced.org/~sbacpublic/Public/ImplementationReadiness/2015.08.19.IrpTestPackageAndContent.zip)
+* [Practice Test Package](ftp://ftps.smarterbalanced.org/~sbacpublic/Public/PracticeAndTrainingTests/2015-08-28_PracticeTestPackagesAndContent.zip)
