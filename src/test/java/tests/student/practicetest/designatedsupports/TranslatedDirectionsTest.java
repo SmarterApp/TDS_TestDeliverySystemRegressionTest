@@ -1,5 +1,7 @@
 package tests.student.practicetest.designatedsupports;
 
+import driver.BrowserInteractionType;
+import enums.TestName;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -29,18 +31,18 @@ public class TranslatedDirectionsTest extends StudentPracticeTestBaseTest {
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
+        navigator.selectTest(TestName.HIGH_SCHOOL_MATH, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
     }
 
     @Test
-    public void testSpanishInstructions() {
+    public void testSpanishInstructions() throws Exception {
         final String SPANISH_INSTRUCTIONS_TITLE = "Student: Login Shell Instrucciones y ayuda para la prueba";
         //Set language to Spanish
         driver.findElement(By.cssSelector(
                 LANGUAGE_SELECT_CSS_SELECTOR + " option[value='" + SPANISH_LANGUAGE_OPTION + "']")).click();
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
-
+        Thread.sleep(1000);
         //Test verification screen
         assertTestVerificationTranslated();
         driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();

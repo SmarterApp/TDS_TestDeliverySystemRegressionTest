@@ -1,5 +1,7 @@
 package tests.student.practicetest.designatedsupports;
 
+import driver.BrowserInteractionType;
+import enums.TestName;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -33,7 +35,7 @@ public class StackedTranslationsTest extends StudentPracticeTestBaseTest {
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[1]")).click();
+        navigator.selectTest(TestName.HIGH_SCHOOL_MATH, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         //Select Spanish language

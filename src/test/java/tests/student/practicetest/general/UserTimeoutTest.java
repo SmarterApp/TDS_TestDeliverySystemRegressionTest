@@ -44,7 +44,7 @@ public class UserTimeoutTest extends StudentPracticeTestBaseTest {
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        navigator.selectTest(TestName.GRADE_3_MATH, BrowserInteractionType.MOUSE);
+        navigator.selectTest(TestName.IRP_PERF_GRADE_3_MATH, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
 
         // Continue with default settings

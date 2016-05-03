@@ -28,7 +28,7 @@ public class StartSessionTest extends ProctorBaseTest {
         assertTrue(driver.isElementVisibleNow(By.id("btnStartSession")));
         assertEquals("---- - ----", driver.findElement(By.id("lblSessionID")).getText());
         driver.findElement(By.id("btnStartSession")).click();
-
+        Thread.sleep(2000);
         String sessionIdPrefix = driver.findElement(By.cssSelector(".clientsystem #spanUserName"))
                 .getText().substring(0, 3);
         assertTrue(driver.findElement(By.id("lblSessionID")).getText().startsWith(sessionIdPrefix));

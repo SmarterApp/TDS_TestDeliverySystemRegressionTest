@@ -41,7 +41,7 @@ public class PauseResumeTest extends StudentBaseTest {
         assertEquals(STUDENT_SSID, driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[2]/span[2]")).getText());
         assertEquals(STUDENT_FIRSTNAME, driver.findElement(By.cssSelector("span.confirmData")).getText());
         driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
-        navigator.selectTest(TestName.GRADE_3_ELA, BrowserInteractionType.MOUSE);
+        navigator.selectTest(TestName.IRP_GRADE_3_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Waiting for TA approval", true);
         assertEquals("Waiting for TA approval…", driver.findElement(By.id("sectionTestApprovalHeader")).getText());
         proctorApproveStudent(true);
@@ -67,10 +67,10 @@ public class PauseResumeTest extends StudentBaseTest {
         driver.waitForTitle("Please Sign In", true);
         navigator.login(STUDENT_SSID, STUDENT_FIRSTNAME, sessionId.split("-")[0], sessionId.split("-")[1], "");
         driver.waitForTitle("Is This You", true);
-        assertEquals("ARRSSID", driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[2]/span[2]")).getText());
-        assertEquals("Randy", driver.findElement(By.cssSelector("span.confirmData")).getText());
+        assertEquals(STUDENT_SSID, driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[2]/span[2]")).getText());
+        assertEquals(STUDENT_FIRSTNAME, driver.findElement(By.cssSelector("span.confirmData")).getText());
         driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[2]/div/p")).click();
+        navigator.selectTest(TestName.IRP_GRADE_3_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Waiting for TA approval", true);
         assertEquals("Waiting for TA approval…", driver.findElement(By.id("sectionTestApprovalHeader")).getText());
         proctorApproveStudent(true);
@@ -96,7 +96,7 @@ public class PauseResumeTest extends StudentBaseTest {
         assertEquals(STUDENT_SSID, driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[2]/span[2]")).getText());
         assertEquals(STUDENT_FIRSTNAME, driver.findElement(By.cssSelector("span.confirmData")).getText());
         driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
-        navigator.selectTest(TestName.GRADE_3_ELA, BrowserInteractionType.MOUSE);
+        navigator.selectTest(TestName.IRP_GRADE_3_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Waiting for TA approval", true);
         assertEquals("Waiting for TA approval…", driver.findElement(By.id("sectionTestApprovalHeader")).getText());
         proctorApproveStudent(true);
@@ -120,10 +120,10 @@ public class PauseResumeTest extends StudentBaseTest {
         driver.waitForTitle("Please Sign In", true);
         navigator.login(STUDENT_SSID, STUDENT_FIRSTNAME, sessionId.split("-")[0], sessionId.split("-")[1], "");
         driver.waitForTitle("Is This You", true);
-        assertEquals("ARRSSID", driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[2]/span[2]")).getText());
-        assertEquals("Randy", driver.findElement(By.cssSelector("span.confirmData")).getText());
+        assertEquals(STUDENT_SSID, driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[2]/span[2]")).getText());
+        assertEquals(STUDENT_FIRSTNAME, driver.findElement(By.cssSelector("span.confirmData")).getText());
         driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
-        navigator.selectTest(TestName.GRADE_3_ELA, BrowserInteractionType.MOUSE);
+        navigator.selectTest(TestName.IRP_GRADE_3_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Waiting for TA approval", true);
         assertEquals("Waiting for TA approval…", driver.findElement(By.id("sectionTestApprovalHeader")).getText());
         proctorApproveStudent(true);

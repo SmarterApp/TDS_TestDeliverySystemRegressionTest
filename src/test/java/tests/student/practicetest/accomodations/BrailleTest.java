@@ -61,8 +61,8 @@ public class BrailleTest extends StudentPracticeTestBaseTest {
                 EMBOSS_REQ_TYPE_SELECT_CSS_SELECTOR + " option[value='" + ON_REQ_OPTION + "']")).click();
 
         //Print on request
-        driver.findElement(cssSelector(
-                PRINT_ON_REQ_SELECT_CSS_SELECTOR + " option[value='" + PASSAGES_AND_ITEMS + "']")).click();
+//        driver.findElement(cssSelector(
+//                PRINT_ON_REQ_SELECT_CSS_SELECTOR + " option[value='" + PASSAGES_AND_ITEMS + "']")).click();
 
         driver.findElement(cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",

@@ -39,7 +39,7 @@ public class DictionaryTest extends StudentPracticeTestBaseTest {
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        navigator.selectTest(TestName.HIGH_SCHOOL_ELA, BrowserInteractionType.MOUSE);
+        navigator.selectTest(TestName.PERF_GRADE_11_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         driver.findElement(cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",

@@ -22,7 +22,7 @@ public class ProctorStudentApprovalTest extends StudentBaseTest {
         assertEquals(STUDENT_SSID, driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[2]/span[2]")).getText());
         assertEquals(STUDENT_FIRSTNAME, driver.findElement(By.cssSelector("span.confirmData")).getText());
         driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
-        navigator.selectTest(TestName.GRADE_3_ELA, BrowserInteractionType.MOUSE);
+        navigator.selectTest(TestName.IRP_GRADE_3_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Waiting for TA approval", true);
         assertEquals("Waiting for TA approval…", driver.findElement(By.id("sectionTestApprovalHeader")).getText());
         final String denyText = "Wrong test";

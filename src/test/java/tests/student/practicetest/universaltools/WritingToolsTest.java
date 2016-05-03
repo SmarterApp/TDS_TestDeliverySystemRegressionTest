@@ -110,6 +110,7 @@ public class WritingToolsTest extends StudentPracticeTestBaseTest {
         driver.switchToIframe(IFRAME_SELECTOR);
         WebElement editable = driver.switchTo().activeElement();
 
+        Thread.sleep(2000);
         String incorrect = "wrongg";
         editable.sendKeys(incorrect);
         clickToolButtonAndEnterEditor(WritingToolsButton.SPELLCHECKER);
@@ -135,10 +136,11 @@ public class WritingToolsTest extends StudentPracticeTestBaseTest {
         driver.switchToIframe(IFRAME_SELECTOR);
         WebElement editable = driver.switchTo().activeElement();
 
+        Thread.sleep(2000);
         //Test numbered list <ol> <li>
         final String numberedListText = "numbered";
         clickToolButtonAndEnterEditor(WritingToolsButton.NUMBERED_LIST);
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         editable.sendKeys(numberedListText);
         assertEquals(numberedListText, driver.findElement(By.cssSelector("body ol li")).getText());
         editable.clear();
