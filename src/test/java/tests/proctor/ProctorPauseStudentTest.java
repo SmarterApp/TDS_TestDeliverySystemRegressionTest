@@ -27,7 +27,7 @@ public class ProctorPauseStudentTest extends StudentBaseTest {
         assertEquals(STUDENT_SSID, driver.findElement(By.xpath("//div[@id='sectionLoginVerify']/div/div/ul/li[2]/span[2]")).getText());
         assertEquals(STUDENT_FIRSTNAME, driver.findElement(By.cssSelector("span.confirmData")).getText());
         driver.findElement(By.cssSelector("#btnVerifyApprove > span > button[type=\"button\"]")).click();
-        navigator.selectTest(TestName.GRADE_3_ELA, BrowserInteractionType.MOUSE);
+        navigator.selectTest(TestName.IRP_GRADE_3_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Waiting for TA approval", true);
         assertEquals("Waiting for TA approval…", driver.findElement(By.id("sectionTestApprovalHeader")).getText());
         proctorApproveStudent(true);
@@ -38,6 +38,7 @@ public class ProctorPauseStudentTest extends StudentBaseTest {
         assertTrue(proctorDriver.findElement(By.cssSelector("td.table_status span")).getText().startsWith("approved: 0/"));
         assertEquals(sessionId.toUpperCase(), driver.findElement(By.id("lblVerifySessionID")).getText());
         driver.findElement(By.cssSelector("#btnApproveAccommodations > span > button[type=\"button\"]")).click();
+        //navigator.doSoundCheckAndContinue();
         assertEquals("Student: Login Shell Test Instructions and Help", driver.getTitle());
         assertEquals("Test Instructions and Help", driver.findElement(By.id("sectionInstructionsHeader")).getText());
         driver.findElement(By.cssSelector("#btnStartTest button")).click();

@@ -44,7 +44,7 @@ public class TestErrorsTest extends StudentPracticeTestBaseTest {
 
         // Test Configuration
         driver.waitForTitle("Student: Login Shell Your Tests", false);
-        navigator.selectTest(TestName.GRADE_3_MATH, BrowserInteractionType.MOUSE);
+        navigator.selectTest(TestName.IRP_PERF_GRADE_3_MATH, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         // Continue with default settings
         driver.findElement(cssSelector("#btnAccSelect button"), BrowserInteractionType.MOUSE).click();
@@ -61,7 +61,7 @@ public class TestErrorsTest extends StudentPracticeTestBaseTest {
         WebElement numericInput = driver.findElement(By.cssSelector(".format_ti .answerContainer input.ti-input"));
         numericInput.sendKeys("a");
 
-        assertTrue(driver.findElement(By.cssSelector(".yuiSimpleDialog .bd")).getText().contains(INVALID_DATA_TYPE_ERROR));
+        assertTrue(driver.findElement(By.cssSelector("#yuiSimpleDialog .bd")).getText().contains(INVALID_DATA_TYPE_ERROR));
         navigator.clickDialogOkButton();
     }
 

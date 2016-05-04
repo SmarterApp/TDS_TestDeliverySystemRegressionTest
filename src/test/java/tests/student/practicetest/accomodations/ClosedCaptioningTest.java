@@ -1,5 +1,7 @@
 package tests.student.practicetest.accomodations;
 
+import driver.BrowserInteractionType;
+import enums.TestName;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -32,7 +34,7 @@ public class ClosedCaptioningTest extends StudentPracticeTestBaseTest {
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select test type
-        driver.findElement(xpath("//ul[@id='testSelections']/li[2]")).click(); //Performance Test
+        navigator.selectTest(TestName.GRADES_6_TO_8_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         //Enable closed captioning
         driver.findElement(cssSelector(

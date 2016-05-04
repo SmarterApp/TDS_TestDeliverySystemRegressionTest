@@ -1,6 +1,8 @@
 package tests.student.practicetest.universaltools;
 
+import driver.BrowserInteractionType;
 import enums.TestButton;
+import enums.TestName;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -41,13 +43,14 @@ public class DigitalNotepadTest extends StudentPracticeTestBaseTest {
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(By.xpath("//ul[@id='testSelections']/li[2]")).click();
+        navigator.selectTest(TestName.HIGH_SCHOOL_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         driver.findElement(By.cssSelector("select[id*='-studentcomments'] option[value='" + NOTEPAD_ON_OPTION + "']")).click();
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
                 driver.waitForAndFindElement(By.id("lblVerifySessionID")).getText());
         driver.waitForAndFindElement(By.cssSelector("#btnApproveAccommodations button")).click();
+        navigator.doSoundCheckAndContinue();
 
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);

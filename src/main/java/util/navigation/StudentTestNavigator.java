@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Service;
+import util.ItemHandler;
 
 import java.util.List;
 
@@ -103,6 +104,19 @@ public class StudentTestNavigator {
     public void clickButton(TestButton button) {
         LOG.trace("Clicking the {} button.", button.name());
         driver.findElement(By.cssSelector("#" + button.getId())).click();
+    }
+
+    /**
+     * Helper method for answering questions and navigating to a specific page in the assessment.
+     *
+     * @param pageNumber
+     * @throws Exception
+     */
+    public void navigateToPage(int pageNumber) throws Exception {
+        for (int i = 1; i < pageNumber; i++) {
+            ItemHandler.getAndHandleAssessmentItems(driver);
+            clickNextButtonAndWait(1000);
+        }
     }
 
     /**
@@ -224,7 +238,7 @@ public class StudentTestNavigator {
     }
 
     private By getSelectorForTest(TestName test) {
-        return By.xpath("id('testSelections')/li/div/strong[contains(text(), '" + test.getKey() + "')]");
+        return By.xpath("id('testSelections')/li/div/strong[text()=' " + test.getKey() + "']");
     }
 
     public void setDriver(SmarterBalancedWebDriver driver) {

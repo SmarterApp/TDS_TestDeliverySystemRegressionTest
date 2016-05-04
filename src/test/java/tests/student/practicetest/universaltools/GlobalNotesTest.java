@@ -1,6 +1,8 @@
 package tests.student.practicetest.universaltools;
 
+import driver.BrowserInteractionType;
 import enums.TestButton;
+import enums.TestName;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -35,7 +37,7 @@ public class GlobalNotesTest extends StudentPracticeTestBaseTest {
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        driver.findElement(xpath("//ul[@id='testSelections']/li[6]")).click(); //Performance Test
+        navigator.selectTest(TestName.PERF_GRADE_11_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         driver.findElement(cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
@@ -98,17 +100,18 @@ public class GlobalNotesTest extends StudentPracticeTestBaseTest {
     public void testDragDialog() throws InterruptedException {
         //Open global notes
         navigator.clickButton(TestButton.GLOBAL_NOTES);
+        Thread.sleep(1000);
         WebElement header = driver.findElement(By.cssSelector(".yui-dialog #global h2.hd"));
         Point headerLocation = header.getLocation();
         driver.findElement(By.cssSelector(".yui-dialog #global h2.hd"));
         Point moveTo = new Point(200, -100);
-
         Actions builder = new Actions(driver);
         builder.moveToElement(header, 10, 10)
                 .clickAndHold()
                 .moveByOffset(moveTo.getX(), moveTo.getY())
                 .release()
                 .build().perform();
+        Thread.sleep(5000);
         //Ensure that the dialog was moved
         assertEquals(header.getLocation(),
                 new Point(headerLocation.getX() + moveTo.getX(), headerLocation.getY() + moveTo.getY()));
@@ -139,10 +142,11 @@ public class GlobalNotesTest extends StudentPracticeTestBaseTest {
         //Answer question and go to next question
         ItemHandler.getAndHandleAssessmentItems(driver);
         navigator.clickNextButtonAndWait(1000);
-        navigator.clickButton(TestButton.NEXT);
-        //Confirm navigation to next page
-        navigator.clickDialogYesButton();
+//        navigator.clickButton(TestButton.NEXT);
+//        //Confirm navigation to next page
+//        navigator.clickDialogYesButton();
 
+        Thread.sleep(2000);
         //Open notepad for item 2
         navigator.clickButton(TestButton.GLOBAL_NOTES); //Open global notes
         assertTrue(driver.isElementVisibleNow(By.cssSelector(".yui-dialog #global")));

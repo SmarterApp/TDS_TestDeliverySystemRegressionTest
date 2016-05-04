@@ -50,7 +50,7 @@ public class ZoomTest extends StudentPracticeTestBaseTest {
         driver.waitForTitle("Student: Login Shell Your Tests", false);
 
         // Select Test Type
-        navigator.selectTest(TestName.GRADE_3_ELA, BrowserInteractionType.MOUSE);
+        navigator.selectTest(TestName.IRP_GRADE_3_ELA, BrowserInteractionType.MOUSE);
         driver.waitForTitle("Student: Login Shell Choose Settings:", false);
         driver.findElement(By.cssSelector("#btnAccSelect button")).click();
         assertEquals("GUEST SESSION",
@@ -60,6 +60,7 @@ public class ZoomTest extends StudentPracticeTestBaseTest {
         //Instructions
         driver.waitForTitle("Student: Login Shell Test Instructions and Help", false);
         driver.findElement(By.cssSelector("#btnStartTest button")).click();
+        driver.waitForTitle("Page 1", true);
     }
 
     @Test
