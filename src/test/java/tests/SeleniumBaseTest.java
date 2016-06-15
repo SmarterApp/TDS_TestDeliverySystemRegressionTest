@@ -3,12 +3,14 @@ package tests;
 import com.googlecode.zohhak.api.runners.ZohhakRunner;
 import driver.SmarterBalancedWebDriver;
 import driver.impl.SmarterBalancedWebDriverImpl;
+import io.github.bonigarcia.wdm.MarionetteDriverManager;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Dimension;
@@ -55,6 +57,10 @@ public abstract class SeleniumBaseTest implements ApplicationContextAware {
      */
     protected BrowserMobProxy proxy;
 
+    @BeforeClass
+    public static void setupClass() {
+        MarionetteDriverManager.getInstance().setup();
+    }
     @Before
     public void setUp() throws Exception {
         new TestContextManager(getClass()).prepareTestInstance(this);

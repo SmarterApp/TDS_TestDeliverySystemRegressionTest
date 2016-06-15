@@ -5,14 +5,12 @@ import driver.SmarterBalancedWebDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.MarionetteDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -20,8 +18,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by emunoz on 10/29/15.
  */
-//@Component
-public class SmarterBalancedWebDriverImpl extends FirefoxDriver implements SmarterBalancedWebDriver {
+public class SmarterBalancedWebDriverImpl extends MarionetteDriver implements SmarterBalancedWebDriver {
     private static final Logger LOG = LogManager.getLogger(SmarterBalancedWebDriverImpl.class);
 
     private static final int MAX_TAB_ATTEMPTS = 100;
