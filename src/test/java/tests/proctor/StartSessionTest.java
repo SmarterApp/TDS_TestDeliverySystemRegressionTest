@@ -29,8 +29,13 @@ public class StartSessionTest extends ProctorBaseTest {
         assertEquals("---- - ----", driver.findElement(By.id("lblSessionID")).getText());
         driver.findElement(By.id("btnStartSession")).click();
         Thread.sleep(2000);
-        String sessionIdPrefix = driver.findElement(By.cssSelector(".clientsystem #spanUserName"))
-                .getText().substring(0, 3);
+        String username = driver.findElement(By.cssSelector(".clientsystem #spanUserName"))
+                .getText();
+
+        final String[] usernameParts = username.split(" ");
+        String lastName = usernameParts.length == 1 ? usernameParts[0] : usernameParts[usernameParts.length-1];
+
+        String sessionIdPrefix = lastName.substring(0, 3);
         assertTrue(driver.findElement(By.id("lblSessionID")).getText().startsWith(sessionIdPrefix));
 
         //Stop session
