@@ -75,15 +75,13 @@ public class IllustrationGlossaryTest extends StudentPracticeTestBaseTest {
         driver.findElement(By.cssSelector("a#word-list-6")).click();
         Thread.sleep(500);
         assertTrue(driver.isElementVisibleNow(By.id("wordListPanel")));
-        assertEquals(driver.findElement(By.cssSelector("#wordListPanel .yui-nav a[href='#word-list-0']")).getText(), "Glossary");
-        assertEquals(driver.findElement(By.cssSelector("#wordListPanel .yui-nav a[href='#word-list-1']")).getText(), "Illustration");
-        //Ensure image is not shown (first tab - text glossary)
-        assertTrue(driver.isElementVisibleNow(By.cssSelector("#wordListPanel .yui-content p[style='']")));
-        assertFalse(driver.isElementVisibleNow(By.cssSelector("#wordListPanel .yui-content img")));
-        //Click second tab
-        driver.findElement(By.cssSelector("a[href='#word-list-1'")).click();
-        assertFalse(driver.isElementVisibleNow(By.cssSelector("#wordListPanel .yui-content p[style='']")));
+        assertEquals(driver.findElement(By.cssSelector("#wordListPanel .yui-nav a[href='#word-list-0']")).getText(), "Illustration");
+        assertEquals(driver.findElement(By.cssSelector("#wordListPanel .yui-nav a[href='#word-list-1']")).getText(), "Glossary");
+        //Ensure image is shown (first tab - illustration glossary)
         assertTrue(driver.isElementVisibleNow(By.cssSelector("#wordListPanel .yui-content img")));
+        //Click second tab (word glossary)
+        driver.findElement(By.cssSelector("a[href='#word-list-1'")).click();
+        assertFalse(driver.isElementVisibleNow(By.cssSelector("#wordListPanel .yui-content img")));
 
         driver.findElement(By.cssSelector("#wordListPanel a.container-close")).click();
         Thread.sleep(500);
@@ -124,7 +122,6 @@ public class IllustrationGlossaryTest extends StudentPracticeTestBaseTest {
         driver.findElement(By.cssSelector("a#word-list-6")).click();
         Thread.sleep(500);
         assertTrue(driver.isElementVisibleNow(By.id("wordListPanel")));
-        driver.findElement(By.cssSelector("a[href='#word-list-1'")).click();
 
         Dimension originalSize = driver.findElement(By.id("wordListPanel")).getSize();
 
