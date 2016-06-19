@@ -88,7 +88,7 @@ public class KeyboardNavigationTest extends StudentPracticeTestBaseTest {
 
         selectedClass =
                 driver.findElement(By.cssSelector(".yuimenu.visible .yuimenuitem-selected")).getAttribute("class");
-        assertTrue(selectedClass.contains("comment"));
+        assertTrue(selectedClass.contains("markReview"));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class KeyboardNavigationTest extends StudentPracticeTestBaseTest {
         navigator.clickNextButtonAndWait(4000);
 
         assertFalse(driver.isElementVisibleNow(By.cssSelector(".showing #Item_1")));
-        assertTrue(driver.isElementVisibleNow(By.cssSelector(".showing #Item_2")));
+        assertTrue(driver.isElementVisibleNow(By.cssSelector(".showing #Item_4")));
 
         //Navigate back using keyboard navigation
         builder.keyDown(Keys.CONTROL)
@@ -112,7 +112,7 @@ public class KeyboardNavigationTest extends StudentPracticeTestBaseTest {
 
         //Ensure we've navigated back to the first item
         assertTrue(driver.isElementVisibleNow(By.cssSelector(".showing #Item_1")));
-        assertFalse(driver.isElementVisibleNow(By.cssSelector(".showing #Item_2")));
+        assertFalse(driver.isElementVisibleNow(By.cssSelector(".showing #Item_4")));
 
         //Navigate next using keyboard navigation
         builder.keyDown(Keys.CONTROL)
@@ -120,7 +120,7 @@ public class KeyboardNavigationTest extends StudentPracticeTestBaseTest {
                 .build().perform();
 
         assertFalse(driver.isElementVisibleNow(By.cssSelector(".showing #Item_1")));
-        assertTrue(driver.isElementVisibleNow(By.cssSelector(".showing #Item_2")));
+        assertTrue(driver.isElementVisibleNow(By.cssSelector(".showing #Item_4")));
     }
 
     private void assertAllMenuItemsPresent() {
