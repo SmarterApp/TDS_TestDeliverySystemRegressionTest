@@ -45,7 +45,7 @@ public class MarkForReviewTest extends StudentPracticeTestBaseTest {
     }
 
     @Test
-    public void testMarkForReview() {
+    public void testMarkForReview() throws Exception {
         driver.waitForTitle("Student: Test", true);
         assertFalse(driver.isElementVisibleNow(By.cssSelector(".showing.itemMarked")));
 
@@ -56,6 +56,7 @@ public class MarkForReviewTest extends StudentPracticeTestBaseTest {
         //Ensure that the navigation select element shows the current question as "marked"
         assertTrue(driver.findElement(By.cssSelector("select#ddlNavigation")).getText().contains("(marked)"));
 
+        Thread.sleep(1000);
         //Unmark the question
         navigator.selectOptionFromItemMenu(MARK_FOR_REVIEW_CLASS);
         assertFalse(driver.isElementVisibleNow(By.cssSelector(".showing.itemMarked")));
