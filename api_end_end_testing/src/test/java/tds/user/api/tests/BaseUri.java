@@ -3,9 +3,7 @@ package tds.user.api.tests;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
 import org.testng.annotations.BeforeClass;
-
 
 /**
  * Created by mjbarger on 9/6/16.

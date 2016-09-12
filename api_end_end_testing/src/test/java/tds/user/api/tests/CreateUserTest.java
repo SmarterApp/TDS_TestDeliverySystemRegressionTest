@@ -8,12 +8,10 @@ import static com.jayway.restassured.RestAssured.*;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Header;
 import com.jayway.restassured.http.ContentType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.annotations.Test;
-
 import tds.user.api.model.UserInfo;
 import tds.user.api.model.RoleAssociation;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 /*
     Authenticate user
