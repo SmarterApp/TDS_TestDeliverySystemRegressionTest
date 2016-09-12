@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="UserSuite" verbose="1" >
+
+    <test name="User API Tests">
+        <packages>
+            <package name="tds.user.api.tests.*"/>
+        </packages>
+    </test>
+</suite>
