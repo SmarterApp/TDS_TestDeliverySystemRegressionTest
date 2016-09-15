@@ -18,19 +18,19 @@ import tds.user.api.model.RoleAssociation;
     Testing HTTP POST of https://sso-deployment.sbtds.org/auth/oauth2/access_token?realm=/sbac
     and success status 200
  */
-public class CreateUserTest extends BaseUri{
-    String accessToken = null;
+public class UserApiTests extends BaseUri{
+ //   String accessToken = null;
     String email = null;
 
-    @Test
-    public void getAuthenticationCode() {
+    public void openAuthentication() {
+        System.out.println("SET Restassured.baseURI: "+ authenticateURI);
+
         RestAssured.baseURI = authenticateURI;
+        System.out.println("GET the access token");
 
-        Header header = new Header("Content-Type", "application/x-www-form-urlencoded");
-
+        // Execute POST to open authentication and get access token
         accessToken = given()
             .contentType("application/x-www-form-urlencoded")
-            .header(header)
             .queryParam("realm", "/sbac")
             .formParam("client_id", "pm")
             .formParam("client_secret", "sbac12345")
@@ -43,15 +43,20 @@ public class CreateUserTest extends BaseUri{
             .statusCode(200)
             .extract()
             .path("access_token");
-    }
 
+        System.out.println("accessToken: " + accessToken);
+    }
     /*
         Create user
         Testing HTTP POST of /rest/external/user, 201 success item created
     */
-    @Test(dependsOnMethods = "getAuthenticationCode")
+    @Test
     public void createUser() {
+        super.init();
+        openAuthentication();
+
         email = "betsy.ross@example.com";
+System.out.println("Inside createUser: userUri is " + userUri);
 
         RestAssured.baseURI = userUri;
 

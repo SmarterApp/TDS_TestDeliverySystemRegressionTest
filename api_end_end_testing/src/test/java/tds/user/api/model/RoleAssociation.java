@@ -1,7 +1,8 @@
 package tds.user.api.model;
 
 /**
- * Created by mjbarger on 9/6/16.
+ * This class contains the values used by the UserInfo class.
+ * UserInfo creates a list of RoleAssociations
  */
 public class RoleAssociation {
     private String role;
