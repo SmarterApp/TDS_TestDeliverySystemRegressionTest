@@ -18,60 +18,16 @@ import tds.user.api.model.RoleAssociation;
  * Testing HTTP POST of https://sso-deployment.sbtds.org/auth/oauth2/access_token?realm=/sbac
  * and success status 200
  */
-<<<<<<< HEAD:api_end_end_testing/src/test/java/tds/user/api/tests/CreateUserTest.java
-public class CreateUserTest extends BaseUri{
-    private String uriLocation = "/rest/external/user";
-=======
 public class UserApiTests extends BaseUri{
- //   String accessToken = null;
-    String email = null;
 
-    public void openAuthentication() {
-        System.out.println("SET Restassured.baseURI: "+ authenticateURI);
+    private String uriLocation = "/rest/external/user";
 
-        RestAssured.baseURI = authenticateURI;
-        System.out.println("GET the access token");
-
-        // Execute POST to open authentication and get access token
-        accessToken = given()
-            .contentType("application/x-www-form-urlencoded")
-            .queryParam("realm", "/sbac")
-            .formParam("client_id", "pm")
-            .formParam("client_secret", "sbac12345")
-            .formParam("grant_type", "password")
-            .formParam("password", "password")
-            .formParam("username", "prime.user@example.com")
-            .when()
-            .post("/auth/oauth2/access_token")
-            .then()
-            .statusCode(200)
-            .extract()
-            .path("access_token");
->>>>>>> feature/ART_API_testing:api_end_end_testing/src/test/java/tds/user/api/tests/UserApiTests.java
-
-        System.out.println("accessToken: " + accessToken);
-    }
     /*
-<<<<<<< HEAD:api_end_end_testing/src/test/java/tds/user/api/tests/CreateUserTest.java
      * Test of Create User, HTTP POST of /rest/external/user, 201 success item created
      * Test Delete User by Email, HTTP DELETE of /rest/external/user, 204 success item
      * found and deleted
      */
     private void createUserOneRoleAssoc() {
-=======
-        Create user
-        Testing HTTP POST of /rest/external/user, 201 success item created
-    */
-    @Test
-    public void createUser() {
-        super.init();
-        openAuthentication();
-
-        email = "betsy.ross@example.com";
-System.out.println("Inside createUser: userUri is " + userUri);
-
-        RestAssured.baseURI = userUri;
->>>>>>> feature/ART_API_testing:api_end_end_testing/src/test/java/tds/user/api/tests/UserApiTests.java
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
         roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "44886"));
@@ -111,7 +67,7 @@ System.out.println("Inside createUser: userUri is " + userUri);
      * Test of Create User, HTTP POST of /rest/external/user, 201 success item created
      * Test of Update User, HTTP POST of /rest/external/user, 204 success item updated
      */
- //   @Test
+  //  @Test
     public void updateUserOneRoleAssoc() {
         createUserOneRoleAssoc();
 
@@ -137,8 +93,9 @@ System.out.println("Inside createUser: userUri is " + userUri);
     public void updateUserMultiRoleAssoc() {
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "66283"));
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "77392"));
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "88654"));
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "11276"));
+
 
         // Update the user with new information
         UserInfo userInfo = new UserInfo(userEmail, "Bob", "Miller", "619-222-1122", roleAssociations);
