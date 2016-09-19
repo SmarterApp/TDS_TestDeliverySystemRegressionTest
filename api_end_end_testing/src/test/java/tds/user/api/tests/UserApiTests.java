@@ -67,7 +67,7 @@ public class UserApiTests extends BaseUri{
      * Test of Create User, HTTP POST of /rest/external/user, 201 success item created
      * Test of Update User, HTTP POST of /rest/external/user, 204 success item updated
      */
-  //  @Test
+    @Test
     public void updateUserOneRoleAssoc() {
         createUserOneRoleAssoc();
 
@@ -89,7 +89,7 @@ public class UserApiTests extends BaseUri{
      //   deleteUser();
     }
 
-    @Test
+ //   @Test
     public void updateUserMultiRoleAssoc() {
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
