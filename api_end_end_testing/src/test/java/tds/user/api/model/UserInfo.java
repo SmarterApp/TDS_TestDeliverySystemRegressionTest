@@ -3,7 +3,7 @@ package tds.user.api.model;
 import java.util.List;
 
 /**
- * Created by mjbarger on 9/6/16.
+ * Class to contain the user information
  */
 public class UserInfo {
     private String email;

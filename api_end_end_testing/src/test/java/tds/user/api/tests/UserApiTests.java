@@ -4,249 +4,356 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.jayway.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
 
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.response.Header;
 import com.jayway.restassured.http.ContentType;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.annotations.Test;
 import tds.user.api.model.UserInfo;
 import tds.user.api.model.RoleAssociation;
 
 /*
-    Authenticate user
-    Testing HTTP POST of https://sso-deployment.sbtds.org/auth/oauth2/access_token?realm=/sbac
-    and success status 200
+ * Testing User API endpoints
  */
 public class UserApiTests extends BaseUri{
- //   String accessToken = null;
-    String email = null;
 
-    public void openAuthentication() {
-        System.out.println("SET Restassured.baseURI: "+ authenticateURI);
+    private String uriLocation = "/rest/external/user";
 
-        RestAssured.baseURI = authenticateURI;
-        System.out.println("GET the access token");
+    /*
+     * Test of Create User, HTTP POST of /rest/external/user, 201 success item created
+     * Test of Get User, HTTP GET of /rest/external/user/{email}/details, 200 success item found
+     */
+    private UserInfo createUserOneRoleAssoc(String userEmail) {
 
-        // Execute POST to open authentication and get access token
-        accessToken = given()
-            .contentType("application/x-www-form-urlencoded")
-            .queryParam("realm", "/sbac")
-            .formParam("client_id", "pm")
-            .formParam("client_secret", "sbac12345")
-            .formParam("grant_type", "password")
-            .formParam("password", "password")
-            .formParam("username", "prime.user@example.com")
-            .when()
-            .post("/auth/oauth2/access_token")
-            .then()
+        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "44886"));
+
+        UserInfo userInfo = new UserInfo(userEmail, "amy", "watson", "800-332-4747", roleAssociations);
+
+        given()
+            .contentType(ContentType.JSON)
+            .header(authHeader)
+            .body(userInfo)
+        .when()
+            .post(uriLocation)
+        .then()
+            .statusCode(201)
+            .header("location", endsWith(uriLocation + "/" + userEmail + "/details"));
+
+        // Execute a GET by email to validate that the user was created
+        given()
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .header(authHeader)
+        .when()
+            .get(uriLocation + "/" + userEmail + "/details")
+        .then()
             .statusCode(200)
-            .extract()
-            .path("access_token");
+            .body("firstName", is(userInfo.getFirstName()))
+            .body("lastName", is(userInfo.getLastName()))
+            .body("phoneNumber", is(userInfo.getPhoneNumber()));
 
-        System.out.println("accessToken: " + accessToken);
-    }
-    /*
-        Create user
-        Testing HTTP POST of /rest/external/user, 201 success item created
-    */
-    @Test
-    public void createUser() {
-        super.init();
-        openAuthentication();
-
-        email = "betsy.ross@example.com";
-System.out.println("Inside createUser: userUri is " + userUri);
-
-        RestAssured.baseURI = userUri;
-
-        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "98765"));
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "98765"));
-
-        Header authHeader = new Header("Authorization", "Bearer " + accessToken);
-
-        UserInfo userInfo = new UserInfo(email, "Betsy", "Ross", "800-332-4747", roleAssociations);
-
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonInString = null;
-
-        try {
-            jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(userInfo);
-            System.out.println("jsonInString: " + jsonInString);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        given()
-            .contentType(ContentType.JSON)
-            .header(authHeader)
-            .body(userInfo)
-            .when()
-            .post("/rest/external/user")
-            .then()
-            .statusCode(201);
+        return userInfo;
     }
 
     /*
-        Update user
-        Testing HTTP POST of /rest/external/user, 204 success item updated
-    */
-    @Test(dependsOnMethods = "createUser")
-    public void updateUser() {
-
-        RestAssured.baseURI = userUri;
-
-        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "98765"));
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "98765"));
-
-        Header authHeader = new Header("Authorization", "Bearer " + accessToken);
-
-        UserInfo userInfo = new UserInfo(email, "Betsy", "Carson", "800-332-4747", roleAssociations);
-
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonInString = null;
-
-        try {
-            jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(userInfo);
-            System.out.println("jsonInString: " + jsonInString);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+     *  Test of Delete User, HTTP DELETE of /rest/external/user, 204 success item found and deleted
+     *  Test of Get User, HTTP GET of /rest/external/user/{email}/details, 404 item not found
+     */
+    private void deleteExistingUser(String userEmail) {
+        // Execute a Delete to remove the user that was just created
         given()
             .contentType(ContentType.JSON)
             .header(authHeader)
-            .body(userInfo)
-            .when()
-            .post("/rest/external/user")
-            .then()
+            .body(userEmail)
+        .when()
+            .delete(uriLocation)
+        .then()
             .statusCode(204);
     }
 
     /*
-        Create invalid user
-        Testing HTTP POST of /rest/external/user, 400 bad request
-    */
-    @Test(dependsOnMethods = "updateUser")
-    public void invalidUser() {
+     * Test of Create User, HTTP POST of /rest/external/user, 201 success item created
+     * Test of Delete User, HTTP DELETE of /rest/external/user, 204 success item found and deleted
+     */
+    @Test
+    public void shouldCreateDeleteUserWithOneRole() {
+        String randomUserEmail = createRandomUserEmail();
 
-        RestAssured.baseURI = userUri;
+        // Create a user with one role association
+        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail);
 
-        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "98765"));
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "98765"));
-
-        Header authHeader = new Header("Authorization", "Bearer " + accessToken);
-
-        UserInfo userInfo = new UserInfo(email, "Betsy", "", null, roleAssociations);
-
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonInString = null;
-
-        try {
-            jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(userInfo);
-            System.out.println("jsonInString: " + jsonInString);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        // Execute a GET by email to verify that the user information was created
         given()
             .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
             .header(authHeader)
-            .body(userInfo)
-            .when()
-            .post("/rest/external/user")
-            .then()
-            .statusCode(400);
-    }
+        .when()
+            .get(uriLocation + "/" + randomUserEmail + "/details")
+        .then()
+            .statusCode(200)
+            .body("firstName", is(userInfo.getFirstName()))
+            .body("lastName", is(userInfo.getLastName()))
+            .body("phoneNumber", is(userInfo.getPhoneNumber()));
 
-    /*
-        Get user by email
-        Testing HTTP GET of /rest/external/user/{email}/details, 200 success return student info
-    */
-    @Test(dependsOnMethods = "invalidUser")
-    public void getUserByEmail() {
-        RestAssured.baseURI = userUri;
+        // Execute a DELETE to delete the user
+        deleteExistingUser(randomUserEmail);
 
-        Header authHeader = new Header("Authorization", "Bearer " + accessToken);
-
-        System.out.println("endpoint: " + "/rest/external/user/" + email + "/details");
-
+        // Execute a GET by email to validate user is deleted
         given()
             .contentType(ContentType.JSON)
             .accept(ContentType.JSON)
             .header(authHeader)
             .when()
-            .get("/rest/external/user/" + email + "/details")
-            .then()
-            .statusCode(200);
-    }
-
-    /*
-        Get user by Email that is non-existent
-        Testing HTTP GET of /rest/external/user/{email}/details, 404 not found
-    */
-    @Test(dependsOnMethods = "invalidUser")
-    public void getUserByInvalidEmail() {
-        RestAssured.baseURI = userUri;
-
-        String invalidEmail = "invalidEmail@example.com";
-
-        Header authHeader = new Header("Authorization", "Bearer " + accessToken);
-
-        System.out.println("endpoint: " + "/rest/external/user/" + email + "/details");
-
-        given()
-            .contentType(ContentType.JSON)
-            .accept(ContentType.JSON)
-            .header(authHeader)
-            .when()
-            .get("/rest/external/user/" + invalidEmail + "/details")
+            .get(uriLocation + "/" + randomUserEmail + "/details")
             .then()
             .statusCode(404);
     }
 
     /*
-        Delete user by Email
-        Testing HTTP DELETE of /rest/external/user, 204 success item found and deleted
-    */
-    @Test(dependsOnMethods = "getUserByInvalidEmail")
-    public void deleteUserByEmail() {
+     * Test of Create User, HTTP POST of /rest/external/user, 201 success item created
+     * Test of Update User, HTTP POST of /rest/external/user, 204 success item updated
+     * Test of Delete User, HTTP DELETE of /rest/external/user, 204 success item found and deleted
+     */
+    @Test
+    public void shouldCreateUpdateDeleteUserWithOneRole() {
+        String randomUserEmail = createRandomUserEmail();
 
-        RestAssured.baseURI = userUri;
+        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail);
 
-        Header authHeader = new Header("Authorization", "Bearer " + accessToken);
+        // Prepare Role with new data to update user
+        List<RoleAssociation> roleAssociations = userInfo.getRoleAssociations();
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "10040"));
 
+        userInfo.setFirstName("Kelly");
+        userInfo.setLastName("Yates");
+        userInfo.setPhoneNumber("619-224-7865");
+        userInfo.setRoleAssociations(roleAssociations);
+
+        // Execute a POST to update the user with new information
         given()
             .contentType(ContentType.JSON)
             .header(authHeader)
-            .body(email)
-            .when()
-            .delete("/rest/external/user")
-            .then()
-            .statusCode(204);
+            .body(userInfo)
+        .when()
+            .post(uriLocation)
+        .then()
+            .statusCode(204)
+            .header("location", endsWith(uriLocation + "/" + randomUserEmail + "/details"));
+
+        // Execute a GET by email to verify that the user information has changed
+        given()
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .header(authHeader)
+        .when()
+            .get(uriLocation + "/" + randomUserEmail + "/details")
+        .then()
+            .statusCode(200)
+            .body("firstName", is(userInfo.getFirstName()))
+            .body("lastName", is(userInfo.getLastName()))
+            .body("phoneNumber", is(userInfo.getPhoneNumber()));
+
+        // Execute a DELETE to delete the user
+        deleteExistingUser(randomUserEmail);
+
+        // Execute a GET by email to validate user is deleted
+        given()
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .header(authHeader)
+        .when()
+            .get(uriLocation + "/" + randomUserEmail + "/details")
+        .then()
+            .statusCode(404);
     }
 
     /*
-        Delete user by Email that is non-existent
-        Testing HTTP DELETE of /rest/external/user, 404 not found
-    */
-    @Test(dependsOnMethods = "deleteUserByEmail")
-    public void deleteUserByInvalidEmail() {
+     * Test of Create User, HTTP POST of /rest/external/user, 201 success item created
+     * Test of Update User with multiple roles, HTTP POST of /rest/external/user, 204 success item updated
+     * Test of Delete User, HTTP DELETE of /rest/external/user, 204 success item found and deleted
+     */
+    @Test
+    public void shouldCreateAndUpdateUserToMultipleRoles() {
+        String randomUserEmail = createRandomUserEmail();
 
-        RestAssured.baseURI = userUri;
+        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail);
 
-        Header authHeader = new Header("Authorization", "Bearer " + accessToken);
+        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "32467"));
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "11276"));
+
+        // Update the user with new information
+        userInfo.setFirstName("Miranda");
+        userInfo.setLastName("Bailey");
+        userInfo.setPhoneNumber("415-332-9090");
+        userInfo.setRoleAssociations(roleAssociations);
 
         given()
             .contentType(ContentType.JSON)
             .header(authHeader)
-            .body(email)
+            .body(userInfo)
+        .when()
+            .post(uriLocation)
+        .then()
+            .statusCode(204);
+
+        // Execute a DELETE to delete the user
+        deleteExistingUser(randomUserEmail);
+
+        // Execute a GET by email to validate user is deleted
+        given()
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .header(authHeader)
             .when()
-            .delete("/rest/external/user")
+            .get(uriLocation + "/" + randomUserEmail + "/details")
             .then()
+            .statusCode(404);
+    }
+
+    /*
+     * Test of Create User with invalid email, HTTP POST of /rest/external/user, 400 bad request
+     */
+    @Test
+    public void shouldNotCreateUserWithInvalidEmail() {
+        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "19037"));
+
+        UserInfo userInfo = new UserInfo("bademail", "Judy", "Bloom", "808-443-1199", roleAssociations);
+
+        given()
+            .contentType(ContentType.JSON)
+            .header(authHeader)
+            .body(userInfo)
+            .when()
+            .post(uriLocation)
+            .then()
+            .statusCode(400)
+            .body("messages.email[0]", equalTo("User Email Address must be a valid email address"));
+    }
+
+    /*
+     * Test of Create User with invalid first name, HTTP POST of /rest/external/user, 400 bad request
+     */
+    @Test
+    public void shouldNotCreateUserWithInvalidFirstName() {
+        String randomUserEmail = createRandomUserEmail();
+
+        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "55342"));
+
+        UserInfo userInfo = new UserInfo(randomUserEmail, "", "Dodge", "714-228-4848", roleAssociations);
+
+        given()
+            .contentType(ContentType.JSON)
+            .header(authHeader)
+            .body(userInfo)
+            .when()
+            .post(uriLocation)
+            .then()
+            .statusCode(400)
+            .body("messages.firstName[0]", equalTo("User First Name is required"));
+    }
+
+    /*
+     * Test of Create User with invalid last name, HTTP POST of /rest/external/user, 400 bad request
+     */
+    @Test
+    public void shouldNotCreateUserWithInvalidLastName() {
+        String randomUserEmail = createRandomUserEmail();
+
+        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "55342"));
+
+        UserInfo userInfo = new UserInfo(randomUserEmail, "Wiliam", "", "714-228-4848", roleAssociations);
+
+         given()
+            .contentType(ContentType.JSON)
+            .header(authHeader)
+            .body(userInfo)
+        .when()
+            .post(uriLocation)
+        .then()
+            .statusCode(400)
+         .body("messages.lastName[0]", equalTo("User Last Name is required"));
+    }
+
+    /*
+     * Test of Create User with invalid phone, HTTP POST of /rest/external/user, 400 bad request
+     */
+    @Test
+    public void shouldNotCreateUserWithInvalidPhone() {
+        String randomUserEmail = createRandomUserEmail();
+
+        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "11008"));
+
+        UserInfo userInfo = new UserInfo(randomUserEmail, "Mark", "Beel", "1-808-883-7783", roleAssociations);
+
+        given()
+            .contentType(ContentType.JSON)
+            .header(authHeader)
+            .body(userInfo)
+            .when()
+            .post(uriLocation)
+            .then()
+            .statusCode(400)
+            .body("messages.phone[0]", startsWith("User Telephone Number must be in the format"));
+
+    }
+
+    /*
+     * Test of Create User with invalid role, HTTP POST of /rest/external/user, 400 bad request
+     */
+    @Test
+    public void shouldNotCreateUserWithInvalidRole() {
+        String randomUserEmail = createRandomUserEmail();
+
+        UserInfo userInfo = new UserInfo(randomUserEmail, "Mark", "Beel", "1-808-883-7783", null);
+
+        given()
+            .contentType(ContentType.JSON)
+            .header(authHeader)
+            .body(userInfo)
+            .when()
+            .post(uriLocation)
+            .then()
+            .statusCode(400);
+    }
+
+
+    /*
+     *  Test of Get User that does not exist, HTTP GET of /rest/external/user/{email}/details, 404 not found
+     */
+    @Test
+    public void shouldNotFindUserWithNonExistingEmail() {
+        String randomUserEmail = createRandomUserEmail();
+
+        given()
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .header(authHeader)
+        .when()
+            .get(uriLocation + randomUserEmail + "/details")
+        .then()
+            .statusCode(404);
+    }
+
+
+    /*
+     *  Test of Delete User with bad email, HTTP DELETE of /rest/external/user, 404 item not found
+     */
+    @Test
+    public void shouldNotDeleteUserWithBadEmail() {
+        String randomUserEmail = createRandomUserEmail();
+
+        given()
+            .contentType(ContentType.JSON)
+            .header(authHeader)
+            .body(randomUserEmail + "@example2")
+        .when()
+            .delete(uriLocation)
+        .then()
             .statusCode(404);
     }
 }
