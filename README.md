@@ -56,3 +56,22 @@ These two tools are found within the Grade 11 Performance test (from the "Practi
 * [Implementation Readiness Package (IRP)](ftp://ftps.smarterbalanced.org/~sbacpublic/Public/ImplementationReadiness/2015.08.19.IrpTestPackageAndContent.zip)
 * [Practice Test Package](ftp://ftps.smarterbalanced.org/~sbacpublic/Public/PracticeAndTrainingTests/2015-08-28_PracticeTestPackagesAndContent.zip)
 * [Training Test Package](ftp://ftps.smarterbalanced.org/~sbacpublic/Public/PracticeAndTrainingTests/2015-08-28_TrainingTestPackagesAndContent.zip)
+
+## End to End API User Tests Pre-conditions and Setup
+The following steps are required in order to prepare the end to end User testing for execution.
+
+### Properties File
+
+* A properties file must include the following data:
+** authenticateURI=<value>
+** userURI=<alue>
+** realm=<value>
+** clientId=<value>
+** clientSecret=<value>
+** grantType=<value>
+** password=<value>
+** username=<value>
+** authenticateURIEnd=<value>
+
+* Maven must be set up and a -D flag must be used to specify the location of the properties file. Example:
+** mvn test -Dconfig=/Users/<username>/config.properties
