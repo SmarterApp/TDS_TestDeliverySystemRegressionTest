@@ -62,16 +62,17 @@ The following steps are required in order to prepare the end to end User testing
 
 ### Properties File
 
-* A properties file must include the following data:
-** authenticateURI=<value>
-** userURI=<alue>
-** realm=<value>
-** clientId=<value>
-** clientSecret=<value>
-** grantType=<value>
-** password=<value>
-** username=<value>
-** authenticateURIEnd=<value>
+A properties file must include the following data:
 
-* Maven must be set up and a -D flag must be used to specify the location of the properties file. Example:
-** mvn test -Dconfig=/Users/<username>/config.properties
+* authenticateURI=<value>
+* userURI=<alue>
+* realm=<value>
+* clientId=<value>
+* clientSecret=<value>
+* grantType=<value>
+* password=<value>
+* username=<value>
+* authenticateURIEnd=<value>
+
+Maven must be set up and a -D flag must be used to specify the location of the properties file. Example:
+* mvn test -Dconfig=/Users/<username>/config.properties
