@@ -3,7 +3,7 @@ package tds.user.api.model;
 import java.util.List;
 
 /**
- * Class to contain the user information
+ * This class contains the user information needed to create, update and delete a new user
  */
 public class UserInfo {
     private String email;

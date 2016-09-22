@@ -12,7 +12,7 @@ import tds.user.api.model.UserInfo;
 import tds.user.api.model.RoleAssociation;
 
 /*
- * Testing User API endpoints
+ * This class tests User API endpoints that creates, updates and deletes a user
  */
 public class UserApiTests extends BaseUri{
 
@@ -23,9 +23,9 @@ public class UserApiTests extends BaseUri{
      * Test of Get User, HTTP GET of /rest/external/user/{email}/details, 200 success item found
      */
     private UserInfo createUserOneRoleAssoc(String userEmail) {
-
+        String entityId = "44886";
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "44886"));
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", entityId));
 
         UserInfo userInfo = new UserInfo(userEmail, "amy", "watson", "800-332-4747", roleAssociations);
 
@@ -50,7 +50,8 @@ public class UserApiTests extends BaseUri{
             .statusCode(200)
             .body("firstName", is(userInfo.getFirstName()))
             .body("lastName", is(userInfo.getLastName()))
-            .body("phoneNumber", is(userInfo.getPhoneNumber()));
+            .body("phoneNumber", is(userInfo.getPhoneNumber()))
+            .body("roleAssociations[0].entityId", equalTo(entityId));
 
         return userInfo;
     }
@@ -69,6 +70,16 @@ public class UserApiTests extends BaseUri{
             .delete(uriLocation)
         .then()
             .statusCode(204);
+
+        // Execute a GET by email to validate user is deleted
+        given()
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .header(authHeader)
+        .when()
+            .get(uriLocation + "/" + userEmail + "/details")
+        .then()
+            .statusCode(404);
     }
 
     /*
@@ -82,31 +93,8 @@ public class UserApiTests extends BaseUri{
         // Create a user with one role association
         UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail);
 
-        // Execute a GET by email to verify that the user information was created
-        given()
-            .contentType(ContentType.JSON)
-            .accept(ContentType.JSON)
-            .header(authHeader)
-        .when()
-            .get(uriLocation + "/" + randomUserEmail + "/details")
-        .then()
-            .statusCode(200)
-            .body("firstName", is(userInfo.getFirstName()))
-            .body("lastName", is(userInfo.getLastName()))
-            .body("phoneNumber", is(userInfo.getPhoneNumber()));
-
         // Execute a DELETE to delete the user
         deleteExistingUser(randomUserEmail);
-
-        // Execute a GET by email to validate user is deleted
-        given()
-            .contentType(ContentType.JSON)
-            .accept(ContentType.JSON)
-            .header(authHeader)
-            .when()
-            .get(uriLocation + "/" + randomUserEmail + "/details")
-            .then()
-            .statusCode(404);
     }
 
     /*
@@ -116,13 +104,15 @@ public class UserApiTests extends BaseUri{
      */
     @Test
     public void shouldCreateUpdateDeleteUserWithOneRole() {
+        String entityId = "10040";
+
         String randomUserEmail = createRandomUserEmail();
 
         UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail);
 
         // Prepare Role with new data to update user
         List<RoleAssociation> roleAssociations = userInfo.getRoleAssociations();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "10040"));
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", entityId));
 
         userInfo.setFirstName("Kelly");
         userInfo.setLastName("Yates");
@@ -155,16 +145,6 @@ public class UserApiTests extends BaseUri{
 
         // Execute a DELETE to delete the user
         deleteExistingUser(randomUserEmail);
-
-        // Execute a GET by email to validate user is deleted
-        given()
-            .contentType(ContentType.JSON)
-            .accept(ContentType.JSON)
-            .header(authHeader)
-        .when()
-            .get(uriLocation + "/" + randomUserEmail + "/details")
-        .then()
-            .statusCode(404);
     }
 
     /*
@@ -182,12 +162,12 @@ public class UserApiTests extends BaseUri{
         roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "32467"));
         roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "11276"));
 
-        // Update the user with new information
         userInfo.setFirstName("Miranda");
         userInfo.setLastName("Bailey");
         userInfo.setPhoneNumber("415-332-9090");
         userInfo.setRoleAssociations(roleAssociations);
 
+        // Execute a POST to update the user with new information
         given()
             .contentType(ContentType.JSON)
             .header(authHeader)
@@ -195,20 +175,11 @@ public class UserApiTests extends BaseUri{
         .when()
             .post(uriLocation)
         .then()
-            .statusCode(204);
+            .statusCode(204)
+            .header("location", endsWith(uriLocation + "/" + randomUserEmail + "/details"));
 
         // Execute a DELETE to delete the user
         deleteExistingUser(randomUserEmail);
-
-        // Execute a GET by email to validate user is deleted
-        given()
-            .contentType(ContentType.JSON)
-            .accept(ContentType.JSON)
-            .header(authHeader)
-            .when()
-            .get(uriLocation + "/" + randomUserEmail + "/details")
-            .then()
-            .statusCode(404);
     }
 
     /*
@@ -225,9 +196,9 @@ public class UserApiTests extends BaseUri{
             .contentType(ContentType.JSON)
             .header(authHeader)
             .body(userInfo)
-            .when()
+        .when()
             .post(uriLocation)
-            .then()
+        .then()
             .statusCode(400)
             .body("messages.email[0]", equalTo("User Email Address must be a valid email address"));
     }
@@ -248,9 +219,9 @@ public class UserApiTests extends BaseUri{
             .contentType(ContentType.JSON)
             .header(authHeader)
             .body(userInfo)
-            .when()
+        .when()
             .post(uriLocation)
-            .then()
+        .then()
             .statusCode(400)
             .body("messages.firstName[0]", equalTo("User First Name is required"));
     }
@@ -267,7 +238,7 @@ public class UserApiTests extends BaseUri{
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "Wiliam", "", "714-228-4848", roleAssociations);
 
-         given()
+        given()
             .contentType(ContentType.JSON)
             .header(authHeader)
             .body(userInfo)
@@ -275,11 +246,11 @@ public class UserApiTests extends BaseUri{
             .post(uriLocation)
         .then()
             .statusCode(400)
-         .body("messages.lastName[0]", equalTo("User Last Name is required"));
+        .body("messages.lastName[0]", equalTo("User Last Name is required"));
     }
 
     /*
-     * Test of Create User with invalid phone, HTTP POST of /rest/external/user, 400 bad request
+     * Test of Create User with invalid phone, HTTP POST of /rest/external/user, 500 server error
      */
     @Test
     public void shouldNotCreateUserWithInvalidPhone() {
@@ -294,33 +265,78 @@ public class UserApiTests extends BaseUri{
             .contentType(ContentType.JSON)
             .header(authHeader)
             .body(userInfo)
-            .when()
+        .when()
             .post(uriLocation)
-            .then()
+        .then()
             .statusCode(400)
             .body("messages.phone[0]", startsWith("User Telephone Number must be in the format"));
-
     }
 
     /*
-     * Test of Create User with invalid role, HTTP POST of /rest/external/user, 400 bad request
+     * Test of Create User with invalid role, HTTP POST of /rest/external/user, 500 server error
      */
     @Test
     public void shouldNotCreateUserWithInvalidRole() {
         String randomUserEmail = createRandomUserEmail();
 
-        UserInfo userInfo = new UserInfo(randomUserEmail, "Mark", "Beel", "1-808-883-7783", null);
+        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
+        roleAssociations.add(new RoleAssociation(null, "CLIENT", "11008"));
+
+        UserInfo userInfo = new UserInfo(randomUserEmail, "Mark", "Beel", "808-883-7783", roleAssociations);
 
         given()
             .contentType(ContentType.JSON)
             .header(authHeader)
             .body(userInfo)
-            .when()
+        .when()
             .post(uriLocation)
-            .then()
+        .then()
+            .statusCode(500);
+    }
+
+    /*
+     * Test of Create User with invalid level, HTTP POST of /rest/external/user, 400 bad request
+     */
+    @Test
+    public void shouldNotCreateUserWithInvalidLevel() {
+        String randomUserEmail = createRandomUserEmail();
+
+        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
+        roleAssociations.add(new RoleAssociation("Administrator", "Customer", "33010"));
+
+        UserInfo userInfo = new UserInfo(randomUserEmail, "Meredith", "Grey", "510-335-1212", roleAssociations);
+
+        given()
+            .contentType(ContentType.JSON)
+            .header(authHeader)
+            .body(userInfo)
+        .when()
+            .post(uriLocation)
+        .then()
             .statusCode(400);
     }
 
+    /*
+     * Test of Create User with invalid level, HTTP POST of /rest/external/user, 500 server error
+     */
+    @Test
+    public void shouldNotCreateUserWithInvalidEntityId() {
+        String randomUserEmail = createRandomUserEmail();
+
+        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
+        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", null));
+
+        UserInfo userInfo = new UserInfo(randomUserEmail, "Miranda", "Bailey", "213-145-2000", roleAssociations);
+
+        given()
+            .contentType(ContentType.JSON)
+            .header(authHeader)
+            .body(userInfo)
+        .when()
+            .post(uriLocation)
+        .then()
+            .statusCode(500);
+    }
 
     /*
      *  Test of Get User that does not exist, HTTP GET of /rest/external/user/{email}/details, 404 not found

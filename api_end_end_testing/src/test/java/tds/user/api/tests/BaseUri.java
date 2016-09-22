@@ -14,9 +14,8 @@ import org.testng.annotations.BeforeClass;
 
 
 /*
- * Class to read properites file containing URIs, and authentication specific
+ * This class reads a property file containing URIs, and authentication specific
  *    information.
- *
  */
 public abstract class BaseUri {
     private String accessToken = null;
@@ -69,7 +68,7 @@ public abstract class BaseUri {
                 .post(authenticateURI + prop.getProperty("authenticateURIEnd"))
             .then()
                 .statusCode(200)
-                .extract()
+            .extract()
                 .path("access_token");
 
         authHeader = new Header("Authorization", "Bearer " + accessToken);
