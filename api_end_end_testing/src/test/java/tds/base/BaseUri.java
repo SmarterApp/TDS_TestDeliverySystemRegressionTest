@@ -1,4 +1,4 @@
-package tds.user.api.tests;
+package tds.base;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,13 +15,13 @@ import org.testng.annotations.BeforeClass;
 
 /*
  * This class reads a property file containing URIs, and authentication specific
- *    information.
+ *    information for user access
  */
 public abstract class BaseUri {
     private String accessToken = null;
     private String authenticateURI = null;
     private String userURI = null;
-    Header authHeader = null;
+    public Header authHeader = null;
 
     @BeforeClass
     public void init() throws IOException {
@@ -72,19 +72,33 @@ public abstract class BaseUri {
                 .path("access_token");
 
         authHeader = new Header("Authorization", "Bearer " + accessToken);
+        System.out.println("authHeader: " + authHeader);
     }
 
     /*
      *  Create a random user email
      */
     public String createRandomUserEmail() {
-        String userEmail = null;
         String randomStr = UUID.randomUUID().toString();
 
         int pos = randomStr.indexOf("-");
-        userEmail = "jennifer.smith" + randomStr.substring(0,pos) + "@example.com";
+        String userEmail = "jennifer.smith" + randomStr.substring(0,pos) + "@example.com";
         System.out.println("**** userEmail: " + userEmail);
 
         return userEmail;
+    }
+
+    /*
+     *  Create a random student ssid
+     */
+    public String createRandomStudentSsid() {
+        String ssid = null;
+        String randomStr = UUID.randomUUID().toString();
+
+        int pos = randomStr.indexOf("-");
+        ssid = "ssid" + randomStr.substring(0,pos);
+        System.out.println("**** ssid: " + ssid);
+
+        return ssid;
     }
 }

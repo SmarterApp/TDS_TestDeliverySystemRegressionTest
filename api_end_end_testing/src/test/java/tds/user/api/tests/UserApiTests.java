@@ -8,13 +8,14 @@ import static org.hamcrest.Matchers.*;
 
 import com.jayway.restassured.http.ContentType;
 import org.testng.annotations.Test;
+import tds.base.BaseUri;
 import tds.user.api.model.UserInfo;
 import tds.user.api.model.RoleAssociation;
 
 /*
  * This class tests User API endpoints that creates, updates and deletes a user
  */
-public class UserApiTests extends BaseUri{
+public class UserApiTests extends BaseUri {
 
     private String uriLocation = "/rest/external/user";
 
@@ -153,7 +154,7 @@ public class UserApiTests extends BaseUri{
      * Test of Delete User, HTTP DELETE of /rest/external/user, 204 success item found and deleted
      */
     @Test
-    public void shouldCreateAndUpdateUserToMultipleRoles() {
+    public void shouldCreateUpdateUserToMultipleRoles() {
         String randomUserEmail = createRandomUserEmail();
 
         UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail);
