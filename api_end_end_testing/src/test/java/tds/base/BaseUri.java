@@ -3,7 +3,9 @@ package tds.base;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.Properties;
+import java.util.Random;
 import java.util.UUID;
 
 import static com.jayway.restassured.RestAssured.*;
@@ -100,5 +102,18 @@ public abstract class BaseUri {
         System.out.println("**** ssid: " + ssid);
 
         return ssid;
+    }
+
+    /*
+     *  Create random birth date
+     */
+    public String createRandomBirthDate(LocalDate minDate, LocalDate maxDate) {
+        final Random random = new Random();
+
+        int minDay = (int) minDate.toEpochDay();
+        int maxDay = (int) maxDate.toEpochDay();
+        long randomDay = minDay + random.nextInt(maxDay - minDay);
+
+        return (LocalDate.ofEpochDay(randomDay)).toString();
     }
 }

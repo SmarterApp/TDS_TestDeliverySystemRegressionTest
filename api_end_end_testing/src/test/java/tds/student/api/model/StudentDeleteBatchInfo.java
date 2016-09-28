@@ -30,4 +30,11 @@ public class StudentDeleteBatchInfo {
     public void setStateCode(String stateCode) {
         this.stateCode = stateCode;
     }
+
+    public String toString() {
+        return (
+            "ssid: " + ssid
+            + "\nstateCode: " + stateCode
+        );
+    }
 }
