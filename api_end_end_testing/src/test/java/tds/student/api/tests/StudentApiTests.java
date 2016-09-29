@@ -552,7 +552,7 @@ public class StudentApiTests extends BaseUri {
         // Create a student
         StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
 
-        // Test and invalid state abbreviation
+        // Test an invalid external ssid
         studentInfo.setExternalSsid("");
 
         // Execute a POST to verify that a student can't be created with an invalid external ssid
@@ -574,7 +574,7 @@ public class StudentApiTests extends BaseUri {
         // Create a student
         StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
 
-        // Test and invalid state abbreviation
+        // Test an invalid sex
         studentInfo.setSex("");
 
         // Execute a POST to verify that a student can't be created with an invalid sex
@@ -596,7 +596,7 @@ public class StudentApiTests extends BaseUri {
         // Create a student
         StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
 
-        // Test and invalid state abbreviation
+        // Test an invalid grade level
         studentInfo.setGradeLevelWhenAssessed("123456");
 
         // Execute a POST to verify that a student can't be created with an invalid grade level
@@ -619,7 +619,7 @@ public class StudentApiTests extends BaseUri {
         // Create a student
         StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
 
-        // Test and invalid state abbreviation
+        // Test an invalid language code
         studentInfo.setLanguageCode("ENGL");
 
         // Execute a POST to verify that a student can't be created with an invalid language code
@@ -642,7 +642,7 @@ public class StudentApiTests extends BaseUri {
         // Create a student
         StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
 
-        // Test and invalid state abbreviation
+        // Test an invalid entry date
         studentInfo.setFirstEntryDateIntoUsSchool("1930-01-01");
 
         // Execute a POST to verify that a student can't be created with an invalid first entry date
@@ -665,7 +665,7 @@ public class StudentApiTests extends BaseUri {
         // Create a student
         StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
 
-        // Test and invalid state abbreviation
+        // Test an invalid LEP Entry Date
         studentInfo.setLepEntryDate("214-1999-12-01");
 
         // Execute a POST to verify that a student can't be created with an invalid LEP entry date
@@ -687,7 +687,7 @@ public class StudentApiTests extends BaseUri {
         // Create a student
         StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
 
-        // Test and invalid state abbreviation
+        // Test an invalid LEP exit date
         studentInfo.setLepExitDate("2099-12-01-99");
 
         // Execute a POST to verify that a student can't be created with an invalid LEP exit date
@@ -709,7 +709,7 @@ public class StudentApiTests extends BaseUri {
         // Create a student
         StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
 
-        // Test and invalid state abbreviation
+        // Test an invalid title 3 program type
         studentInfo.setTitle3ProgramType("500");
 
         // Execute a POST to verify that a student can't be created with an invalid
@@ -733,7 +733,7 @@ public class StudentApiTests extends BaseUri {
         // Create a student
         StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
 
-        // Test and invalid state abbreviation
+        // Test an invalid primary disability type
         studentInfo.setPrimaryDisabilityType("3333");
 
         // Execute a POST to verify that a student can't be created with an invalid
