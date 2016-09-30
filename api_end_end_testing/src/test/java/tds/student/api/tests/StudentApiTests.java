@@ -329,6 +329,7 @@ public class StudentApiTests extends BaseUri {
         List<StudentInfo> students = createBatchOfStudents(numStudents, stateAbbrev);
 
         // Change some of the data for the batch of students just created
+
         students.get(0).setInstitutionIdentifier("DS9222");
         students.get(0).setMiddleName("Ray");
         students.get(0).setAmericanIndianOrAlaskaNative(true);

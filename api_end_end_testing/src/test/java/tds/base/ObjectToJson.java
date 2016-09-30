@@ -6,13 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Class used for debug to print JSON of given object
  */
 public class ObjectToJson {
-    private Object jsonObj;
+    public ObjectToJson() {}
 
-    public ObjectToJson(Object jsonObj) {
-        this.jsonObj = jsonObj;
-    }
-
-    public String getJsonFromObj() {
+    public String getJsonFromObj(Object jsonObj) {
         ObjectMapper mapper = new ObjectMapper();
         String jsonInString = null;
 

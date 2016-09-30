@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>tds.user.api.tests</groupId>
-    <artifactId>userapitests</artifactId>
+    <groupId>tds.student.api.tests</groupId>
+    <artifactId>artapitests</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -47,6 +47,18 @@
 
     <build>
         <plugins>
+            <!-- Following plugin executes the TestNG tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.14.1</version>
+                <configuration>
+                    <!-- Suite testng xml file to consider for test execution -->
+                    <suiteXmlFiles>
+                        <suiteXmlFile>testrunner.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
