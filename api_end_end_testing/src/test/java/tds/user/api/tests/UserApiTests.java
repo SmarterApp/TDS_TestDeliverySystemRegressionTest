@@ -8,24 +8,24 @@ import static org.hamcrest.Matchers.*;
 
 import com.jayway.restassured.http.ContentType;
 import org.testng.annotations.Test;
+import tds.base.BaseUri;
 import tds.user.api.model.UserInfo;
 import tds.user.api.model.RoleAssociation;
 
 /*
  * This class tests User API endpoints that creates, updates and deletes a user
  */
-public class UserApiTests extends BaseUri{
+public class UserApiTests extends BaseUri {
 
     private String uriLocation = "/rest/external/user";
 
     /*
-     * Test of Create User, HTTP POST of /rest/external/user, 201 success item created
-     * Test of Get User, HTTP GET of /rest/external/user/{email}/details, 200 success item found
+     * Test of creating a user, HTTP POST of /rest/external/user, 201 success item created
+     * Test of getting a user, HTTP GET of /rest/external/user/{email}/details, 200 success item found
      */
-    private UserInfo createUserOneRoleAssoc(String userEmail) {
-        String entityId = "44886";
+    private UserInfo createUserOneRoleAssoc(String userEmail, String role, String level, String entityId) {
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", entityId));
+        roleAssociations.add(new RoleAssociation(role, level, entityId));
 
         UserInfo userInfo = new UserInfo(userEmail, "amy", "watson", "800-332-4747", roleAssociations);
 
@@ -57,8 +57,8 @@ public class UserApiTests extends BaseUri{
     }
 
     /*
-     *  Test of Delete User, HTTP DELETE of /rest/external/user, 204 success item found and deleted
-     *  Test of Get User, HTTP GET of /rest/external/user/{email}/details, 404 item not found
+     *  Test of deleting a user, HTTP DELETE of /rest/external/user, 204 success item found and deleted
+     *  Test of getting a user, HTTP GET of /rest/external/user/{email}/details, 404 item not found
      */
     private void deleteExistingUser(String userEmail) {
         // Execute a Delete to remove the user that was just created
@@ -83,36 +83,34 @@ public class UserApiTests extends BaseUri{
     }
 
     /*
-     * Test of Create User, HTTP POST of /rest/external/user, 201 success item created
-     * Test of Delete User, HTTP DELETE of /rest/external/user, 204 success item found and deleted
+     * Test of creating a user, HTTP POST of /rest/external/user, 201 success item created
+     * Test of deleting a user, HTTP DELETE of /rest/external/user, 204 success item found and deleted
      */
     @Test
     public void shouldCreateDeleteUserWithOneRole() {
         String randomUserEmail = createRandomUserEmail();
 
         // Create a user with one role association
-        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail);
+        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail, "Administrator", "STATE", "CA");
 
         // Execute a DELETE to delete the user
         deleteExistingUser(randomUserEmail);
     }
 
     /*
-     * Test of Create User, HTTP POST of /rest/external/user, 201 success item created
-     * Test of Update User, HTTP POST of /rest/external/user, 204 success item updated
-     * Test of Delete User, HTTP DELETE of /rest/external/user, 204 success item found and deleted
+     * Test of creating a user, HTTP POST of /rest/external/user, 201 success item created
+     * Test of updating a user, HTTP POST of /rest/external/user, 204 success item updated
+     * Test of deleting a user, HTTP DELETE of /rest/external/user, 204 success item found and deleted
      */
     @Test
     public void shouldCreateUpdateDeleteUserWithOneRole() {
-        String entityId = "10040";
-
         String randomUserEmail = createRandomUserEmail();
 
-        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail);
+        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail, "Administrator", "STATE", "CA");
 
         // Prepare Role with new data to update user
         List<RoleAssociation> roleAssociations = userInfo.getRoleAssociations();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", entityId));
+        roleAssociations.add(new RoleAssociation("Administrator", "DISTRICT", "DISTRICT9"));
 
         userInfo.setFirstName("Kelly");
         userInfo.setLastName("Yates");
@@ -148,19 +146,21 @@ public class UserApiTests extends BaseUri{
     }
 
     /*
-     * Test of Create User, HTTP POST of /rest/external/user, 201 success item created
-     * Test of Update User with multiple roles, HTTP POST of /rest/external/user, 204 success item updated
-     * Test of Delete User, HTTP DELETE of /rest/external/user, 204 success item found and deleted
+     * Test of creating a user, HTTP POST of /rest/external/user, 201 success item created
+     * Test of updating a user with multiple roles, HTTP POST of /rest/external/user, 204 success item updated
+     * Test of deleting a user, HTTP DELETE of /rest/external/user, 204 success item found and deleted
      */
     @Test
-    public void shouldCreateAndUpdateUserToMultipleRoles() {
+    public void shouldCreateUpdateUserToMultipleRoles() {
         String randomUserEmail = createRandomUserEmail();
 
-        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail);
+        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail, "Administrator", "STATE", "CA");
 
-        List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "32467"));
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "11276"));
+        List<RoleAssociation> roleAssociations = userInfo.getRoleAssociations();
+        roleAssociations.add(new RoleAssociation("Test Admininistrator", "STATE", "CA"));
+        roleAssociations.add(new RoleAssociation("Administrator", "INSTITUTION", "DS9001"));
+        roleAssociations.add(new RoleAssociation("Administrator", "DISTRICT", "DISTRICT9"));
+        roleAssociations.add(new RoleAssociation("Administrator", "INSTITUTION", "DS9001"));
 
         userInfo.setFirstName("Miranda");
         userInfo.setLastName("Bailey");
@@ -183,12 +183,12 @@ public class UserApiTests extends BaseUri{
     }
 
     /*
-     * Test of Create User with invalid email, HTTP POST of /rest/external/user, 400 bad request
+     * Test of creating a user with invalid email, HTTP POST of /rest/external/user, 400 bad request
      */
     @Test
     public void shouldNotCreateUserWithInvalidEmail() {
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "19037"));
+        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "CA"));
 
         UserInfo userInfo = new UserInfo("bademail", "Judy", "Bloom", "808-443-1199", roleAssociations);
 
@@ -204,14 +204,14 @@ public class UserApiTests extends BaseUri{
     }
 
     /*
-     * Test of Create User with invalid first name, HTTP POST of /rest/external/user, 400 bad request
+     * Test of creating a user with invalid first name, HTTP POST of /rest/external/user, 400 bad request
      */
     @Test
     public void shouldNotCreateUserWithInvalidFirstName() {
         String randomUserEmail = createRandomUserEmail();
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "55342"));
+        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "CA"));
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "", "Dodge", "714-228-4848", roleAssociations);
 
@@ -227,14 +227,14 @@ public class UserApiTests extends BaseUri{
     }
 
     /*
-     * Test of Create User with invalid last name, HTTP POST of /rest/external/user, 400 bad request
+     * Test of creating a user with invalid last name, HTTP POST of /rest/external/user, 400 bad request
      */
     @Test
     public void shouldNotCreateUserWithInvalidLastName() {
         String randomUserEmail = createRandomUserEmail();
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "55342"));
+        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "CA"));
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "Wiliam", "", "714-228-4848", roleAssociations);
 
@@ -246,18 +246,18 @@ public class UserApiTests extends BaseUri{
             .post(uriLocation)
         .then()
             .statusCode(400)
-        .body("messages.lastName[0]", equalTo("User Last Name is required"));
+            .body("messages.lastName[0]", equalTo("User Last Name is required"));
     }
 
     /*
-     * Test of Create User with invalid phone, HTTP POST of /rest/external/user, 500 server error
+     * Test of creating a user with invalid phone, HTTP POST of /rest/external/user, 500 server error
      */
     @Test
     public void shouldNotCreateUserWithInvalidPhone() {
         String randomUserEmail = createRandomUserEmail();
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", "11008"));
+        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "CA"));
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "Mark", "Beel", "1-808-883-7783", roleAssociations);
 
@@ -273,14 +273,14 @@ public class UserApiTests extends BaseUri{
     }
 
     /*
-     * Test of Create User with invalid role, HTTP POST of /rest/external/user, 500 server error
+     * Test of creating a user with invalid role, HTTP POST of /rest/external/user, 500 server error
      */
     @Test
     public void shouldNotCreateUserWithInvalidRole() {
         String randomUserEmail = createRandomUserEmail();
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation(null, "CLIENT", "11008"));
+        roleAssociations.add(new RoleAssociation(null, "STATE", "CA"));
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "Mark", "Beel", "808-883-7783", roleAssociations);
 
@@ -291,18 +291,18 @@ public class UserApiTests extends BaseUri{
         .when()
             .post(uriLocation)
         .then()
-            .statusCode(500);
+            .statusCode(400);
     }
 
     /*
-     * Test of Create User with invalid level, HTTP POST of /rest/external/user, 400 bad request
+     * Test of creating a user with invalid level, HTTP POST of /rest/external/user, 400 bad request
      */
     @Test
     public void shouldNotCreateUserWithInvalidLevel() {
         String randomUserEmail = createRandomUserEmail();
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "Customer", "33010"));
+        roleAssociations.add(new RoleAssociation("Administrator", "Partner", "CA"));
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "Meredith", "Grey", "510-335-1212", roleAssociations);
 
@@ -317,14 +317,14 @@ public class UserApiTests extends BaseUri{
     }
 
     /*
-     * Test of Create User with invalid level, HTTP POST of /rest/external/user, 500 server error
+     * Test of creating a user with invalid level, HTTP POST of /rest/external/user, 500 server error
      */
     @Test
     public void shouldNotCreateUserWithInvalidEntityId() {
         String randomUserEmail = createRandomUserEmail();
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "CLIENT", null));
+        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "ABC"));
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "Miranda", "Bailey", "213-145-2000", roleAssociations);
 
@@ -335,11 +335,11 @@ public class UserApiTests extends BaseUri{
         .when()
             .post(uriLocation)
         .then()
-            .statusCode(500);
+            .statusCode(400);
     }
 
     /*
-     *  Test of Get User that does not exist, HTTP GET of /rest/external/user/{email}/details, 404 not found
+     *  Test of getting a user that does not exist, HTTP GET of /rest/external/user/{email}/details, 404 not found
      */
     @Test
     public void shouldNotFindUserWithNonExistingEmail() {
@@ -357,7 +357,7 @@ public class UserApiTests extends BaseUri{
 
 
     /*
-     *  Test of Delete User with bad email, HTTP DELETE of /rest/external/user, 404 item not found
+     *  Test of deleting a user with bad email, HTTP DELETE of /rest/external/user, 404 item not found
      */
     @Test
     public void shouldNotDeleteUserWithBadEmail() {

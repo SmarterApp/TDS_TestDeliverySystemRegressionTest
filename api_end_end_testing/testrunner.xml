@@ -6,6 +6,7 @@
     <test name="User API Test Group">
         <classes>
             <class name="tds.user.api.tests.UserApiTests"/>
+            <class name="tds.student.api.tests.StudentApiTests"/>
         </classes>
 
     </test>
