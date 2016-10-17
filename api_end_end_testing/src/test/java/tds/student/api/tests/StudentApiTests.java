@@ -4,6 +4,8 @@ import static com.jayway.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.path.json.JsonPath;
+import com.jayway.restassured.response.Response;
 import org.testng.annotations.Test;
 import tds.base.BaseUri;
 import tds.student.api.model.StudentDeleteBatchInfo;
@@ -13,17 +15,23 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
+
 /*
  * This class tests Student API endpoints that creates, updates and deletes a student
  */
 public class StudentApiTests extends BaseUri {
-    private String uriLocation = "/rest/external/student/";
+    private final String BASE_URI = "/rest/external/student/";
+    private final int DEFAULT_BATCH_SIZE = 10;
+    private final String DEFAULT_STATE = "CA";
 
     /*
      * Test of creating a student, HTTP POST of /api/external/student/{stateCode}, 201 success item created
      * Test of getting a student, HTTP GET of /api/external/student/{stateCode}/{ssid}, 200 success item found
      */
-    private StudentInfo createStudent(String ssid, String stateAbbrev) {
+    private StudentInfo createStudent(String stateAbbrev) {
+        String ssid = createRandomStudentSsid();
+
         StudentInfo studentInfo = new StudentInfo(
             ssid,
             stateAbbrev,
@@ -63,7 +71,7 @@ public class StudentApiTests extends BaseUri {
                 .header(authHeader)
                 .body(studentInfo)
             .when()
-                .post(uriLocation + stateAbbrev)
+                .post(BASE_URI + stateAbbrev)
             .then()
                 .statusCode(201)
             .extract()
@@ -101,6 +109,7 @@ public class StudentApiTests extends BaseUri {
         for (int i = 0; i < numStudents; i++) {
             ssidList.add(createRandomStudentSsid());
 
+            // TODO: use Builder for StudentInfo
             students.add(new StudentInfo(
                 ssidList.get(i),
                 stateAbbrev,
@@ -143,11 +152,13 @@ public class StudentApiTests extends BaseUri {
                 .header(authHeader)
                 .body(students)
             .when()
-                .post(uriLocation + stateAbbrev + "/" + "batch")
+                .post(BASE_URI + stateAbbrev + "/" + "batch")
             .then()
                 .statusCode(202)
             .extract()
                 .header("location");
+
+        waitForBatchToComplete(location);
 
         // Execute a GET by batch id to validate that all students were created
         given()
@@ -168,7 +179,7 @@ public class StudentApiTests extends BaseUri {
                 .accept(ContentType.JSON)
                 .header(authHeader)
             .when()
-                .get(uriLocation + stateAbbrev + "/"  + ssidList.get(i))
+                .get(BASE_URI + stateAbbrev + "/"  + ssidList.get(i))
             .then()
                 .statusCode(200)
                 .body("ssid", is(students.get(i).getSsid()))
@@ -192,7 +203,7 @@ public class StudentApiTests extends BaseUri {
             .contentType(ContentType.JSON)
             .header(authHeader)
         .when()
-            .delete(uriLocation + stateAbbrev + "/" + ssid)
+            .delete(BASE_URI + stateAbbrev + "/" + ssid)
         .then()
             .statusCode(204);
 
@@ -202,7 +213,7 @@ public class StudentApiTests extends BaseUri {
             .accept(ContentType.JSON)
             .header(authHeader)
         .when()
-            .get(uriLocation + stateAbbrev + "/" + ssid)
+            .get(BASE_URI + stateAbbrev + "/" + ssid)
         .then()
             .statusCode(404);
     }
@@ -232,14 +243,13 @@ public class StudentApiTests extends BaseUri {
                 .header(authHeader)
                 .body(deleteStudents)
             .when()
-                .delete(uriLocation + stateCode + "/batch")
+                .delete(BASE_URI + stateCode + "/batch")
             .then()
                 .statusCode(202)
             .extract()
                 .header("location");
 
-        int pos = location.lastIndexOf("/") + 1;
-        String batchId = location.substring(pos);
+        waitForBatchToComplete(location);
 
         // Execute a GET by batch id to validate that all students were deleted
         given()
@@ -260,34 +270,132 @@ public class StudentApiTests extends BaseUri {
                 .accept(ContentType.JSON)
                 .header(authHeader)
             .when()
-                .get(uriLocation + stateCode + "/" + students.get(i).getSsid())
+                .get(BASE_URI + stateCode + "/" + students.get(i).getSsid())
             .then()
                 .statusCode(404);
         }
     }
 
+    /**
+     * Queries the batch progress URL and waits for the numProcessed to equal the batch size that was submitted.
+     * Control is returned to the test and it will query for the exact details
+     * @param batchDetailsUrl Url of the batch progress endpoint, which is returned in the Location header of the batch endpoint
+     */
+    private void waitForBatchToComplete(String batchDetailsUrl) {
+        int attempts = 1;
+
+        while (attempts < 20) {
+            Response response =
+                given()
+                    .contentType(ContentType.JSON)
+                    .accept(ContentType.JSON)
+                    .header(authHeader)
+                .when()
+                    .get(batchDetailsUrl)
+                .then()
+                    .statusCode(200)
+                .extract()
+                    .response();
+
+            if (response.path("numSubmitted") == response.path("numProcessed")) {
+                return;
+            }
+
+            attempts++;
+
+            // wait to allow the batch processing to happen
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                // swallow and move on
+            }
+        }
+
+        throw new RuntimeException(String.format("Batch did not complete after %s attempts for %s", attempts, batchDetailsUrl));
+    }
+
+    /**
+     * Posts a batch of students and waits for it to complete by polling the batch progress
+     * @param stateAbbrev
+     * @param students
+     */
+    private void postBatchOfStudents(String stateAbbrev, List<StudentInfo> students) {
+        String location =
+            given()
+                .contentType(ContentType.JSON)
+                .header(authHeader)
+                .body(students)
+            .when()
+                .post(BASE_URI + stateAbbrev + "/batch")
+            .then()
+                .statusCode(202)
+            .extract()
+                .header("location");
+
+        waitForBatchToComplete(location);
+    }
+
+    private void validateStudentInfo(StudentInfo studentInfo) {
+        // Execute a GET by ssid to verify that the student information has changed
+        JsonPath jsonPath = given()
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .header(authHeader)
+        .when()
+            .get(BASE_URI + studentInfo.getStateAbbreviation() + "/" + studentInfo.getSsid())
+        .then()
+            .statusCode(200)
+        .extract()
+            .jsonPath();
+
+        assertThat(jsonPath.getString("ssid")).isEqualTo(studentInfo.getSsid());
+        assertThat(jsonPath.getString("stateAbbreviation")).isEqualTo(studentInfo.getStateAbbreviation());
+        assertThat(jsonPath.getString("institutionIdentifier")).isEqualTo(studentInfo.getInstitutionIdentifier());
+        assertThat(jsonPath.getString("districtIdentifier")).isEqualTo(studentInfo.getDistrictIdentifier());
+        assertThat(jsonPath.getString("firstName")).isEqualTo(studentInfo.getFirstName());
+        assertThat(jsonPath.getString("lastName")).isEqualTo(studentInfo.getLastName());
+        assertThat(jsonPath.getString("middleName")).isEqualTo(studentInfo.getMiddleName());
+        assertThat(jsonPath.getString("birthDate")).isEqualTo(studentInfo.getBirthDate());
+        assertThat(jsonPath.getString("externalSsid")).isEqualTo(studentInfo.getExternalSsid());
+        assertThat(jsonPath.getString("gradeLevelWhenAssessed")).isEqualTo(studentInfo.getGradeLevelWhenAssessed());
+        assertThat(jsonPath.getString("sex")).isEqualTo(studentInfo.getSex());
+        assertThat(jsonPath.getBoolean("hispanicOrLatino")).isEqualTo(studentInfo.isHispanicOrLatino());
+        assertThat(jsonPath.getBoolean("americanIndianOrAlaskaNative")).isEqualTo(studentInfo.isAmericanIndianOrAlaskaNative());
+        assertThat(jsonPath.getBoolean("asian")).isEqualTo(studentInfo.isAsian());
+        assertThat(jsonPath.getBoolean("blackOrAfricanAmerican")).isEqualTo(studentInfo.isBlackOrAfricanAmerican());
+        assertThat(jsonPath.getBoolean("white")).isEqualTo(studentInfo.isWhite());
+        assertThat(jsonPath.getBoolean("nativeHawaiianOrPacificIsland")).isEqualTo(studentInfo.isNativeHawaiianOrPacificIsland());
+        assertThat(jsonPath.getBoolean("twoOrMoreRaces")).isEqualTo(studentInfo.isTwoOrMoreRaces());
+        assertThat(jsonPath.getBoolean("iDEAIndicator")).isEqualTo(studentInfo.isiDEAIndicator());
+        assertThat(jsonPath.getBoolean("lepStatus")).isEqualTo(studentInfo.isLepStatus());
+        assertThat(jsonPath.getBoolean("section504Status")).isEqualTo(studentInfo.isSection504Status());
+        assertThat(jsonPath.getBoolean("disadvantageStatus")).isEqualTo(studentInfo.isDisadvantageStatus());
+        assertThat(jsonPath.getString("languageCode")).isEqualTo(studentInfo.getLanguageCode());
+        assertThat(jsonPath.getBoolean("migrantStatus")).isEqualTo(studentInfo.isMigrantStatus());
+        assertThat(jsonPath.getBoolean("firstEntryDateIntoUsSchool")).isEqualTo(studentInfo.getFirstEntryDateIntoUsSchool());
+        assertThat(jsonPath.getBoolean("lepEntryDate")).isEqualTo(studentInfo.getLepEntryDate());
+        assertThat(jsonPath.getBoolean("lepExitDate")).isEqualTo(studentInfo.getLepExitDate());
+        assertThat(jsonPath.getBoolean("title3ProgramType")).isEqualTo(studentInfo.getTitle3ProgramType());
+        assertThat(jsonPath.getBoolean("primaryDisabilityType")).isEqualTo(studentInfo.getPrimaryDisabilityType());
+        assertThat(jsonPath.getInt("elpLevel")).isEqualTo(studentInfo.getElpLevel());
+    }
+
     @Test
     public void shouldCreateDeleteStudent() {
-        String stateAbbrev = "CA";
-        String ssid = createRandomStudentSsid();
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Execute a DELETE to delete the student
-        deleteSingleStudent(ssid,stateAbbrev);
+        deleteSingleStudent(studentInfo.getSsid(), DEFAULT_STATE);
     }
 
     @Test
     public void shouldCreateUpdateDeleteStudent() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Change some of the data for the student just created
-        studentInfo.setStateAbbreviation(stateAbbrev);
+        studentInfo.setStateAbbreviation(DEFAULT_STATE);
         studentInfo.setFirstName("William");
         studentInfo.setLastName("Peters");
         studentInfo.setGradeLevelWhenAssessed("02");
@@ -300,33 +408,20 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(204)
-            .header("location", endsWith(uriLocation + stateAbbrev + "/" + ssid));
+            .header("location", endsWith(BASE_URI + DEFAULT_STATE + "/" + studentInfo.getSsid()));
 
-        // Execute a GET by ssid to verify that the student information has changed
-        given()
-            .contentType(ContentType.JSON)
-            .accept(ContentType.JSON)
-            .header(authHeader)
-        .when()
-            .get(uriLocation + stateAbbrev + "/" + ssid)
-        .then()
-            .statusCode(200)
-            .body("firstName", is(studentInfo.getFirstName()))
-            .body("lastName", is(studentInfo.getLastName()));
+        validateStudentInfo(studentInfo);
 
         // Execute a DELETE to delete the student
-        deleteSingleStudent(ssid,stateAbbrev);
+        deleteSingleStudent(studentInfo.getSsid(), DEFAULT_STATE);
     }
 
     @Test
     public void shouldCreateUpdateDeleteBatchOfStudents() {
-        int numStudents = 3;
-
-        String stateAbbrev = "CA";
-        List<StudentInfo> students = createBatchOfStudents(numStudents, stateAbbrev);
+        List<StudentInfo> students = createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE);
 
         // Change some of the data for the batch of students just created
 
@@ -341,31 +436,10 @@ public class StudentApiTests extends BaseUri {
         students.get(2).setMigrantStatus(true);
 
         // Execute a POST to update the students with new information
-        String location =
-            given()
-                .contentType(ContentType.JSON)
-                .header(authHeader)
-                .body(students)
-            .when()
-                .post(uriLocation + stateAbbrev + "/batch")
-            .then()
-                .statusCode(202)
-            .extract()
-                .header("location");
+        postBatchOfStudents(DEFAULT_STATE, students);
 
-        int pos = location.lastIndexOf("/") + 1;
-        String batchId = location.substring(pos);
-
-        // Execute a GET by ssid to verify that the student information has changed
-        given()
-            .contentType(ContentType.JSON)
-            .accept(ContentType.JSON)
-            .header(authHeader)
-        .when()
-            .get(uriLocation + "batch/" + batchId)
-        .then()
-            .statusCode(200)
-            .body("id", is(batchId));
+        // validate that the students have been changed by calling the GET endpoint
+        students.forEach(this::validateStudentInfo);
 
         // Execute a DELETE to delete the batch of students
         deleteBatchOfStudents(students);
@@ -373,29 +447,23 @@ public class StudentApiTests extends BaseUri {
 
     @Test
     public void shouldNotDeleteStudentWithInvalidSsid() {
-        String stateAbbrev = "CA";
-
         // Execute a DELETE to verify that a student with an invalid ssid can't be deleted
         given()
             .contentType(ContentType.JSON)
             .header(authHeader)
         .when()
-            .delete(uriLocation + stateAbbrev + "/" + "ABCDEF")
+            .delete(BASE_URI + DEFAULT_STATE + "/" + "ABCDEF")
         .then()
             .statusCode(404);
     }
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidStateAbbreviation() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid state abbreviation that should only be 2 characters
-        stateAbbrev = "ABC";
-        studentInfo.setStateAbbreviation(stateAbbrev);
+        studentInfo.setStateAbbreviation("ABC");
 
         // Execute POST to verify that a student can't be created with an invalid state abbreviation.
         given()
@@ -403,22 +471,18 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + "ABC")
         .then()
             .statusCode(400);
     }
 
     @Test
     public void shouldNotCreateUpdateStudentWithNullStateAbbreviation() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid state abbreviation set to null
-        stateAbbrev = null;
-        studentInfo.setStateAbbreviation(stateAbbrev);
+        studentInfo.setStateAbbreviation(null);
 
         // Execute POST to verify that a student can't be created with a null state abbreviation.
         given()
@@ -426,18 +490,15 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI)
         .then()
             .statusCode(400);
     }
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidInstitutionId() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid institution Id set to a blank
         studentInfo.setInstitutionIdentifier("");
@@ -448,18 +509,15 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400);
     }
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidDistrictId() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid district Id
         studentInfo.setDistrictIdentifier("DistrictAADEFFJJIDDDDWERDEDEFG00293838192922");
@@ -470,7 +528,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400)
             .body("messages.districtIdentifier[0]", equalTo("District Identifier size must be between 1 and 40"));
@@ -478,11 +536,8 @@ public class StudentApiTests extends BaseUri {
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidFirstName() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid first name
         studentInfo.setFirstName("MynameisJoeSmithAndMyMiddleNameisSteven");
@@ -493,7 +548,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400)
             .body("messages.firstName[0]", equalTo("The max size of the FirstName is 35"));
@@ -501,11 +556,8 @@ public class StudentApiTests extends BaseUri {
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidLastName() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid last name
         studentInfo.setLastName("MylastnameisBiggalow-Johnson-Richardson");
@@ -516,7 +568,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400)
             .body("messages.lastName[0]", equalTo("The max size of the LastName is 35"));
@@ -524,11 +576,8 @@ public class StudentApiTests extends BaseUri {
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidMiddleName() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid middle name
         studentInfo.setMiddleName("MymiddlenameisWilliam-Peterson-Henderson");
@@ -539,7 +588,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400)
             .body("messages.middleName[0]", equalTo("The max size of the MiddleName is 35"));
@@ -547,11 +596,8 @@ public class StudentApiTests extends BaseUri {
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidExternalSsid() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid external ssid
         studentInfo.setExternalSsid("");
@@ -562,18 +608,15 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400);
     }
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidSex() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid sex
         studentInfo.setSex("");
@@ -584,18 +627,15 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400);
     }
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidGradeLevel() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid grade level
         studentInfo.setGradeLevelWhenAssessed("123456");
@@ -606,7 +646,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400)
             .body("messages.gradeLevelWhenAssessed[0]", startsWith("Grade level when assessed should be"));
@@ -614,11 +654,8 @@ public class StudentApiTests extends BaseUri {
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidLanguageCode() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid language code
         studentInfo.setLanguageCode("ENGL");
@@ -629,7 +666,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400)
             .body("messages.languageCode[0]", startsWith("Language Codes are invalid"));
@@ -637,11 +674,8 @@ public class StudentApiTests extends BaseUri {
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidFirstEntryDate() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid entry date
         studentInfo.setFirstEntryDateIntoUsSchool("1930-01-01");
@@ -652,7 +686,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400)
             .body("messages.firstEntryDateIntoUsSchool[0]", startsWith("First Entry Date Into US School should always be after the year of birth date"));
@@ -660,11 +694,8 @@ public class StudentApiTests extends BaseUri {
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidLepEntryDate() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid LEP Entry Date
         studentInfo.setLepEntryDate("214-1999-12-01");
@@ -675,18 +706,15 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400);
     }
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidLepExitDate() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid LEP exit date
         studentInfo.setLepExitDate("2099-12-01-99");
@@ -697,18 +725,15 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400);
     }
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidTitle3ProgType() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid title 3 program type
         studentInfo.setTitle3ProgramType("500");
@@ -720,7 +745,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400)
             .body("messages.title3ProgramType[0]", startsWith("TitleIIILanguage Instruction ProgramType in invalid Types"));
@@ -728,11 +753,8 @@ public class StudentApiTests extends BaseUri {
 
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidPrimDisabilityType() {
-        String ssid = createRandomStudentSsid();
-        String stateAbbrev = "CA";
-
         // Create a student
-        StudentInfo studentInfo = createStudent(ssid, stateAbbrev);
+        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
 
         // Test an invalid primary disability type
         studentInfo.setPrimaryDisabilityType("3333");
@@ -744,7 +766,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(uriLocation + stateAbbrev)
+            .post(BASE_URI + DEFAULT_STATE)
         .then()
             .statusCode(400)
             .body("messages.primaryDisabilityType[0]", startsWith("PrimaryDisabilityType is invalid Types"));
@@ -752,11 +774,9 @@ public class StudentApiTests extends BaseUri {
 
     @Test
     public void shouldNotCreateBatchOfStudentsWithInvalidStateAbbrev() {
-        int numStudents = 3;
-        int invalidStudentItem = numStudents-1;
+        int invalidStudentItem = DEFAULT_BATCH_SIZE-1;
 
-        String stateAbbrev = "CA";
-        List<StudentInfo> students = createBatchOfStudents(numStudents, stateAbbrev);
+        List<StudentInfo> students = createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE);
 
         // Test an invalid state abbreviation for one of the students
         students.get(invalidStudentItem).setStateAbbreviation("ABCDEF");
@@ -769,14 +789,13 @@ public class StudentApiTests extends BaseUri {
                 .header(authHeader)
                 .body(students)
             .when()
-                .post(uriLocation + stateAbbrev + "/" + "batch")
+                .post(BASE_URI + DEFAULT_STATE + "/batch")
             .then()
                 .statusCode(202)
             .extract()
                 .header("location");
 
-        int pos = location.lastIndexOf("/") + 1;
-        String batchId = location.substring(pos);
+        waitForBatchToComplete(location);
 
         // Execute a GET by batch id to validate error when trying to create student
         //   with invalid state abbreviation
@@ -788,21 +807,20 @@ public class StudentApiTests extends BaseUri {
             .get(location)
         .then()
             .statusCode(200)
-            .body("id", equalTo(batchId))
-            .body("numProcessed", is(students.size()))
-            .body("numSubmitted", is(students.size()))
-            .body("numSuccess", is(students.size()-1))
+            .body("numProcessed", is(DEFAULT_BATCH_SIZE))
+            .body("numSubmitted", is(DEFAULT_BATCH_SIZE))
+            .body("numSuccess", is(invalidStudentItem))
             .body("exceptions[0].errorMessage", startsWith("Attempted to modify student in state"))
             .body("exceptions[0].ssid", equalTo(students.get(invalidStudentItem).getSsid()));
     }
 
+
+
     @Test
     public void shouldNotCreateBatchOfStudentsWithInvalidInstitutionId() {
-        int numStudents = 3;
-        int invalidStudentItem = numStudents-1;
+        int invalidStudentItem = DEFAULT_BATCH_SIZE-1;
 
-        String stateAbbrev = "CA";
-        List<StudentInfo> students = createBatchOfStudents(numStudents, stateAbbrev);
+        List<StudentInfo> students = createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE);
 
         // Test an invalid institution id for one of the students
         students.get(invalidStudentItem).setInstitutionIdentifier("");
@@ -815,14 +833,13 @@ public class StudentApiTests extends BaseUri {
                 .header(authHeader)
                 .body(students)
             .when()
-                .post(uriLocation + stateAbbrev + "/" + "batch")
+                .post(BASE_URI + DEFAULT_STATE + "/batch")
             .then()
                 .statusCode(202)
             .extract()
                 .header("location");
 
-        int pos = location.lastIndexOf("/") + 1;
-        String batchId = location.substring(pos);
+        waitForBatchToComplete(location);
 
         // Execute a GET by batch id to validate error when trying to create student
         //   with invalid institution id
@@ -834,20 +851,16 @@ public class StudentApiTests extends BaseUri {
             .get(location)
         .then()
             .statusCode(200)
-            .body("id", equalTo(batchId))
-            .body("numProcessed", is(students.size()))
-            .body("numSubmitted", is(students.size()))
-            .body("numSuccess", is(students.size()-1))
+            .body("numProcessed", is(DEFAULT_BATCH_SIZE))
+            .body("numSubmitted", is(DEFAULT_BATCH_SIZE))
+            .body("numSuccess", is(invalidStudentItem))
             .body("exceptions[0].errorMessage", startsWith("Valid Institution Identifier is required"))
             .body("exceptions[0].ssid", equalTo(students.get(invalidStudentItem).getSsid()));
     }
 
     @Test
     public void shouldNotCreateBatchOfStudentsWithInvalidBirthDate() {
-        int numStudents = 3;
-
-        String stateAbbrev = "CA";
-        List<StudentInfo> students = createBatchOfStudents(numStudents, stateAbbrev);
+        List<StudentInfo> students = createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE);
 
         // Test an invalid birth date
         students.get(0).setBirthDate("882292-12-983-55");
@@ -858,18 +871,16 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(students)
         .when()
-            .post(uriLocation + stateAbbrev + "/" + "batch")
+            .post(BASE_URI + DEFAULT_STATE + "/batch")
         .then()
             .statusCode(400);
     }
 
     @Test
     public void shouldNotCreateBatchOfStudentsWithInvalidGradeLevel() {
-        int numStudents = 3;
-        int invalidStudentItem = numStudents-1;
+        int invalidStudentItem = DEFAULT_BATCH_SIZE-1;
 
-        String stateAbbrev = "CA";
-        List<StudentInfo> students = createBatchOfStudents(numStudents, stateAbbrev);
+        List<StudentInfo> students = createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE);
 
         // Test an invalid birth date for one of the students
         students.get(invalidStudentItem).setGradeLevelWhenAssessed("22");
@@ -882,14 +893,13 @@ public class StudentApiTests extends BaseUri {
                 .header(authHeader)
                 .body(students)
             .when()
-                .post(uriLocation + stateAbbrev + "/" + "batch")
+                .post(BASE_URI + DEFAULT_STATE + "/batch")
             .then()
                 .statusCode(202)
             .extract()
                 .header("location");
 
-        int pos = location.lastIndexOf("/") + 1;
-        String batchId = location.substring(pos);
+        waitForBatchToComplete(location);
 
         // Execute a GET by batch id to validate error when trying to create student
         //   with invalid grade level
@@ -901,21 +911,18 @@ public class StudentApiTests extends BaseUri {
             .get(location)
         .then()
             .statusCode(200)
-            .body("id", equalTo(batchId))
-            .body("numProcessed", is(students.size()))
-            .body("numSubmitted", is(students.size()))
-            .body("numSuccess", is(students.size()-1))
+            .body("numProcessed", is(DEFAULT_BATCH_SIZE))
+            .body("numSubmitted", is(DEFAULT_BATCH_SIZE))
+            .body("numSuccess", is(invalidStudentItem))
             .body("exceptions[0].errorMessage", startsWith("Grade level when assessed should be in"))
             .body("exceptions[0].ssid", equalTo(students.get(invalidStudentItem).getSsid()));
     }
 
     @Test
     public void shouldNotCreateBatchOfStudentsWithInvalidSex() {
-        int numStudents = 3;
-        int invalidStudentItem = numStudents-1;
+        int invalidStudentItem = DEFAULT_BATCH_SIZE-1;
 
-        String stateAbbrev = "CA";
-        List<StudentInfo> students = createBatchOfStudents(numStudents, stateAbbrev);
+        List<StudentInfo> students = createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE);
 
         // Test an invalid birth date for one of the students
         students.get(invalidStudentItem).setSex("");
@@ -927,15 +934,14 @@ public class StudentApiTests extends BaseUri {
                 .contentType(ContentType.JSON)
                 .header(authHeader)
                 .body(students)
-                .when()
-                .post(uriLocation + stateAbbrev + "/" + "batch")
-                .then()
+            .when()
+                .post(BASE_URI + DEFAULT_STATE + "/batch")
+            .then()
                 .statusCode(202)
-                .extract()
+            .extract()
                 .header("location");
 
-        int pos = location.lastIndexOf("/") + 1;
-        String batchId = location.substring(pos);
+        waitForBatchToComplete(location);
 
         // Execute a GET by batch id to validate error when trying to create student
         //   with invalid sex
@@ -943,14 +949,13 @@ public class StudentApiTests extends BaseUri {
             .contentType(ContentType.JSON)
             .accept(ContentType.JSON)
             .header(authHeader)
-            .when()
+        .when()
             .get(location)
-            .then()
+        .then()
             .statusCode(200)
-            .body("id", equalTo(batchId))
-            .body("numProcessed", is(students.size()))
-            .body("numSubmitted", is(students.size()))
-            .body("numSuccess", is(students.size()-1))
+            .body("numProcessed", is(DEFAULT_BATCH_SIZE))
+            .body("numSubmitted", is(DEFAULT_BATCH_SIZE))
+            .body("numSuccess", is(invalidStudentItem))
             .body("exceptions[0].errorMessage", startsWith("Sex is required"))
             .body("exceptions[0].ssid", equalTo(students.get(invalidStudentItem).getSsid()));
     }
