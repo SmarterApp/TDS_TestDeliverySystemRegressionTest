@@ -37,68 +37,6 @@ public class StudentInfo {
 
     public StudentInfo() {}
 
-    public StudentInfo(String ssid,
-                       String stateAbbreviation,
-                       String institutionIdentifier,
-                       String districtIdentifier,
-                       String firstName,
-                       String lastName,
-                       String middleName,
-                       String birthDate,
-                       String externalSsid,
-                       String gradeLevelWhenAssessed,
-                       String sex,
-                       boolean hispanicOrLatino,
-                       boolean americanIndianOrAlaskaNative,
-                       boolean asian,
-                       boolean blackOrAfricanAmerican,
-                       boolean white,
-                       boolean nativeHawaiianOrPacificIsland,
-                       boolean twoOrMoreRaces,
-                       boolean iDEAIndicator,
-                       boolean lepStatus,
-                       boolean section504Status,
-                       boolean disadvantageStatus,
-                       String languageCode,
-                       boolean migrantStatus,
-                       String firstEntryDateIntoUsSchool,
-                       String lepEntryDate,
-                       String lepExitDate,
-                       String title3ProgramType,
-                       String primaryDisabilityType,
-                       int elpLevel) {
-
-        this.ssid = ssid;
-        this.stateAbbreviation = stateAbbreviation;
-        this.institutionIdentifier = institutionIdentifier;
-        this.districtIdentifier = districtIdentifier;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.birthDate = birthDate;
-        this.externalSsid = externalSsid;
-        this.gradeLevelWhenAssessed = gradeLevelWhenAssessed;
-        this.sex = sex;
-        this.hispanicOrLatino = hispanicOrLatino;
-        this.americanIndianOrAlaskaNative = americanIndianOrAlaskaNative;
-        this.asian = asian;
-        this.blackOrAfricanAmerican = blackOrAfricanAmerican;
-        this.white = white;
-        this.nativeHawaiianOrPacificIsland = nativeHawaiianOrPacificIsland;
-        this.twoOrMoreRaces = twoOrMoreRaces;
-        this.iDEAIndicator = iDEAIndicator;
-        this.lepStatus = lepStatus;
-        this.section504Status = section504Status;
-        this.disadvantageStatus = disadvantageStatus;
-        this.languageCode = languageCode;
-        this.migrantStatus = migrantStatus;
-        this.firstEntryDateIntoUsSchool = firstEntryDateIntoUsSchool;
-        this.lepEntryDate = lepEntryDate;
-        this.lepExitDate = lepExitDate;
-        this.title3ProgramType = title3ProgramType;
-        this.primaryDisabilityType = primaryDisabilityType;
-        this.elpLevel = elpLevel;
-    }
 
     public String getSsid() {
         return ssid;

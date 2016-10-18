@@ -29,15 +29,17 @@ public class UserApiTests extends BaseUri {
 
         UserInfo userInfo = new UserInfo(userEmail, "amy", "watson", "800-332-4747", roleAssociations);
 
-        given()
-            .contentType(ContentType.JSON)
-            .header(authHeader)
-            .body(userInfo)
-        .when()
-            .post(uriLocation)
-        .then()
-            .statusCode(201)
-            .header("location", endsWith(uriLocation + "/" + userEmail + "/details"));
+        String userDetailsUrl =
+            given()
+                .contentType(ContentType.JSON)
+                .header(authHeader)
+                .body(userInfo)
+            .when()
+                .post(uriLocation)
+            .then()
+                .statusCode(201)
+            .extract()
+                .header("location");
 
         // Execute a GET by email to validate that the user was created
         given()
@@ -45,7 +47,7 @@ public class UserApiTests extends BaseUri {
             .accept(ContentType.JSON)
             .header(authHeader)
         .when()
-            .get(uriLocation + "/" + userEmail + "/details")
+            .get(userDetailsUrl)
         .then()
             .statusCode(200)
             .body("firstName", is(userInfo.getFirstName()))
@@ -82,6 +84,21 @@ public class UserApiTests extends BaseUri {
             .statusCode(404);
     }
 
+    private void validateUserDetails(String userDetailsUrl, UserInfo userInfo) {
+        // Execute a GET by email to verify that the user information has changed
+        given()
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .header(authHeader)
+        .when()
+            .get(userDetailsUrl)
+        .then()
+            .statusCode(200)
+            .body("firstName", is(userInfo.getFirstName()))
+            .body("lastName", is(userInfo.getLastName()))
+            .body("phoneNumber", is(userInfo.getPhoneNumber()));
+    }
+
     /*
      * Test of creating a user, HTTP POST of /rest/external/user, 201 success item created
      * Test of deleting a user, HTTP DELETE of /rest/external/user, 204 success item found and deleted
@@ -94,7 +111,7 @@ public class UserApiTests extends BaseUri {
         UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail, "Administrator", "STATE", "CA");
 
         // Execute a DELETE to delete the user
-        deleteExistingUser(randomUserEmail);
+        deleteExistingUser(userInfo.getEmail());
     }
 
     /*
@@ -118,31 +135,22 @@ public class UserApiTests extends BaseUri {
         userInfo.setRoleAssociations(roleAssociations);
 
         // Execute a POST to update the user with new information
-        given()
-            .contentType(ContentType.JSON)
-            .header(authHeader)
-            .body(userInfo)
-        .when()
-            .post(uriLocation)
-        .then()
-            .statusCode(204)
-            .header("location", endsWith(uriLocation + "/" + randomUserEmail + "/details"));
+        String userDetailsUrl =
+            given()
+                .contentType(ContentType.JSON)
+                .header(authHeader)
+                .body(userInfo)
+            .when()
+                .post(uriLocation)
+            .then()
+                .statusCode(204)
+            .extract()
+                .header("location");
 
-        // Execute a GET by email to verify that the user information has changed
-        given()
-            .contentType(ContentType.JSON)
-            .accept(ContentType.JSON)
-            .header(authHeader)
-        .when()
-            .get(uriLocation + "/" + randomUserEmail + "/details")
-        .then()
-            .statusCode(200)
-            .body("firstName", is(userInfo.getFirstName()))
-            .body("lastName", is(userInfo.getLastName()))
-            .body("phoneNumber", is(userInfo.getPhoneNumber()));
+        validateUserDetails(userDetailsUrl, userInfo);
 
         // Execute a DELETE to delete the user
-        deleteExistingUser(randomUserEmail);
+        deleteExistingUser(userInfo.getEmail());
     }
 
     /*
@@ -168,18 +176,22 @@ public class UserApiTests extends BaseUri {
         userInfo.setRoleAssociations(roleAssociations);
 
         // Execute a POST to update the user with new information
-        given()
-            .contentType(ContentType.JSON)
-            .header(authHeader)
-            .body(userInfo)
-        .when()
-            .post(uriLocation)
-        .then()
-            .statusCode(204)
-            .header("location", endsWith(uriLocation + "/" + randomUserEmail + "/details"));
+        String userDetailsUrl =
+            given()
+                .contentType(ContentType.JSON)
+                .header(authHeader)
+                .body(userInfo)
+            .when()
+                .post(uriLocation)
+            .then()
+                .statusCode(204)
+            .extract()
+                .header("location");
+
+        validateUserDetails(userDetailsUrl, userInfo);
 
         // Execute a DELETE to delete the user
-        deleteExistingUser(randomUserEmail);
+        deleteExistingUser(userInfo.getEmail());
     }
 
     /*
