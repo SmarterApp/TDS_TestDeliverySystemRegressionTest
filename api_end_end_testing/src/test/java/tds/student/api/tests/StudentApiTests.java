@@ -21,9 +21,9 @@ import static org.assertj.core.api.Assertions.*;
  * This class tests Student API endpoints that creates, updates and deletes a student
  */
 public class StudentApiTests extends BaseUri {
-    private final String BASE_URI = "/rest/external/student/";
-    private final int DEFAULT_BATCH_SIZE = 10;
-    private final String DEFAULT_STATE = "CA";
+    private final static String BASE_URI = "/rest/external/student/";
+    private final static int DEFAULT_BATCH_SIZE = 4;
+    private final static String DEFAULT_STATE_ABBREVIATION = "CA";
 
     /*
      * Test of creating a student, HTTP POST of /api/external/student/{stateCode}, 201 success item created
@@ -32,38 +32,37 @@ public class StudentApiTests extends BaseUri {
     private StudentInfo createStudent(String stateAbbrev) {
         String ssid = createRandomStudentSsid();
 
-        StudentInfo studentInfo = new StudentInfo(
-            ssid,
-            stateAbbrev,
-            "DS9001",
-            "DISTRICT9",
-            "Amy",
-            "Martin",
-            "Leslie",
-            "1999-01-01",
-            "e" + ssid,
-            "04",
-            "Male",
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            true,
-            false,
-            false,
-            false,
-            false,
-            null,
-            false,
-            "2000-02-01",
-            null,
-            null,
-            null,
-            null,
-            0
-        );
+        StudentInfo studentInfo = new StudentInfo();
+        studentInfo.setSsid(ssid);
+        studentInfo.setStateAbbreviation(stateAbbrev);
+        studentInfo.setInstitutionIdentifier("DS9001");
+        studentInfo.setDistrictIdentifier("DISTRICT9");
+        studentInfo.setFirstName("Amy");
+        studentInfo.setLastName("Martin");
+        studentInfo.setMiddleName("Leslie");
+        studentInfo.setBirthDate("1999-01-01");
+        studentInfo.setExternalSsid("e" + ssid);
+        studentInfo.setGradeLevelWhenAssessed("04");
+        studentInfo.setSex("Male");
+        studentInfo.setHispanicOrLatino(false);
+        studentInfo.setAmericanIndianOrAlaskaNative(false);
+        studentInfo.setAsian(false);
+        studentInfo.setBlackOrAfricanAmerican(false);
+        studentInfo.setWhite(false);
+        studentInfo.setNativeHawaiianOrPacificIsland(false);
+        studentInfo.setTwoOrMoreRaces(true);
+        studentInfo.setiDEAIndicator(false);
+        studentInfo.setLepStatus(false);
+        studentInfo.setSection504Status(false);
+        studentInfo.setDisadvantageStatus(false);
+        studentInfo.setLanguageCode(null);
+        studentInfo.setMigrantStatus(false);
+        studentInfo.setFirstEntryDateIntoUsSchool("2000-02-01");
+        studentInfo.setLepEntryDate(null);
+        studentInfo.setLepExitDate(null);
+        studentInfo.setTitle3ProgramType(null);
+        studentInfo.setPrimaryDisabilityType(null);
+        studentInfo.setElpLevel(0);
 
         String location =
             given()
@@ -94,6 +93,10 @@ public class StudentApiTests extends BaseUri {
         return studentInfo;
     }
 
+    private StudentInfo createStudent() {
+        return createStudent(DEFAULT_STATE_ABBREVIATION);
+    }
+
     /*
      * Test of creating batch of students, HTTP POST of /api/external/student/{stateCode}/batch,
      *      202 success item created
@@ -103,45 +106,43 @@ public class StudentApiTests extends BaseUri {
      *      200 success item found
      */
     private List<StudentInfo> createBatchOfStudents(int numStudents, String stateAbbrev) {
-        List<String> ssidList = new ArrayList<String>();
         List<StudentInfo> students = new ArrayList<StudentInfo>();
 
         for (int i = 0; i < numStudents; i++) {
-            ssidList.add(createRandomStudentSsid());
+            StudentInfo studentInfo = new StudentInfo();
+            studentInfo.setStateAbbreviation(stateAbbrev);
+            studentInfo.setInstitutionIdentifier("DS9002");
+            studentInfo.setDistrictIdentifier("DISTRICT8");
+            studentInfo.setFirstName("Meredith");
+            studentInfo.setLastName("Grey");
+            studentInfo.setMiddleName("Leslie");
+            studentInfo.setGradeLevelWhenAssessed("05");
+            studentInfo.setSex("Male");
+            studentInfo.setHispanicOrLatino(false);
+            studentInfo.setAmericanIndianOrAlaskaNative(false);
+            studentInfo.setAsian(false);
+            studentInfo.setBlackOrAfricanAmerican(false);
+            studentInfo.setWhite(false);
+            studentInfo.setNativeHawaiianOrPacificIsland(false);
+            studentInfo.setTwoOrMoreRaces(true);
+            studentInfo.setiDEAIndicator(false);
+            studentInfo.setLepStatus(false);
+            studentInfo.setSection504Status(false);
+            studentInfo.setDisadvantageStatus(false);
+            studentInfo.setLanguageCode(null);
+            studentInfo.setMigrantStatus(false);
+            studentInfo.setLepEntryDate(null);
+            studentInfo.setLepExitDate(null);
+            studentInfo.setTitle3ProgramType(null);
+            studentInfo.setPrimaryDisabilityType(null);
+            studentInfo.setElpLevel(0);
 
-            // TODO: use Builder for StudentInfo
-            students.add(new StudentInfo(
-                ssidList.get(i),
-                stateAbbrev,
-                "DS9002",
-                "DISTRICT8",
-                "Meredith",
-                "Gray",
-                "Leslie",
-                createRandomBirthDate(LocalDate.of(2000, 1, 1), LocalDate.of(2005, 1, 1)),
-                "e" + ssidList.get(i),
-                "05",
-                "Male",
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                true,
-                false,
-                false,
-                false,
-                false,
-                null,
-                false,
-                createRandomBirthDate(LocalDate.of(2005, 6, 1), LocalDate.of(2011, 8, 1)),
-                null,
-                null,
-                null,
-                null,
-                0
-            ));
+            studentInfo.setSsid(createRandomStudentSsid());
+            studentInfo.setExternalSsid("e" + studentInfo.getSsid());
+            studentInfo.setBirthDate(createRandomDate(LocalDate.of(2000, 1, 1), LocalDate.of(2005, 1, 1)));
+            studentInfo.setFirstEntryDateIntoUsSchool(createRandomDate(LocalDate.of(2005, 6, 1), LocalDate.of(2011, 8, 1)));
+
+            students.add(studentInfo);
         }
 
         // Execute a batch POST and extract the location header to validate that the
@@ -179,7 +180,7 @@ public class StudentApiTests extends BaseUri {
                 .accept(ContentType.JSON)
                 .header(authHeader)
             .when()
-                .get(BASE_URI + stateAbbrev + "/"  + ssidList.get(i))
+                .get(BASE_URI + stateAbbrev + "/"  + students.get(i).getSsid())
             .then()
                 .statusCode(200)
                 .body("ssid", is(students.get(i).getSsid()))
@@ -189,6 +190,10 @@ public class StudentApiTests extends BaseUri {
         }
 
         return students;
+    }
+
+    private List<StudentInfo> createBatchOfStudents() {
+        return createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE_ABBREVIATION);
     }
 
     /*
@@ -216,6 +221,10 @@ public class StudentApiTests extends BaseUri {
             .get(BASE_URI + stateAbbrev + "/" + ssid)
         .then()
             .statusCode(404);
+    }
+
+    private void deleteSingleStudent(String ssid) {
+        deleteSingleStudent(ssid, DEFAULT_STATE_ABBREVIATION);
     }
 
     /*
@@ -311,7 +320,7 @@ public class StudentApiTests extends BaseUri {
             }
         }
 
-        throw new RuntimeException(String.format("Batch did not complete after %s attempts for %s", attempts, batchDetailsUrl));
+        fail(String.format("Batch did not complete after %s attempts for %s", attempts, batchDetailsUrl));
     }
 
     /**
@@ -383,23 +392,24 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldCreateDeleteStudent() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Execute a DELETE to delete the student
-        deleteSingleStudent(studentInfo.getSsid(), DEFAULT_STATE);
+        deleteSingleStudent(studentInfo.getSsid());
     }
 
     @Test
     public void shouldCreateUpdateDeleteStudent() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Change some of the data for the student just created
-        studentInfo.setStateAbbreviation(DEFAULT_STATE);
+        studentInfo.setStateAbbreviation(DEFAULT_STATE_ABBREVIATION);
         studentInfo.setFirstName("William");
         studentInfo.setLastName("Peters");
         studentInfo.setGradeLevelWhenAssessed("02");
         studentInfo.setHispanicOrLatino(true);
+        studentInfo.setTwoOrMoreRaces(false);
         studentInfo.setElpLevel(2);
 
         // Execute a POST to update the student with new information
@@ -408,20 +418,20 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(204)
-            .header("location", endsWith(BASE_URI + DEFAULT_STATE + "/" + studentInfo.getSsid()));
+            .header("location", endsWith(BASE_URI + DEFAULT_STATE_ABBREVIATION + "/" + studentInfo.getSsid()));
 
         validateStudentInfo(studentInfo);
 
         // Execute a DELETE to delete the student
-        deleteSingleStudent(studentInfo.getSsid(), DEFAULT_STATE);
+        deleteSingleStudent(studentInfo.getSsid());
     }
 
     @Test
     public void shouldCreateUpdateDeleteBatchOfStudents() {
-        List<StudentInfo> students = createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE);
+        List<StudentInfo> students = createBatchOfStudents();
 
         // Change some of the data for the batch of students just created
 
@@ -436,7 +446,7 @@ public class StudentApiTests extends BaseUri {
         students.get(2).setMigrantStatus(true);
 
         // Execute a POST to update the students with new information
-        postBatchOfStudents(DEFAULT_STATE, students);
+        postBatchOfStudents(DEFAULT_STATE_ABBREVIATION, students);
 
         // validate that the students have been changed by calling the GET endpoint
         students.forEach(this::validateStudentInfo);
@@ -452,7 +462,7 @@ public class StudentApiTests extends BaseUri {
             .contentType(ContentType.JSON)
             .header(authHeader)
         .when()
-            .delete(BASE_URI + DEFAULT_STATE + "/" + "ABCDEF")
+            .delete(BASE_URI + DEFAULT_STATE_ABBREVIATION + "/" + "ABCDEF")
         .then()
             .statusCode(404);
     }
@@ -460,7 +470,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidStateAbbreviation() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid state abbreviation that should only be 2 characters
         studentInfo.setStateAbbreviation("ABC");
@@ -479,7 +489,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithNullStateAbbreviation() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid state abbreviation set to null
         studentInfo.setStateAbbreviation(null);
@@ -498,7 +508,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidInstitutionId() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid institution Id set to a blank
         studentInfo.setInstitutionIdentifier("");
@@ -509,7 +519,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400);
     }
@@ -517,7 +527,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidDistrictId() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid district Id
         studentInfo.setDistrictIdentifier("DistrictAADEFFJJIDDDDWERDEDEFG00293838192922");
@@ -528,7 +538,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400)
             .body("messages.districtIdentifier[0]", equalTo("District Identifier size must be between 1 and 40"));
@@ -537,7 +547,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidFirstName() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid first name
         studentInfo.setFirstName("MynameisJoeSmithAndMyMiddleNameisSteven");
@@ -548,7 +558,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400)
             .body("messages.firstName[0]", equalTo("The max size of the FirstName is 35"));
@@ -557,7 +567,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidLastName() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid last name
         studentInfo.setLastName("MylastnameisBiggalow-Johnson-Richardson");
@@ -568,7 +578,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400)
             .body("messages.lastName[0]", equalTo("The max size of the LastName is 35"));
@@ -577,7 +587,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidMiddleName() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid middle name
         studentInfo.setMiddleName("MymiddlenameisWilliam-Peterson-Henderson");
@@ -588,7 +598,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400)
             .body("messages.middleName[0]", equalTo("The max size of the MiddleName is 35"));
@@ -597,7 +607,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidExternalSsid() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid external ssid
         studentInfo.setExternalSsid("");
@@ -608,7 +618,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400);
     }
@@ -616,7 +626,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidSex() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid sex
         studentInfo.setSex("");
@@ -627,7 +637,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400);
     }
@@ -635,7 +645,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidGradeLevel() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid grade level
         studentInfo.setGradeLevelWhenAssessed("123456");
@@ -646,7 +656,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400)
             .body("messages.gradeLevelWhenAssessed[0]", startsWith("Grade level when assessed should be"));
@@ -655,7 +665,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidLanguageCode() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid language code
         studentInfo.setLanguageCode("ENGL");
@@ -666,7 +676,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400)
             .body("messages.languageCode[0]", startsWith("Language Codes are invalid"));
@@ -675,7 +685,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidFirstEntryDate() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid entry date
         studentInfo.setFirstEntryDateIntoUsSchool("1930-01-01");
@@ -686,7 +696,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400)
             .body("messages.firstEntryDateIntoUsSchool[0]", startsWith("First Entry Date Into US School should always be after the year of birth date"));
@@ -695,7 +705,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidLepEntryDate() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid LEP Entry Date
         studentInfo.setLepEntryDate("214-1999-12-01");
@@ -706,7 +716,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400);
     }
@@ -714,7 +724,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidLepExitDate() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid LEP exit date
         studentInfo.setLepExitDate("2099-12-01-99");
@@ -725,7 +735,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400);
     }
@@ -733,7 +743,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidTitle3ProgType() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid title 3 program type
         studentInfo.setTitle3ProgramType("500");
@@ -745,7 +755,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400)
             .body("messages.title3ProgramType[0]", startsWith("TitleIIILanguage Instruction ProgramType in invalid Types"));
@@ -754,7 +764,7 @@ public class StudentApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUpdateStudentWithInvalidPrimDisabilityType() {
         // Create a student
-        StudentInfo studentInfo = createStudent(DEFAULT_STATE);
+        StudentInfo studentInfo = createStudent();
 
         // Test an invalid primary disability type
         studentInfo.setPrimaryDisabilityType("3333");
@@ -766,7 +776,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(studentInfo)
         .when()
-            .post(BASE_URI + DEFAULT_STATE)
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION)
         .then()
             .statusCode(400)
             .body("messages.primaryDisabilityType[0]", startsWith("PrimaryDisabilityType is invalid Types"));
@@ -776,7 +786,7 @@ public class StudentApiTests extends BaseUri {
     public void shouldNotCreateBatchOfStudentsWithInvalidStateAbbrev() {
         int invalidStudentItem = DEFAULT_BATCH_SIZE-1;
 
-        List<StudentInfo> students = createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE);
+        List<StudentInfo> students = createBatchOfStudents();
 
         // Test an invalid state abbreviation for one of the students
         students.get(invalidStudentItem).setStateAbbreviation("ABCDEF");
@@ -789,7 +799,7 @@ public class StudentApiTests extends BaseUri {
                 .header(authHeader)
                 .body(students)
             .when()
-                .post(BASE_URI + DEFAULT_STATE + "/batch")
+                .post(BASE_URI + DEFAULT_STATE_ABBREVIATION + "/batch")
             .then()
                 .statusCode(202)
             .extract()
@@ -820,7 +830,7 @@ public class StudentApiTests extends BaseUri {
     public void shouldNotCreateBatchOfStudentsWithInvalidInstitutionId() {
         int invalidStudentItem = DEFAULT_BATCH_SIZE-1;
 
-        List<StudentInfo> students = createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE);
+        List<StudentInfo> students = createBatchOfStudents();
 
         // Test an invalid institution id for one of the students
         students.get(invalidStudentItem).setInstitutionIdentifier("");
@@ -833,7 +843,7 @@ public class StudentApiTests extends BaseUri {
                 .header(authHeader)
                 .body(students)
             .when()
-                .post(BASE_URI + DEFAULT_STATE + "/batch")
+                .post(BASE_URI + DEFAULT_STATE_ABBREVIATION + "/batch")
             .then()
                 .statusCode(202)
             .extract()
@@ -860,7 +870,7 @@ public class StudentApiTests extends BaseUri {
 
     @Test
     public void shouldNotCreateBatchOfStudentsWithInvalidBirthDate() {
-        List<StudentInfo> students = createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE);
+        List<StudentInfo> students = createBatchOfStudents();
 
         // Test an invalid birth date
         students.get(0).setBirthDate("882292-12-983-55");
@@ -871,7 +881,7 @@ public class StudentApiTests extends BaseUri {
             .header(authHeader)
             .body(students)
         .when()
-            .post(BASE_URI + DEFAULT_STATE + "/batch")
+            .post(BASE_URI + DEFAULT_STATE_ABBREVIATION + "/batch")
         .then()
             .statusCode(400);
     }
@@ -880,7 +890,7 @@ public class StudentApiTests extends BaseUri {
     public void shouldNotCreateBatchOfStudentsWithInvalidGradeLevel() {
         int invalidStudentItem = DEFAULT_BATCH_SIZE-1;
 
-        List<StudentInfo> students = createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE);
+        List<StudentInfo> students = createBatchOfStudents();
 
         // Test an invalid birth date for one of the students
         students.get(invalidStudentItem).setGradeLevelWhenAssessed("22");
@@ -893,7 +903,7 @@ public class StudentApiTests extends BaseUri {
                 .header(authHeader)
                 .body(students)
             .when()
-                .post(BASE_URI + DEFAULT_STATE + "/batch")
+                .post(BASE_URI + DEFAULT_STATE_ABBREVIATION + "/batch")
             .then()
                 .statusCode(202)
             .extract()
@@ -922,7 +932,7 @@ public class StudentApiTests extends BaseUri {
     public void shouldNotCreateBatchOfStudentsWithInvalidSex() {
         int invalidStudentItem = DEFAULT_BATCH_SIZE-1;
 
-        List<StudentInfo> students = createBatchOfStudents(DEFAULT_BATCH_SIZE, DEFAULT_STATE);
+        List<StudentInfo> students = createBatchOfStudents();
 
         // Test an invalid birth date for one of the students
         students.get(invalidStudentItem).setSex("");
@@ -935,7 +945,7 @@ public class StudentApiTests extends BaseUri {
                 .header(authHeader)
                 .body(students)
             .when()
-                .post(BASE_URI + DEFAULT_STATE + "/batch")
+                .post(BASE_URI + DEFAULT_STATE_ABBREVIATION + "/batch")
             .then()
                 .statusCode(202)
             .extract()

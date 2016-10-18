@@ -87,9 +87,9 @@ public abstract class BaseUri {
     }
 
     /*
-     *  Create random birth date
+     *  Create random date
      */
-    public String createRandomBirthDate(LocalDate minDate, LocalDate maxDate) {
+    public String createRandomDate(LocalDate minDate, LocalDate maxDate) {
         final Random random = new Random();
 
         int minDay = (int) minDate.toEpochDay();
