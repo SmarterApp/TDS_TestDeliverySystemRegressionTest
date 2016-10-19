@@ -381,11 +381,11 @@ public class StudentApiTests extends BaseUri {
         assertThat(jsonPath.getBoolean("disadvantageStatus")).isEqualTo(studentInfo.isDisadvantageStatus());
         assertThat(jsonPath.getString("languageCode")).isEqualTo(studentInfo.getLanguageCode());
         assertThat(jsonPath.getBoolean("migrantStatus")).isEqualTo(studentInfo.isMigrantStatus());
-        assertThat(jsonPath.getBoolean("firstEntryDateIntoUsSchool")).isEqualTo(studentInfo.getFirstEntryDateIntoUsSchool());
-        assertThat(jsonPath.getBoolean("lepEntryDate")).isEqualTo(studentInfo.getLepEntryDate());
-        assertThat(jsonPath.getBoolean("lepExitDate")).isEqualTo(studentInfo.getLepExitDate());
-        assertThat(jsonPath.getBoolean("title3ProgramType")).isEqualTo(studentInfo.getTitle3ProgramType());
-        assertThat(jsonPath.getBoolean("primaryDisabilityType")).isEqualTo(studentInfo.getPrimaryDisabilityType());
+        assertThat(jsonPath.getString("firstEntryDateIntoUsSchool")).isEqualTo(studentInfo.getFirstEntryDateIntoUsSchool());
+        assertThat(jsonPath.getString("lepEntryDate")).isEqualTo(studentInfo.getLepEntryDate());
+        assertThat(jsonPath.getString("lepExitDate")).isEqualTo(studentInfo.getLepExitDate());
+        assertThat(jsonPath.getString("title3ProgramType")).isEqualTo(studentInfo.getTitle3ProgramType());
+        assertThat(jsonPath.getString("primaryDisabilityType")).isEqualTo(studentInfo.getPrimaryDisabilityType());
         assertThat(jsonPath.getInt("elpLevel")).isEqualTo(studentInfo.getElpLevel());
     }
 
@@ -502,7 +502,7 @@ public class StudentApiTests extends BaseUri {
         .when()
             .post(BASE_URI)
         .then()
-            .statusCode(400);
+            .statusCode(404);
     }
 
     @Test
