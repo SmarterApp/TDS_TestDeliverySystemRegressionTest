@@ -23,9 +23,9 @@ public class UserApiTests extends BaseUri {
      * Test of creating a user, HTTP POST of /rest/external/user, 201 success item created
      * Test of getting a user, HTTP GET of /rest/external/user/{email}/details, 200 success item found
      */
-    private UserInfo createUserOneRoleAssoc(String userEmail, String role, String level, String entityId) {
+    private UserInfo createUserOneRoleAssoc(String userEmail, String role, String level, String entityId, String stateAbbreviation) {
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation(role, level, entityId));
+        roleAssociations.add(new RoleAssociation(role, level, entityId, stateAbbreviation));
 
         UserInfo userInfo = new UserInfo(userEmail, "amy", "watson", "800-332-4747", roleAssociations);
 
@@ -108,7 +108,7 @@ public class UserApiTests extends BaseUri {
         String randomUserEmail = createRandomUserEmail();
 
         // Create a user with one role association
-        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail, "Administrator", "STATE", "CA");
+        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail, "Administrator", "STATE", "CA", null);
 
         // Execute a DELETE to delete the user
         deleteExistingUser(userInfo.getEmail());
@@ -123,11 +123,11 @@ public class UserApiTests extends BaseUri {
     public void shouldCreateUpdateDeleteUserWithOneRole() {
         String randomUserEmail = createRandomUserEmail();
 
-        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail, "Administrator", "STATE", "CA");
+        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail, "Administrator", "STATE", "CA", null);
 
         // Prepare Role with new data to update user
         List<RoleAssociation> roleAssociations = userInfo.getRoleAssociations();
-        roleAssociations.add(new RoleAssociation("Administrator", "DISTRICT", "DISTRICT9"));
+        roleAssociations.add(new RoleAssociation("Administrator", "DISTRICT", "DISTRICT9", "CA"));
 
         userInfo.setFirstName("Kelly");
         userInfo.setLastName("Yates");
@@ -162,13 +162,13 @@ public class UserApiTests extends BaseUri {
     public void shouldCreateUpdateUserToMultipleRoles() {
         String randomUserEmail = createRandomUserEmail();
 
-        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail, "Administrator", "STATE", "CA");
+        UserInfo userInfo = createUserOneRoleAssoc(randomUserEmail, "Administrator", "STATE", "CA", null);
 
         List<RoleAssociation> roleAssociations = userInfo.getRoleAssociations();
-        roleAssociations.add(new RoleAssociation("Test Admininistrator", "STATE", "CA"));
-        roleAssociations.add(new RoleAssociation("Administrator", "INSTITUTION", "DS9001"));
-        roleAssociations.add(new RoleAssociation("Administrator", "DISTRICT", "DISTRICT9"));
-        roleAssociations.add(new RoleAssociation("Administrator", "INSTITUTION", "DS9001"));
+        roleAssociations.add(new RoleAssociation("Test Admininistrator", "STATE", "CA", null));
+        roleAssociations.add(new RoleAssociation("Administrator", "INSTITUTION", "DS9001", "CA"));
+        roleAssociations.add(new RoleAssociation("Administrator", "DISTRICT", "DISTRICT9", "CA"));
+        roleAssociations.add(new RoleAssociation("Administrator", "INSTITUTION", "DS9001", "CA"));
 
         userInfo.setFirstName("Miranda");
         userInfo.setLastName("Bailey");
@@ -200,7 +200,7 @@ public class UserApiTests extends BaseUri {
     @Test
     public void shouldNotCreateUserWithInvalidEmail() {
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "CA"));
+        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "CA", null));
 
         UserInfo userInfo = new UserInfo("bademail", "Judy", "Bloom", "808-443-1199", roleAssociations);
 
@@ -223,7 +223,7 @@ public class UserApiTests extends BaseUri {
         String randomUserEmail = createRandomUserEmail();
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "CA"));
+        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "CA", null));
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "", "Dodge", "714-228-4848", roleAssociations);
 
@@ -246,7 +246,7 @@ public class UserApiTests extends BaseUri {
         String randomUserEmail = createRandomUserEmail();
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "CA"));
+        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "CA", null));
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "Wiliam", "", "714-228-4848", roleAssociations);
 
@@ -269,7 +269,7 @@ public class UserApiTests extends BaseUri {
         String randomUserEmail = createRandomUserEmail();
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "CA"));
+        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "CA", null));
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "Mark", "Beel", "1-808-883-7783", roleAssociations);
 
@@ -292,7 +292,7 @@ public class UserApiTests extends BaseUri {
         String randomUserEmail = createRandomUserEmail();
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation(null, "STATE", "CA"));
+        roleAssociations.add(new RoleAssociation(null, "STATE", "CA", null));
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "Mark", "Beel", "808-883-7783", roleAssociations);
 
@@ -314,7 +314,7 @@ public class UserApiTests extends BaseUri {
         String randomUserEmail = createRandomUserEmail();
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "Partner", "CA"));
+        roleAssociations.add(new RoleAssociation("Administrator", "Partner", "CA", null));
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "Meredith", "Grey", "510-335-1212", roleAssociations);
 
@@ -336,7 +336,7 @@ public class UserApiTests extends BaseUri {
         String randomUserEmail = createRandomUserEmail();
 
         List<RoleAssociation> roleAssociations = new ArrayList<RoleAssociation>();
-        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "ABC"));
+        roleAssociations.add(new RoleAssociation("Administrator", "STATE", "ABC", null));
 
         UserInfo userInfo = new UserInfo(randomUserEmail, "Miranda", "Bailey", "213-145-2000", roleAssociations);
 

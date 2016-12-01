@@ -8,13 +8,23 @@ public class RoleAssociation {
     private String role;
     private String level;
     private String entityId;
+    private String stateAbbreviation;
 
     public RoleAssociation() {}
 
-    public RoleAssociation(String role, String level, String entityId) {
+    public RoleAssociation(String role, String level, String entityId, String stateAbbreviation) {
         this.role = role;
         this.level = level;
         this.entityId = entityId;
+        this .stateAbbreviation = stateAbbreviation;
+    }
+
+    public String getStateAbbreviation() {
+        return stateAbbreviation;
+    }
+
+    public void setStateAbbreviation(String stateAbbreviation) {
+        this.stateAbbreviation = stateAbbreviation;
     }
 
     public String getRole() {
