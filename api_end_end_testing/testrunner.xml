@@ -7,6 +7,7 @@
         <classes>
             <class name="tds.user.api.tests.UserApiTests"/>
             <class name="tds.student.api.tests.StudentApiTests"/>
+            <class name="tds.diagnostics.api.DiagnosticTests"/>
         </classes>
 
     </test>

@@ -21,6 +21,9 @@ import org.testng.annotations.BeforeClass;
  */
 public abstract class BaseUri {
     public Header authHeader = null;
+    protected String artBaseURI;
+    protected String studentBaseURI;
+    protected String proctorBaseURI;
 
     @BeforeClass
     public void init() throws IOException {
@@ -38,7 +41,10 @@ public abstract class BaseUri {
             prop.load(inputStream);
 
             // set the base URL for all future RestAssured usage (points to the ART base URL)
-            RestAssured.baseURI = prop.getProperty("artBaseURI");
+            artBaseURI = prop.getProperty("artBaseURI");
+            studentBaseURI = prop.getProperty("studentBaseURI");
+            proctorBaseURI = prop.getProperty("proctorBaseURI");
+            RestAssured.baseURI = artBaseURI;
         } finally {
             if (inputStream != null) {
                 inputStream.close();
