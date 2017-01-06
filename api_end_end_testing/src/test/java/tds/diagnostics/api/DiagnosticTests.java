@@ -21,17 +21,17 @@ public class DiagnosticTests extends BaseUri {
     }
 
     @Test
-    void artStatusIsIdeal() {
+    void shouldHaveIdealStatusForArt() {
         statusIsIdeal(artBaseURI + "/rest");
     }
 
     @Test
-    void proctorStatusIsIdeal() {
+    void shouldHaveIdealStatusForProctor() {
         statusIsIdeal(proctorBaseURI);
     }
 
     @Test
-    void studentStatusIsIdeal() {
+    void shouldHaveIdealStatusForStudent() {
         statusIsIdeal(studentBaseURI);
     }
 }

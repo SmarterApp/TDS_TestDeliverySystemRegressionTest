@@ -1,5 +1,9 @@
 package tds.base;
 
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.response.Header;
+import org.testng.annotations.BeforeClass;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,11 +12,7 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.jayway.restassured.RestAssured.*;
-
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.response.Header;
-import org.testng.annotations.BeforeClass;
+import static com.jayway.restassured.RestAssured.given;
 
 
 /*
