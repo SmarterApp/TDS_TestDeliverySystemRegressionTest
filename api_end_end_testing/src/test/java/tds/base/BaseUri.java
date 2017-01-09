@@ -1,5 +1,9 @@
 package tds.base;
 
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.response.Header;
+import org.testng.annotations.BeforeClass;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,11 +12,7 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.jayway.restassured.RestAssured.*;
-
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.response.Header;
-import org.testng.annotations.BeforeClass;
+import static com.jayway.restassured.RestAssured.given;
 
 
 /*
@@ -21,6 +21,9 @@ import org.testng.annotations.BeforeClass;
  */
 public abstract class BaseUri {
     public Header authHeader = null;
+    protected String artBaseURI;
+    protected String studentBaseURI;
+    protected String proctorBaseURI;
 
     @BeforeClass
     public void init() throws IOException {
@@ -38,7 +41,10 @@ public abstract class BaseUri {
             prop.load(inputStream);
 
             // set the base URL for all future RestAssured usage (points to the ART base URL)
-            RestAssured.baseURI = prop.getProperty("artBaseURI");
+            artBaseURI = prop.getProperty("artBaseURI");
+            studentBaseURI = prop.getProperty("studentBaseURI");
+            proctorBaseURI = prop.getProperty("proctorBaseURI");
+            RestAssured.baseURI = artBaseURI;
         } finally {
             if (inputStream != null) {
                 inputStream.close();
