@@ -1,0 +1,1199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://tds-deployment.sbtds.org/" />
+<title>11th GRADE student answers MATH assessments</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">11th GRADE student answers MATH assessments</td></tr>
+</thead><tbody>
+<!--11th grade student answers MATH assessments-->
+<tr>
+	<td>open</td>
+	<td>${urlProctor}</td>
+	<td>Proctor</td>
+</tr>
+<tr>
+	<td>setSpeed</td>
+	<td>700</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>j_id_a:j_id_h</td>
+	<td>whatScreen</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${whatScreen}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>gotoIf</td>
+	<td>${whatScreen}==false</td>
+	<td>ItsLoginScreen</td>
+</tr>
+<tr>
+	<td>gotoIf</td>
+	<td>${whatScreen}==true</td>
+	<td>ItsRoleScreen</td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>ItsLoginScreen</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IDToken1</td>
+	<td>${proctorName}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IDToken2</td>
+	<td>${proctorPsw}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=Login.Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>End</td>
+	<td></td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>ItsRoleScreen</td>
+	<td></td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>End</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=j_id_a:j_id_f:0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=j_id_a:j_id_h</td>
+	<td></td>
+</tr>
+<!--Check if there is already a test session active-->
+<tr>
+	<td>store</td>
+	<td>---- - ----</td>
+	<td>vNewSession</td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=lblSessionID</td>
+	<td>vlblSessionID</td>
+</tr>
+<tr>
+	<td>gotoIf</td>
+	<td>storedVars['vNewSession']==storedVars['vlblSessionID']</td>
+	<td>StartSession</td>
+</tr>
+<tr>
+	<td>goto</td>
+	<td>End</td>
+	<td></td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>StartSession</td>
+	<td></td>
+</tr>
+<!--Choose the assessments to Start a test session-->
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-ELA-11-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Perf-ELA-11-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Perf-MATH-11-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-IRP-CAT-ELA-11-Summer-2015-2016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-IRP-CAT-MATH-11-Summer-2015-2016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)IRP-Perf-ELA-11-Summer-2015-2016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Mathematics-11-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnStartSession &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>goto</td>
+	<td>End</td>
+	<td></td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>End</td>
+	<td></td>
+</tr>
+<!--No need to start a test session, just use the existing SessionID-->
+<tr>
+	<td>storeText</td>
+	<td>id=lblSessionID</td>
+	<td>vlblSessionID</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>&quot;${vlblSessionID}&quot;.split(&quot;-&quot;)[0]</td>
+	<td>vProctor</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>&quot;${vlblSessionID}&quot;.split(&quot;-&quot;)[1]</td>
+	<td>vSessionID</td>
+</tr>
+<!--**************************************************************************************************-->
+<!--Perf Grade 11 MATH - FIXED FORM-->
+<tr>
+	<td>openWindow</td>
+	<td>${urlStudent}</td>
+	<td>StudentA</td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Please Sign In</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=cbUser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=cbSession</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginRow_ID</td>
+	<td>${newStudent}11</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginRow_FirstName</td>
+	<td>${newStudent}11</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginSessionID1</td>
+	<td>${vProctor}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginSessionID2</td>
+	<td>${vSessionID}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This You?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>btnVerifyApprove</td>
+	<td></td>
+</tr>
+<!--Student selects assessment -->
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Your Tests</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=id('testSelections')/li/div/strong[text()=' Perf Grade 11 MATH']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>id=testApprovalProgress</td>
+	<td></td>
+</tr>
+<!--Select TA interface for the proctor to approve the student-->
+<tr>
+	<td>selectWindow</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnRefresh &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>id=divOfApprovalsList</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.no_background &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=See/Edit Details</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accEdit_Language</td>
+	<td>label=Braille</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnSetApprove &gt; span</td>
+	<td></td>
+</tr>
+<!--Student answers the assessment-->
+<tr>
+	<td>selectPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This Your Test?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnApproveAccommodations &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnStartTest &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=textarea</td>
+	<td>abc</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_2 &gt; textarea</td>
+	<td>abc</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_3 &gt; textarea</td>
+	<td>abc</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_1600_graphics1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_5 &gt; textarea</td>
+	<td>abc</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_6 &gt; textarea</td>
+	<td>abc</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Item_Response_7</td>
+	<td>abc</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnSave &gt; span.icon</td>
+	<td></td>
+</tr>
+<!--Add a note-->
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_2 a.toolButton.itemMenu</td>
+	<td>// Select hamburger icon</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Notepad&quot;)]</td>
+	<td>//Open Notepad</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=textarea.comment-input.comment-textbox</td>
+	<td>Hello World from Selenium (${student11A} student) - Perf Grade 11 Math</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Save and Close&quot;)</td>
+	<td></td>
+</tr>
+<!--Print item-->
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_5 a.toolButton.itemMenu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Print Item&quot;)]</td>
+	<td>//Print item</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;OK&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;OK&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnEnd &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Review Shell Congratulations, you reached the end of the test!</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnScoreLogout &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<!--**************************************************************************************************-->
+<!--IRP CAT Grade 11 MATH - adaptive-->
+<tr>
+	<td>openWindow</td>
+	<td>${urlStudent}</td>
+	<td>StudentA</td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Please Sign In</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=cbUser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=cbSession</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginRow_ID</td>
+	<td>${newStudent}11</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginRow_FirstName</td>
+	<td>${newStudent}11</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginSessionID1</td>
+	<td>${vProctor}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginSessionID2</td>
+	<td>${vSessionID}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This You?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>btnVerifyApprove</td>
+	<td></td>
+</tr>
+<!--Student selects assessment -->
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Your Tests</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=id('testSelections')/li/div/strong[text()=' IRP CAT Grade 11 MATH']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>id=testApprovalProgress</td>
+	<td></td>
+</tr>
+<!--Select TA interface for the proctor to approve the student-->
+<tr>
+	<td>selectWindow</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnRefresh &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>id=divOfApprovalsList</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.no_background &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=See/Edit Details</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnSetApprove &gt; span</td>
+	<td></td>
+</tr>
+<!--Student answers the assessment-->
+<tr>
+	<td>selectPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This Your Test?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnApproveAccommodations &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnStartTest &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#btnPause &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnPause &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<!--**************************************************************************************************-->
+<!--Grade 11 MATH-->
+<tr>
+	<td>openWindow</td>
+	<td>${urlStudent}</td>
+	<td>StudentA</td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Please Sign In</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=cbUser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=cbSession</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginRow_ID</td>
+	<td>${newStudent}11</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginRow_FirstName</td>
+	<td>${newStudent}11</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginSessionID1</td>
+	<td>${vProctor}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginSessionID2</td>
+	<td>${vSessionID}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This You?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>btnVerifyApprove</td>
+	<td></td>
+</tr>
+<!--Student selects assessment -->
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Your Tests</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=id('testSelections')/li/div/strong[text()=' Grade 11 MATH']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>id=testApprovalProgress</td>
+	<td></td>
+</tr>
+<!--Select TA interface for the proctor to approve the student-->
+<tr>
+	<td>selectWindow</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnRefresh &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>id=divOfApprovalsList</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.no_background &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=See/Edit Details</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accEdit_Language</td>
+	<td>label=Braille</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnSetApprove &gt; span</td>
+	<td></td>
+</tr>
+<!--Student answers the assessment-->
+<tr>
+	<td>selectPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This Your Test?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnApproveAccommodations &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnStartTest &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=textarea</td>
+	<td>213</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_2 &gt; textarea</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-1915-1-a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-1915-2-b</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-1915-3-a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_1955_Object4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_5 &gt; textarea</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 6</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=Item_OptionContainer_Response_MC_6_A</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=Item_OptionContainer_Response_MC_6_D</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_2035_Object2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_1926_Object4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_9 &gt; textarea</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_1957_1:(d=png16malpha)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<!--Select TA interface for the proctor to approve the segment transition-->
+<tr>
+	<td>selectWindow</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnRefresh &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>id=divOfApprovalsList</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.no_background &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Approve</td>
+	<td></td>
+</tr>
+<!--Student continues the assessment-->
+<tr>
+	<td>selectPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 11</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_11 &gt; textarea</td>
+	<td>234</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_12 &gt; textarea</td>
+	<td>we</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_13 &gt; textarea</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_14 &gt; textarea</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_15 &gt; textarea</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=Item_OptionContainer_Response_MC_16_C</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_17 &gt; textarea</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.cke_button_icon.cke_button__tdsspecialchar_icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=¡Inverted exclamation mark</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.cke_button_icon.cke_button__tdsspecialchar_icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=td.cke_dark_background.cke_light_background &gt; a.cke_specialchar &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_19 &gt; textarea</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#editor_20 span.cke_button_icon.cke_button__numberedlist_icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_21 &gt; textarea</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 22</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnCalculator &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#tool-calculator-ScientificInv-GraphingInv-Regression &gt; a.container-close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#TableContainer_22 .ti-input</td>
+	<td>22</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_1933_Object3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_24 &gt; textarea</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 25</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#EquationEditor_25 &gt; textarea</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-1936-1-a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-1936-2-b</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-1936-3-a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-1936-4-b</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_27_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=Item_OptionContainer_Response_MC_28_A</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=Item_OptionContainer_Response_MC_28_C</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;OK&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnEnd &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Review Shell Congratulations, you reached the end of the test!</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Submit Test&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Log Out&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>close</td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

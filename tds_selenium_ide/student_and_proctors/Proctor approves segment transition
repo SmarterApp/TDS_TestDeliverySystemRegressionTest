@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="https://sso-deployment.sbtds.org/" />
+<title>Proctor approves segment transition</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Proctor approves segment transition</td></tr>
+</thead><tbody>
+<!--Proctor approves segment transition-->
+<tr>
+	<td>open</td>
+	<td>${urlProctor}</td>
+	<td>Proctor</td>
+</tr>
+<tr>
+	<td>setSpeed</td>
+	<td>600</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>j_id_a:j_id_h</td>
+	<td>roleScreen</td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>btnApprovals</td>
+	<td>TAScreen</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${roleScreen}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>if</td>
+	<td>${roleScreen}==false &amp;&amp; ${TAScreen}==false </td>
+	<td>// Need to login</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IDToken1</td>
+	<td>${proctorName}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IDToken2</td>
+	<td>${proctorPsw}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=Login.Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>endIf</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>if</td>
+	<td>${roleScreen}==true </td>
+	<td>// The proctor needs to select a role to login</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=j_id_a:j_id_f:0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=j_id_a:j_id_h</td>
+	<td></td>
+</tr>
+<tr>
+	<td>endIf</td>
+	<td></td>
+	<td></td>
+</tr>
+<!--Check if there is already a test session active-->
+<tr>
+	<td>store</td>
+	<td>---- - ----</td>
+	<td>vNewSession</td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=lblSessionID</td>
+	<td>vlblSessionID</td>
+</tr>
+<tr>
+	<td>if</td>
+	<td>storedVars['vNewSession']==storedVars['vlblSessionID']</td>
+	<td>// Start a Session</td>
+</tr>
+<!--Choose the assessments to Start a test session-->
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Perf-ELA-3-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnStartSession &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>else</td>
+	<td></td>
+	<td></td>
+</tr>
+<!--No need to start a test session, just use the existing SessionID-->
+<tr>
+	<td>storeText</td>
+	<td>id=lblSessionID</td>
+	<td>vlblSessionID</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>&quot;${vlblSessionID}&quot;.split(&quot;-&quot;)[0]</td>
+	<td>vProctor</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>&quot;${vlblSessionID}&quot;.split(&quot;-&quot;)[1]</td>
+	<td>vSessionID</td>
+</tr>
+<tr>
+	<td>endIf</td>
+	<td></td>
+	<td></td>
+</tr>
+<!--Store the SessionID that will be used in this script-->
+<tr>
+	<td>storeText</td>
+	<td>id=lblSessionID</td>
+	<td>vlblSessionID</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>&quot;${vlblSessionID}&quot;.split(&quot;-&quot;)[0]</td>
+	<td>vProctor</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>&quot;${vlblSessionID}&quot;.split(&quot;-&quot;)[1]</td>
+	<td>vSessionID</td>
+</tr>
+<!--Opens Student Interface for student A-->
+<tr>
+	<td>openWindow</td>
+	<td>${urlStudent}</td>
+	<td>StudentA</td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=cbUser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=cbSession</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginRow_ID</td>
+	<td>${newStudent}3A</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginRow_FirstName</td>
+	<td>${newStudent}3A</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginSessionID1</td>
+	<td>${vProctor}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginSessionID2</td>
+	<td>${vSessionID}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This You?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>btnVerifyApprove</td>
+	<td></td>
+</tr>
+<!--Student selects the assessment-->
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Your Tests</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=id('testSelections')/li/div/strong[text()=' Perf Grade 3 ELA']</td>
+	<td></td>
+</tr>
+<!--Select TA interface for the proctor to approve the student-->
+<tr>
+	<td>selectWindow</td>
+	<td>TA Training Site</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnRefresh</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>id=divOfApprovalsList</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnApprovals</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Approve</td>
+	<td></td>
+</tr>
+<!--Student answers the assessment-->
+<tr>
+	<td>selectPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This Your Test?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnApproveAccommodations</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=audioPlayer</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnSoundYes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnStartTest &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-2643-1-a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-2643-2-b</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-2643-3-a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Item_Response_2</td>
+	<td>test</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Item_Response_3</td>
+	<td>test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>You have reached the end of this segment:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<!--Proctor approvs the segment transition-->
+<tr>
+	<td>selectWindow</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnRefresh &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=span.no_background &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.no_background &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Approve</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>name=StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.cke_button_icon.cke_button__tdsspecialchar_icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=td.cke_dark_background.cke_light_background &gt; a.cke_specialchar &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.cke_button_icon.cke_button__tdsspecialchar_icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=td.cke_dark_background.cke_light_background &gt; a.cke_specialchar &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.cke_button_icon.cke_button__tdsspecialchar_icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=td.cke_dark_background.cke_light_background &gt; a.cke_specialchar &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.cke_button_icon.cke_button__tdsspecialchar_icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=td.cke_dark_background.cke_light_background &gt; a.cke_specialchar &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnEnd &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Review Shell Congratulations, you reached the end of the test!</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnScoreLogout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>close</td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

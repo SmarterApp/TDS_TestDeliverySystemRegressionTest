@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Test Suite</title>
+</head>
+<body>
+<table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
+<tr><td><b>Test Suite</b></td></tr>
+<tr><td><a href="Config">Config</a></td></tr>
+<tr><td><a href="Create_Students_in_QA">Create_Students_in_ART</a></td></tr>
+<tr><td><a href="ProctorSelectsAssessments">ProctorSelectsAssessments</a></td></tr>
+<tr><td><a href="Student uses universal tools">Student uses universal tools on Grade 5 ELA assessment</a></td></tr>
+<tr><td><a href="Grade 7 ELA">Answer Grade 7 ELA as English and Braille students</a></td></tr>
+<tr><td><a href="Proctor denies access">Proctor denies access to MSB 7 assessment</a></td></tr>
+<tr><td><a href="Student resumes an assessment">Student pause and resume IRP Perf Grade 3 ELA </a></td></tr>
+<tr><td><a href="Proctor approves segment transition">Proctor approves segment transition (PERF Grade 3 ELA)</a></td></tr>
+<tr><td><a href="Proctor denies segment transition">Proctor approves segment until the second request</a></td></tr>
+<tr><td><a href="Proctor approves multiple students">Proctor approves multiple students</a></td></tr>
+<tr><td><a href="Proctor approves additional students">Proctor approves additional students</a></td></tr>
+<tr><td><a href="Student logs off before proctor approves his access">Student logs off before proctor approves his access</a></td></tr>
+<tr><td><a href="Proctor approves student with default accommodation settings">Proctor approves student with default accommodation settings</a></td></tr>
+<tr><td><a href="Proctor changes student default accommodations">Proctor sets Braille accommodations and checks auto-emboss</a></td></tr>
+<tr><td><a href="Proctor pauses the assessment for one student">Proctor pauses the assessment for one student</a></td></tr>
+<tr><td><a href="3rd Grade student - MATH">3rd GRADE student answers MATH assessments</a></td></tr>
+<tr><td><a href="3rd Grade student - ELA">3rd GRADE student answers ELA assessments</a></td></tr>
+<tr><td><a href="4th Grade student - MATH">4th GRADE student answers MATH assessments</a></td></tr>
+<tr><td><a href="4th Grade student - ELA">4th GRADE student answers ELA assessments</a></td></tr>
+<tr><td><a href="5th Grade student - MATH">5th GRADE student answers MATH assessment</a></td></tr>
+<tr><td><a href="5th Grade student - ELA">5th GRADE student answers ELA assessment</a></td></tr>
+<tr><td><a href="6th Grade student - MATH">6th GRADE student answers MATH assessment</a></td></tr>
+<tr><td><a href="6th Grade student - ELA">6th GRADE student answers ELA assessment</a></td></tr>
+<tr><td><a href="8th Grade student - MATH">8th GRADE student answers MATH assessment</a></td></tr>
+<tr><td><a href="8th Grade student - ELA">8th GRADE student answers ELA assessments</a></td></tr>
+<tr><td><a href="11th Grade student - MATH">11th GRADE student answers MATH assessments</a></td></tr>
+<tr><td><a href="11th Grade student - ELA">11th GRADE student answers ELA assessment</a></td></tr>
+</tbody></table>
+</body>
+</html>

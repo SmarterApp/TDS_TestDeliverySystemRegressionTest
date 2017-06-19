@@ -1,0 +1,1071 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="https://sso-deployment.sbtds.org/" />
+<title>Student uses universal tools on Grade 5 ELA assessment</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Student uses universal tools on Grade 5 ELA assessment</td></tr>
+</thead><tbody>
+<!--Student completes Grade 5 ELA assessment using the universal tools available-->
+<tr>
+	<td>open</td>
+	<td>${urlProctor}</td>
+	<td>Proctor</td>
+</tr>
+<tr>
+	<td>setSpeed</td>
+	<td>600</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>j_id_a:j_id_h</td>
+	<td>roleScreen</td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>btnApprovals</td>
+	<td>TAScreen</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${roleScreen}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>if</td>
+	<td>${roleScreen}==false &amp;&amp; ${TAScreen}==false </td>
+	<td>// Need to login</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IDToken1</td>
+	<td>${proctorName}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IDToken2</td>
+	<td>${proctorPsw}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=Login.Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>endIf</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>if</td>
+	<td>${roleScreen}==true </td>
+	<td>// The proctor needs to select a role to login</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=j_id_a:j_id_f:0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=j_id_a:j_id_h</td>
+	<td></td>
+</tr>
+<tr>
+	<td>endIf</td>
+	<td></td>
+	<td></td>
+</tr>
+<!--Check if there is already a test session active-->
+<tr>
+	<td>store</td>
+	<td>---- - ----</td>
+	<td>vNewSession</td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=lblSessionID</td>
+	<td>vlblSessionID</td>
+</tr>
+<tr>
+	<td>if</td>
+	<td>storedVars['vNewSession']==storedVars['vlblSessionID']</td>
+	<td>// Start a Session</td>
+</tr>
+<!--Choose the assessments to Start a test session-->
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-ELA-5-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnStartSession &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>else</td>
+	<td></td>
+	<td></td>
+</tr>
+<!--No need to start a test session, just use the existing SessionID-->
+<tr>
+	<td>storeText</td>
+	<td>id=lblSessionID</td>
+	<td>vlblSessionID</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>&quot;${vlblSessionID}&quot;.split(&quot;-&quot;)[0]</td>
+	<td>vProctor</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>&quot;${vlblSessionID}&quot;.split(&quot;-&quot;)[1]</td>
+	<td>vSessionID</td>
+</tr>
+<tr>
+	<td>endIf</td>
+	<td></td>
+	<td></td>
+</tr>
+<!--Store the SessionID that will be used in this script-->
+<tr>
+	<td>storeText</td>
+	<td>id=lblSessionID</td>
+	<td>vlblSessionID</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>&quot;${vlblSessionID}&quot;.split(&quot;-&quot;)[0]</td>
+	<td>vProctor</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>&quot;${vlblSessionID}&quot;.split(&quot;-&quot;)[1]</td>
+	<td>vSessionID</td>
+</tr>
+<!--Opens Student Interface for student A-->
+<tr>
+	<td>openWindow</td>
+	<td>${urlStudent}</td>
+	<td>StudentA</td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=cbUser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=cbSession</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginRow_ID</td>
+	<td>${newStudent}5</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginRow_FirstName</td>
+	<td>${newStudent}5</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginSessionID1</td>
+	<td>${vProctor}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=loginSessionID2</td>
+	<td>${vSessionID}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This You?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>btnVerifyApprove</td>
+	<td></td>
+</tr>
+<!--Student selects the assessment-->
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Your Tests</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=id('testSelections')/li/div/strong[text()=' Grade 5 ELA']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>id=testApprovalProgress</td>
+	<td></td>
+</tr>
+<!--Select TA interface for the proctor to approve the student-->
+<tr>
+	<td>selectWindow</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnRefresh &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>id=divOfApprovalsList</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.no_background &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=See/Edit Details</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accEdit_Permissive_Mode</td>
+	<td>label=Permissive Mode Enabled</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accEdit_Closed_Captioning</td>
+	<td>label=Closed Captioning Available</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accEdit_American_Sign_Language</td>
+	<td>label=Show ASL videos</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accEdit_Masking</td>
+	<td>label=Masking Available</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnSetApprove &gt; span</td>
+	<td></td>
+</tr>
+<!--Student answers the assessment-->
+<tr>
+	<td>selectPopUp</td>
+	<td>StudentA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This Your Test?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnApproveAccommodations &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnStartTest &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 1</td>
+	<td></td>
+</tr>
+<!--Answer questions in the first page-->
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_1_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_1_C &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_1_F &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_2_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_3_A &gt; p</td>
+	<td></td>
+</tr>
+<!--Zoom In/Out-->
+<tr>
+	<td>click</td>
+	<td>css=#btnZoomIn &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnZoomIn &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnZoomOut &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnZoomOut &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_EBSR_4_Part1_B &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_EBSR_4_Part2_B &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_EBSR_4_Part2_D &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_5_C &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_5_F &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_6_C &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_7_A &gt; p</td>
+	<td></td>
+</tr>
+<!--Strikethrough answers-->
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_7 a.toolButton.itemMenu</td>
+	<td>// Select hamburger icon</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Strikethrough&quot;)]</td>
+	<td>//Open striketrhough-menu</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=Item_OptionContent_Response_MC_7_D</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=Item_OptionContent_Response_MC_7_B</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=Item_OptionContent_Response_MC_7_C</td>
+	<td>${KEY_ESC}</td>
+</tr>
+<!--Expand passage-->
+<tr>
+	<td>click</td>
+	<td>css=a.toolButton.expand-collapse-passage</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.toolButton.expand-collapse-passage</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<!--Answer questions in the next page-->
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2620_TAG_3_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2620_TAG_6_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_9_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_9_D &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2611_TAG_4_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Item_Response_11</td>
+	<td>test</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Item_Response_12</td>
+	<td>hello</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_EBSR_13_Part1_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_2614_TAG_6_BEGIN</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_2614_TAG_9_BEGIN</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_14_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_15_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_15_D &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<!--Add Masking-->
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=btnMask</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseDownAt</td>
+	<td>id=item_2555_TAG_1_BEGIN</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseUpAt</td>
+	<td>id=item_2555_TAG_1_BEGIN</td>
+	<td>140,20</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button.tds_mask_close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=btnMask</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Item_Response_16</td>
+	<td>Answer to question 16</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnSave &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<!--Add a note-->
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_17 a.toolButton.itemMenu</td>
+	<td>// Click the hamburger icon</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Notepad&quot;)]</td>
+	<td>// Open Notepad-menu</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=textarea.comment-input.comment-textbox</td>
+	<td>Note to item 17 from student ${student5A}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Save and Close&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2574_TAG_5_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2574_TAG_8_BEGIN']/span</td>
+	<td></td>
+</tr>
+<!--Open Glossary-->
+<tr>
+	<td>click</td>
+	<td>id=word-list-1</td>
+	<td>// amphibians</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#wordListPanel &gt; a.container-close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_18_C &gt; p</td>
+	<td></td>
+</tr>
+<!--Mark for review-->
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_18 a.toolButton.itemMenu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Mark for Review&quot;)]</td>
+	<td>//Open Mark for Review</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<!--Display Tutorial on question 19-->
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 6</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_19 a.toolButton.itemMenu</td>
+	<td>// Click the hamburger icon</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Tutorial&quot;)]</td>
+	<td>// Open Tutorial</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#dialogContentClose &gt; a</td>
+	<td></td>
+</tr>
+<!--Answer more questions-->
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_19_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_19_E &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2575_TAG_7_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2575_TAG_18_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_920_TAG_4_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_920_TAG_13_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_920_TAG_15_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.slide_controls_btn.slide_controls_play_btn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.slide_controls_btn.slide_controls_next_btn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.slide_controls_btn.slide_controls_next_btn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.slide_controls_btn.slide_controls_stop_btn</td>
+	<td></td>
+</tr>
+<!--Display American Sign Language video-->
+<tr>
+	<td>clickAt</td>
+	<td>css=#Page_G-187-3728-0 a.toolButton.passageMenu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;American Sign Language&quot;)]</td>
+	<td>//Open ASL video from the passage</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.tool-video-container a.container-close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_22 a.toolButton.itemMenu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;American Sign Language&quot;)]</td>
+	<td>//Open ASL video from item 22</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.tool-video-container a.container-close</td>
+	<td></td>
+</tr>
+<!--Answer more questions-->
+<tr>
+	<td>click</td>
+	<td>id=micell-2128-1-a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-2128-3-a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-2128-5-a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-2128-2-b</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-2128-4-b</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_23_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_24_B &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_24_E &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnBack &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<!--Play three audios for questions 25 - 27-->
+<tr>
+	<td>click</td>
+	<td>css=#sound-1 a.playPause</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sound-1 a.playPause</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sound-2 a.playPause</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sound-2 a.playPause</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sound-3 a.playPause</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sound-3 a.playPause</td>
+	<td></td>
+</tr>
+<!--Answer questions-->
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_25_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_25_C &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_26_C &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_27_B &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_27_E &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_2477_TAG_1_BEGIN</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_2477_TAG_6_BEGIN</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2560_TAG_4_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2560_TAG_7_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_30_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_30_D &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=button:contains(&quot;OK&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;OK&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnEnd &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=button:contains(&quot;Submit Test&quot;)</td>
+	<td></td>
+</tr>
+<!--Go to question 18 which was marked for review and remove the mark-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=18</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 5</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_18 a.toolButton.itemMenu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Unmark Review Item&quot;)]</td>
+	<td>//Open Mark for Review</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnEnd &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=button:contains(&quot;Submit Test&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Submit Test&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnScoreLogout &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>close</td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

@@ -1,0 +1,1508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://tds-deployment.sbtds.org/" />
+<title>New Test</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">New Test</td></tr>
+</thead><tbody>
+<!--5th grade GUEST student answers assessment, mark an item for review, selects tutorial, expand passages and click the mask button-->
+<tr>
+	<td>open</td>
+	<td>${urlStudent}</td>
+	<td>GuestStudent</td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Please Sign In</td>
+	<td></td>
+</tr>
+<tr>
+	<td>setSpeed</td>
+	<td>500</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=ddlGrades</td>
+	<td>label=5</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnVerifyApprove &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<!--Student selects the assessment-->
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Your Tests</td>
+	<td></td>
+</tr>
+<!--*******************************************************************************************************-->
+<!--Perf Grade 5 ELA - Braille student, access help links, navigate between pages using drop-down and add a global note -->
+<tr>
+	<td>click</td>
+	<td>xpath=id('testSelections')/li/div/strong[text()=' Perf Grade 5 ELA']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Choose Settings:</td>
+	<td></td>
+</tr>
+<!--Change accommodations-->
+<tr>
+	<td>select</td>
+	<td>id=accs-type-SBAC-Perf-ELA-5-language</td>
+	<td>label=Braille</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accs-type-SBAC-Perf-ELA-5-embossrequesttype</td>
+	<td>label=Auto-Request</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accs-type-SBAC-Perf-ELA-5-mutesystemvolume</td>
+	<td>label=Mute questions but read passages</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accs-type-SBAC-Perf-S2-ELA-5-thesaurus</td>
+	<td>label=Off</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accs-type-SBAC-Perf-S2-ELA-5-dictionary</td>
+	<td>label=Off</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnAccSelect</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This Your Test?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnApproveAccommodations</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.sound_repeat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnSoundYes &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Instructions and Help</td>
+	<td></td>
+</tr>
+<!--Navigate through the Help screen-->
+<tr>
+	<td>click</td>
+	<td>link=Navigating the Test without JAWS</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Pause Rules</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnStartTest</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 1</td>
+	<td></td>
+</tr>
+<!--Open Help Guide from the assessment-->
+<tr>
+	<td>click</td>
+	<td>id=btnHelp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Basic Test Rules</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Overview of the Test Tools</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Responding to Items without JAWS</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//a[contains(text(),'Close')])[4]</td>
+	<td></td>
+</tr>
+<!--Answer questions-->
+<tr>
+	<td>click</td>
+	<td>id=micell-2646-1-c</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-2646-2-b</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Item_Response_2</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Item_Response_3</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.cke_button_icon.cke_button__tdsspecialchar_icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=td.cke_dark_background.cke_light_background &gt; a.cke_specialchar &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.cke_button_icon.cke_button__tdsspecialchar_icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=td.cke_dark_background.cke_light_background &gt; a.cke_specialchar &gt; span</td>
+	<td></td>
+</tr>
+<!--Navigate to previous page using drop dfown-->
+<tr>
+	<td>select</td>
+	<td>id=ddlNavigation</td>
+	<td>label=1 - 3</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=jumpGo</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Open alerts Close alerts</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.alertDismiss</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=ddlNavigation</td>
+	<td>label=4</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=jumpGo</td>
+	<td></td>
+</tr>
+<!--Add Global Notes-->
+<tr>
+	<td>click</td>
+	<td>css=#btnGlobalNotes &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=textarea.comment-input.comment-textbox</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=textarea.comment-input.comment-textbox</td>
+	<td>Global Notes from Selenium 5th grade Guest student</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=yui-gen5-button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnSave &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnEnd &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Review Shell Congratulations, you reached the end of the test!</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Submit Test&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnScoreLogout &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<!--*******************************************************************************************************-->
+<!--Grade 5 ELA - add notes, view tutorial, play audio and video, display ASL videos, expand passage, mark for review-->
+<tr>
+	<td>open</td>
+	<td>${urlStudent}</td>
+	<td>GuestStudent</td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Please Sign In</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=ddlGrades</td>
+	<td>label=5</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnVerifyApprove &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Your Tests</td>
+	<td></td>
+</tr>
+<!--Change accommodations -->
+<tr>
+	<td>click</td>
+	<td>xpath=id('testSelections')/li/div/strong[text()=' Grade 5 ELA']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Choose Settings:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accs-type-SBAC-ELA-5-americansignlanguage</td>
+	<td>label=Show ASL videos</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accs-type-SBAC-ELA-5-masking</td>
+	<td>label=Masking Available</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accs-type-SBAC-ELA-5-closedcaptioning</td>
+	<td>label=Closed Captioning Available</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accs-type-SBAC-ELA-5-tts</td>
+	<td>label=Items</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnAccSelect &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This Your Test?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnApproveAccommodations</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=audioPlayer</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnSoundYes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnStartTest &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 1</td>
+	<td></td>
+</tr>
+<!--Answer questions in the first page-->
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_1_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_1_C &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_1_F &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_2_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_3_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_EBSR_4_Part1_B &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_EBSR_4_Part2_B &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_EBSR_4_Part2_D &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_5_C &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_5_F &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_6_C &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_7_A &gt; p</td>
+	<td></td>
+</tr>
+<!--Strikethrough answers-->
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_7 a.toolButton.itemMenu</td>
+	<td>// Select hamburger icon</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Strikethrough&quot;)]</td>
+	<td>//Open striketrhough-menu</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=Item_OptionContent_Response_MC_7_D</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=Item_OptionContent_Response_MC_7_B</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=Item_OptionContent_Response_MC_7_C</td>
+	<td>${KEY_ESC}</td>
+</tr>
+<!--Expand passage-->
+<tr>
+	<td>click</td>
+	<td>css=a.toolButton.expand-collapse-passage</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.toolButton.expand-collapse-passage</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<!--Answer questions in the next page-->
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2620_TAG_3_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2620_TAG_6_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_9_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_9_D &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2611_TAG_4_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Item_Response_11</td>
+	<td>test</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Item_Response_12</td>
+	<td>hello</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_EBSR_13_Part1_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_2614_TAG_6_BEGIN</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_2614_TAG_9_BEGIN</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_14_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_15_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_15_D &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<!--Add Masking-->
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=btnMask</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseDownAt</td>
+	<td>id=item_2555_TAG_1_BEGIN</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseUpAt</td>
+	<td>id=item_2555_TAG_1_BEGIN</td>
+	<td>140,20</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button.tds_mask_close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=btnMask</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Item_Response_16</td>
+	<td>Answer to question 16</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnSave &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<!--Add a note-->
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_17 a.toolButton.itemMenu</td>
+	<td>// Click the hamburger icon</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Notepad&quot;)]</td>
+	<td>// Open Notepad-menu</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=textarea.comment-input.comment-textbox</td>
+	<td>Note to item 17 - 5th grade GUEST student</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Save and Close&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2574_TAG_5_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2574_TAG_8_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_18_C &gt; p</td>
+	<td></td>
+</tr>
+<!--Mark for review-->
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_18 a.toolButton.itemMenu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Mark for Review&quot;)]</td>
+	<td>//Open Mark for Review</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<!--Display Tutorial on question 19-->
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 6</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_19 a.toolButton.itemMenu</td>
+	<td>// Click the hamburger icon</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Tutorial&quot;)]</td>
+	<td>// Open Tutorial</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#dialogContentClose &gt; a</td>
+	<td></td>
+</tr>
+<!--Answer more questions-->
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_19_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_19_E &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2575_TAG_7_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2575_TAG_18_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_920_TAG_4_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_920_TAG_13_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_920_TAG_15_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.slide_controls_btn.slide_controls_play_btn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.slide_controls_btn.slide_controls_next_btn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.slide_controls_btn.slide_controls_next_btn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.slide_controls_btn.slide_controls_stop_btn</td>
+	<td></td>
+</tr>
+<!--Display American Sign Language video-->
+<tr>
+	<td>clickAt</td>
+	<td>css=#Page_G-187-3728-0 a.toolButton.passageMenu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;American Sign Language&quot;)]</td>
+	<td>//Open ASL video from the passage</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.tool-video-container a.container-close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_22 a.toolButton.itemMenu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;American Sign Language&quot;)]</td>
+	<td>//Open ASL video from item 22</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.tool-video-container a.container-close</td>
+	<td></td>
+</tr>
+<!--Answer more questions-->
+<tr>
+	<td>click</td>
+	<td>id=micell-2128-1-a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-2128-3-a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-2128-5-a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-2128-2-b</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=micell-2128-4-b</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_23_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_24_B &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_24_E &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnBack &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<!--Play three audios for questions 25 - 27-->
+<tr>
+	<td>click</td>
+	<td>css=#sound-1 a.playPause</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sound-1 a.playPause</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sound-2 a.playPause</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sound-2 a.playPause</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sound-3 a.playPause</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sound-3 a.playPause</td>
+	<td></td>
+</tr>
+<!--Answer questions-->
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_25_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_25_C &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_26_C &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_27_B &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_27_E &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_2477_TAG_1_BEGIN</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=item_2477_TAG_6_BEGIN</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2560_TAG_4_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='item_2560_TAG_7_BEGIN']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_30_A &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Item_OptionContent_Response_MC_30_D &gt; p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=button:contains(&quot;OK&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;OK&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnEnd &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Review Shell Congratulations, you reached the end of the test!</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Submit Test&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnScoreLogout &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<!--*******************************************************************************************************-->
+<!--Grade 5 MATH - answer the assessment in Spanish and use all availabel universal tools. Pauses when there is a question that has SVG elements(Question 13)-->
+<tr>
+	<td>open</td>
+	<td>${urlStudent}</td>
+	<td>GuestStudent</td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Please Sign In</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=ddlGrades</td>
+	<td>label=5</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnVerifyApprove &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Your Tests</td>
+	<td></td>
+</tr>
+<!--Change accommodations -->
+<tr>
+	<td>click</td>
+	<td>xpath=id('testSelections')/li/div/strong[text()=' Grade 5 MATH']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accs-type-SBAC-Mathematics-5-language</td>
+	<td>label=Spanish</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=accs-type-SBAC-Mathematics-5-wordlist</td>
+	<td>label=English Glossary</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnAccSelect &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This Your Test?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnApproveAccommodations</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnStartTest &gt; span &gt; button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 1</td>
+	<td></td>
+</tr>
+<!--Answer question1, add a note and open tutorial-->
+<tr>
+	<td>click</td>
+	<td>id=item_623_TAG_6_BEGIN</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_1 a.toolButton.itemMenu</td>
+	<td>// Click the hamburger icon</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Bloc de notas&quot;)]</td>
+	<td>// Open Notepad-menu</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=textarea.comment-input.comment-textbox</td>
+	<td>Note in Spanish for Item 1: &quot;Hola!&quot;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Guardar y cerrar&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_1 a.toolButton.itemMenu</td>
+	<td>// Click the hamburger icon</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Tutorial&quot;)]</td>
+	<td>// Open Tutorial</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#dialogContentClose &gt; a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_1 a.toolButton.itemMenu</td>
+	<td>// Click the hamburger icon</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Marcar&quot;)]</td>
+	<td>// Open Marcar para Revision (Mark for review)</td>
+</tr>
+<!--Use numeric pad to input the answer-->
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_2 .keypad-item[aria-label=&quot;one&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_2 .keypad-item[aria-label=&quot;one&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.mje_nav_del[mathquillonkey=&quot;Backspace&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.keypad-item[aria-label=&quot;two&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.keypad-item[aria-label=&quot;five&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.mje_nav_next[mathquillonkey=&quot;Left&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.keypad-item[aria-label=&quot;period&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.mje_nav_undo[callselfmethod=&quot;undo&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<!--Strikethrough the answers that are invalid and answer the question-->
+<tr>
+	<td>clickAt</td>
+	<td>css=#Item_1 a.toolButton.itemMenu</td>
+	<td>// Click the hamburger icon</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>xpath=//ul//li[contains(.,&quot;Tachado&quot;)]</td>
+	<td>// Tachado (striketrhough)</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=Item_OptionContent_Response_MC_3_A</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=Item_OptionContent_Response_MC_3_B</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=Item_OptionContent_Response_MC_3_C</td>
+	<td>${KEY_ESC}</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=Item_OptionContent_Response_MC_3_C</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_4 .keypad-item[aria-label=&quot;two&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_4 .keypad-item[aria-label=&quot;four&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_4 .keypad-item[aria-label=&quot;zero&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_5 .keypad-item[aria-label=&quot;one&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_5 .keypad-item[aria-label=&quot;two&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_5 .keypad-item[aria-label=&quot;three&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 6</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=Item_OptionContainer_Response_MC_6_B</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 7</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=Item_OptionContainer_Response_MC_7_B</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 8</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_8 .keypad-item[aria-label=&quot;one&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_8 .keypad-item[aria-label=&quot;two&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_8 .keypad-item[aria-label=&quot;three&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 9</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=Item_OptionContainer_Response_MC_9_D</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 10</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=Item_OptionContainer_Response_MC_10_B</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 11</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=Item_OptionContainer_Response_MC_11_D</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 12</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_12 .keypad-item[aria-label=&quot;parentheses&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_12 .keypad-item[aria-label=&quot;eight&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_12 .keypad-item[aria-label=&quot;multiply&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_12 .keypad-item[aria-label=&quot;two&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#EquationEditor_12 .mje_nav_prev[mathquillonkey=&quot;Right&quot;] </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_12 .keypad-item[aria-label=&quot;minus&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css= #EquationEditor_12 .keypad-item[aria-label=&quot;four&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnNext &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=paletteimage_1_4</td>
+	<td>// letter C</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>id=staticimages</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnPause &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button:contains(&quot;Sí&quot;)</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

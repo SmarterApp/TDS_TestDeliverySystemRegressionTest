@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://blog.reallysimplethoughts.com/" />
+<title>Config</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Config</td></tr>
+</thead><tbody>
+<tr>
+	<td>setSpeed</td>
+	<td>100</td>
+	<td></td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>https://tds-awsqa.sbtds.org/proctor</td>
+	<td>urlProctor</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>https://tds-awsqa.sbtds.org/student</td>
+	<td>urlStudent</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>http://art-qa.sbtds.org/</td>
+	<td>urlART</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>nacosta@fairwaytech.com</td>
+	<td>proctorName</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>Password</td>
+	<td>proctorPsw</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>FRANK</td>
+	<td>newStudent</td>
+</tr>
+<!--Other environments: **************************************************************************-->
+<!--DEV KUBERNETICS:          http://tds-awsdev.sbtds.org/proctor/-->
+<!--QA KUBERNETICS:            http://tds-awsqa.sbtds.org/proctor/-->
+<!--DEV:                                    http://tds-deployment.sbtds.org/proctor/-->
+<!--QA:                                      http://tds-awsqa.sbtds.org/proctor/-->
+<!--QA-STAGE:                         http://tds-qa-stage.sbtds.org/student/-->
+<!--WCAG:                                http://tds-wcag-deployment.sbtds.org/student/-->
+<!--ART All Environments:       http://art-deployment.sbtds.org/-->
+<!--ART QA:                              http://art-qa.sbtds.org/-->
+<!--Proctor with one role:        apitester.testAC@example.com-->
+</tbody></table>
+</body>
+</html>
