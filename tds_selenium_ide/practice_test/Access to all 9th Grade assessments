@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="https://sso-deployment.sbtds.org/" />
+<title>Access to all 9th grade assesments</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Access to all 9th grade assesments</td></tr>
+</thead><tbody>
+<!--GUEST student access each and every assessment in grade 9-->
+<tr>
+	<td>open</td>
+	<td>${urlStudent}</td>
+	<td>GuestStudent</td>
+</tr>
+<tr>
+	<td>setSpeed</td>
+	<td>800</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectPopUp</td>
+	<td>Student: Login Shell Please Sign In</td>
+	<td></td>
+</tr>
+<!--Student selects the assessment High School ELA-->
+<tr>
+	<td>click</td>
+	<td>css=button[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This You?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=ddlGrades</td>
+	<td>label=9</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnVerifyApprove &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Your Tests</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=id('testSelections')/li/div/strong[text()=' High School ELA']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Choose Settings:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnAccSelect &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This Your Test?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnApproveAccommodations</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnStartTest &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>id=yuiSimpleDialog_mask</td>
+	<td>errorMsg</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${errorMsg} - Error in assessment&nbsp;&nbsp;High School ELA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>if</td>
+	<td>${errorMsg}== true</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;OK&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>else</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnPause &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>endIf</td>
+	<td></td>
+	<td></td>
+</tr>
+<!--*******************************************************-->
+<!--Student selects the assessment High School MATH-->
+<tr>
+	<td>open</td>
+	<td>${urlStudent}</td>
+	<td>GuestStudent</td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Please Sign In</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This You?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=ddlGrades</td>
+	<td>label=9</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnVerifyApprove &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Your Tests</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=id('testSelections')/li/div/strong[text()=' High School MATH']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Choose Settings:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnAccSelect &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Login Shell Is This Your Test?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btnApproveAccommodations</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#btnStartTest &gt; span &gt; button[type=&quot;button&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>id=yuiSimpleDialog_mask</td>
+	<td>errorMsg</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${errorMsg} - Error in assessment High School MATH</td>
+	<td></td>
+</tr>
+<tr>
+	<td>if</td>
+	<td>${errorMsg}== true</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;OK&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>else</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>Student: Test, Page 1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnPause &gt; span.icon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button:contains(&quot;Yes&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>endIf</td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

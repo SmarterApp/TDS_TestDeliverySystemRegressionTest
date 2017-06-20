@@ -1,0 +1,1131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://tds-deployment.sbtds.org/" />
+<title>Create_Student</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Create_Student</td></tr>
+</thead><tbody>
+<!--Create all students that will be used in the test suite. The suite adds a number after the name to identify the student's grade-->
+<tr>
+	<td>openWindow</td>
+	<td>${urlART}</td>
+	<td>ART_QA</td>
+</tr>
+<tr>
+	<td>setSpeed</td>
+	<td>700</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>ART_QA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectPopUp</td>
+	<td>ART_QA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>name=ART_QA</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>css=p.studentPersonal_p</td>
+	<td>whatScreen</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${whatScreen}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>gotoIf</td>
+	<td>${whatScreen}==false</td>
+	<td>LoginScreen</td>
+</tr>
+<tr>
+	<td>gotoIf</td>
+	<td>${whatScreen}==true</td>
+	<td>ARTScreen</td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>LoginScreen</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IDToken1</td>
+	<td>${proctorName}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IDToken2</td>
+	<td>${proctorPsw}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=Login.Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>End</td>
+	<td></td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>ARTScreen</td>
+	<td></td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>End</td>
+	<td></td>
+</tr>
+<!--Check if there is already a test session active-->
+<tr>
+	<td>waitForTitle</td>
+	<td>Administration and Registration Tools - Dashboard</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>xpath=html/body/div[1]/div/div[1]/ul/li[4]/select</td>
+	<td>label=STATE - CA</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=p.studentPersonal_p</td>
+	<td></td>
+</tr>
+<!--************************************************************************************************************************-->
+<!--3th grade student (A)-->
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.entityId</td>
+	<td>${newStudent}3A</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.firstName</td>
+	<td>${newStudent}3A</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.externalSsid</td>
+	<td>${newStudent}3A</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.lastName</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[13]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=birthDate</td>
+	<td>2007-04-04</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[10]/span/select</td>
+	<td>label=Male</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[12]/span/select</td>
+	<td>label=03 - Third Grade</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=student.white</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[25]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[27]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[26]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[29]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>xpath=/html/body/div[2]/div/div[2]/div/div[2]/ul/li[1]/span/select</td>
+	<td>label=CA</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@type='text'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DS9002 - San Diego Institution</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='text']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DISTRICT2 - District 2 - San Diego</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=student.middleName</td>
+	<td>W</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.fieldGroup &gt; button.boxBtn</td>
+	<td></td>
+</tr>
+<!--************************************************************************************************************************-->
+<!--3th grade student (B)-->
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.entityId</td>
+	<td>${newStudent}3B</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.firstName</td>
+	<td>${newStudent}3B</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.externalSsid</td>
+	<td>${newStudent}3B</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.lastName</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[13]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=birthDate</td>
+	<td>2007-04-04</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[10]/span/select</td>
+	<td>label=Male</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[12]/span/select</td>
+	<td>label=03 - Third Grade</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=student.white</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[25]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[27]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[26]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[29]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>xpath=/html/body/div[2]/div/div[2]/div/div[2]/ul/li[1]/span/select</td>
+	<td>label=CA</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@type='text'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DS9002 - San Diego Institution</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='text']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DISTRICT2 - District 2 - San Diego</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=student.middleName</td>
+	<td>W</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.fieldGroup &gt; button.boxBtn</td>
+	<td></td>
+</tr>
+<!--************************************************************************************************************************-->
+<!--4th grade student-->
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.entityId</td>
+	<td>${newStudent}4</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.firstName</td>
+	<td>${newStudent}4</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.externalSsid</td>
+	<td>${newStudent}4</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.lastName</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[13]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=birthDate</td>
+	<td>2007-04-04</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[10]/span/select</td>
+	<td>label=Male</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[12]/span/select</td>
+	<td>label=04 - Fourth Grade</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=student.white</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[25]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[27]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[26]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[29]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>xpath=/html/body/div[2]/div/div[2]/div/div[2]/ul/li[1]/span/select</td>
+	<td>label=CA</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@type='text'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DS9002 - San Diego Institution</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='text']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DISTRICT2 - District 2 - San Diego</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=student.middleName</td>
+	<td>W</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.fieldGroup &gt; button.boxBtn</td>
+	<td></td>
+</tr>
+<!--************************************************************************************************************************-->
+<!--5th grade student-->
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.entityId</td>
+	<td>${newStudent}5</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.firstName</td>
+	<td>${newStudent}5</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.externalSsid</td>
+	<td>${newStudent}5</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.lastName</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[13]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=birthDate</td>
+	<td>2007-04-04</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[10]/span/select</td>
+	<td>label=Male</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[12]/span/select</td>
+	<td>label=05 - Fifth Grade</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=student.white</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[25]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[27]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[26]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[29]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>xpath=/html/body/div[2]/div/div[2]/div/div[2]/ul/li[1]/span/select</td>
+	<td>label=CA</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@type='text'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DS9002 - San Diego Institution</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='text']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DISTRICT2 - District 2 - San Diego</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=student.middleName</td>
+	<td>W</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.fieldGroup &gt; button.boxBtn</td>
+	<td></td>
+</tr>
+<!--************************************************************************************************************************-->
+<!--6th grade student-->
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.entityId</td>
+	<td>${newStudent}6</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.firstName</td>
+	<td>${newStudent}6</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.externalSsid</td>
+	<td>${newStudent}6</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.lastName</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[13]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=birthDate</td>
+	<td>2007-04-04</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[10]/span/select</td>
+	<td>label=Male</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[12]/span/select</td>
+	<td>label=06 - Sixth Grade</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=student.white</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[25]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[27]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[26]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[29]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>xpath=/html/body/div[2]/div/div[2]/div/div[2]/ul/li[1]/span/select</td>
+	<td>label=CA</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@type='text'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DS9002 - San Diego Institution</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='text']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DISTRICT2 - District 2 - San Diego</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=student.middleName</td>
+	<td>W</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.fieldGroup &gt; button.boxBtn</td>
+	<td></td>
+</tr>
+<!--************************************************************************************************************************-->
+<!--7th grade student (A)-->
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.entityId</td>
+	<td>${newStudent}7A</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.firstName</td>
+	<td>${newStudent}7A</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.externalSsid</td>
+	<td>${newStudent}7A</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.lastName</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[13]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=birthDate</td>
+	<td>2007-04-04</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[10]/span/select</td>
+	<td>label=Male</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[12]/span/select</td>
+	<td>label=07 - Seventh Grade</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=student.white</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[25]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[27]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[26]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[29]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>xpath=/html/body/div[2]/div/div[2]/div/div[2]/ul/li[1]/span/select</td>
+	<td>label=CA</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@type='text'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DS9002 - San Diego Institution</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='text']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DISTRICT2 - District 2 - San Diego</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=student.middleName</td>
+	<td>W</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.fieldGroup &gt; button.boxBtn</td>
+	<td></td>
+</tr>
+<!--************************************************************************************************************************-->
+<!--7th grade student (B)-->
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.entityId</td>
+	<td>${newStudent}7B</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.firstName</td>
+	<td>${newStudent}7B</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.externalSsid</td>
+	<td>${newStudent}7B</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.lastName</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[13]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=birthDate</td>
+	<td>2007-05-05</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[10]/span/select</td>
+	<td>label=Male</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[12]/span/select</td>
+	<td>label=07 - Seventh Grade</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=student.white</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[25]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[27]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[26]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[29]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>xpath=/html/body/div[2]/div/div[2]/div/div[2]/ul/li[1]/span/select</td>
+	<td>label=CA</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@type='text'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DS9002 - San Diego Institution</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='text']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DISTRICT2 - District 2 - San Diego</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=student.middleName</td>
+	<td>W</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.fieldGroup &gt; button.boxBtn</td>
+	<td></td>
+</tr>
+<!--************************************************************************************************************************-->
+<!--8th grade student-->
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[2]</td>
+	<td>// Add New student</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.entityId</td>
+	<td>${newStudent}8</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.firstName</td>
+	<td>${newStudent}8</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.externalSsid</td>
+	<td>${newStudent}8</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.lastName</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[13]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=birthDate</td>
+	<td>2007-04-04</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[10]/span/select</td>
+	<td>label=Male</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[12]/span/select</td>
+	<td>label=08 - Eighth Grade</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=student.white</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[25]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[27]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[26]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[29]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>xpath=/html/body/div[2]/div/div[2]/div/div[2]/ul/li[1]/span/select</td>
+	<td>label=CA</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@type='text'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DS9002 - San Diego Institution</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='text']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DISTRICT2 - District 2 - San Diego</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=student.middleName</td>
+	<td>W</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.fieldGroup &gt; button.boxBtn</td>
+	<td></td>
+</tr>
+<!--************************************************************************************************************************-->
+<!--11th grade student-->
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[2]</td>
+	<td>// Add New student</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.entityId</td>
+	<td>${newStudent}11</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.firstName</td>
+	<td>${newStudent}11</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.externalSsid</td>
+	<td>${newStudent}11</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=student.lastName</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[13]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=birthDate</td>
+	<td>2007-04-04</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[10]/span/select</td>
+	<td>label=Male</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[12]/span/select</td>
+	<td>label=11 - Eleventh Grade</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=student.white</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[25]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[27]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[26]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='mainContent']/div/div[2]/div/div[2]/ul/li[29]/span/select</td>
+	<td>label=YES</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>xpath=/html/body/div[2]/div/div[2]/div/div[2]/ul/li[1]/span/select</td>
+	<td>label=CA</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@type='text'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DS9002 - San Diego Institution</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='text']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=DISTRICT2 - District 2 - San Diego</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=student.middleName</td>
+	<td>W</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.fieldGroup &gt; button.boxBtn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>close</td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

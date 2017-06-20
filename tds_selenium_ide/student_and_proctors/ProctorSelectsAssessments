@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://tds-deployment.sbtds.org/" />
+<title>New Test</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">New Test</td></tr>
+</thead><tbody>
+<!--These are the commands to select each assessment from the list in the dev environment-->
+<tr>
+	<td>open</td>
+	<td>${urlProctor}</td>
+	<td>Proctor</td>
+</tr>
+<tr>
+	<td>setSpeed</td>
+	<td>600</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>j_id_a:j_id_h</td>
+	<td>roleScreen</td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>btnApprovals</td>
+	<td>TAScreen</td>
+</tr>
+<tr>
+	<td>if</td>
+	<td>${roleScreen}==false &amp;&amp; ${TAScreen}==false </td>
+	<td>// Need to login</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IDToken1</td>
+	<td>${proctorName}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IDToken2</td>
+	<td>${proctorPsw}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=Login.Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>endIf</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>j_id_a:j_id_h</td>
+	<td>roleScreen</td>
+</tr>
+<tr>
+	<td>if</td>
+	<td>${roleScreen}==true </td>
+	<td>// The proctor needs to select a role to login</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=j_id_a:j_id_f:0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=j_id_a:j_id_h</td>
+	<td></td>
+</tr>
+<tr>
+	<td>endIf</td>
+	<td></td>
+	<td></td>
+</tr>
+<!--Check if there is already a test session active-->
+<tr>
+	<td>store</td>
+	<td>---- - ----</td>
+	<td>vNewSession</td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=lblSessionID</td>
+	<td>vlblSessionID</td>
+</tr>
+<tr>
+	<td>if</td>
+	<td>storedVars['vNewSession']==storedVars['vlblSessionID']</td>
+	<td>// Start a Session</td>
+</tr>
+<!--Choose the assessments to Start a test session-->
+<tr>
+	<td>setSpeed</td>
+	<td>200</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)MSB-ELA-3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)MSB-Multiform-Mathematics-3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Perf-ELA-3-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-ELA-3-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)IRP-Perf-ELA-3-Summer-2015-2016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC ELA 3-ELA-3-Spring-2014-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC Math 3-MATH-3-Spring-2014-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Perf-MATH-3-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-IRP-CAT-ELA-3-Summer-2015-2016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-IRP-Perf-MATH-3-Summer-2015-2016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-MATH-3-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Perf-MATH-4-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-ELA-4-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-MATH-4-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-MATH-5-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-ELA-5-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Perf-MATH-5-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC Math 6-MATH-6-Spring-2014-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC ELA 6-ELA-6-Spring-2014-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-ELA-6-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Perf-MATH-6-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-ELA-7-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)IRP-Perf-ELA-7-Summer-2015-2016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Perf-MATH-7-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-IRP-CAT-ELA-7-Summer-2015-2016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-IRP-Mathematics-7-Summer-2015-2016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC Math 7-MATH-7-Spring-2014-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-ELA-8-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Perf-MATH-8-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-ELA-11-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Perf-ELA-11-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Perf-MATH-11-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-IRP-CAT-ELA-11-Summer-2015-2016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-IRP-CAT-MATH-11-Summer-2015-2016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)SBAC-Mathematics-11-Spring-2013-2015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)IRP-Perf-ELA-11-Summer-2015-2016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=(SBAC_PT)MSB-Mathematics-3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#btnStartSession &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>setSpeed</td>
+	<td>600</td>
+	<td></td>
+</tr>
+<tr>
+	<td>else</td>
+	<td></td>
+	<td></td>
+</tr>
+<!--No need to start a test session, just use the existing SessionID-->
+<tr>
+	<td>storeText</td>
+	<td>id=lblSessionID</td>
+	<td>vlblSessionID</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>&quot;${vlblSessionID}&quot;.split(&quot;-&quot;)[0]</td>
+	<td>vProctor</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>&quot;${vlblSessionID}&quot;.split(&quot;-&quot;)[1]</td>
+	<td>vSessionID</td>
+</tr>
+<tr>
+	<td>endIf</td>
+	<td></td>
+	<td></td>
+</tr>
+<!--Dont work anymote - -->
+<!--id=(SBAC_PT)SBAC ELA 3-ELA-3-Spring-2014-2015-->
+<!--id=(SBAC_PT)MSB-Mathematics-7-->
+<!--id=(SBAC_PT)SBAC-IRP-Perf-MATH-7-Summer-2015-2016-->
+<!--id=(SBAC_PT)SBAC-IRP-Perf-MATH-11-Summer-2015-2016-->
+<!--id=(SBAC_PT)SBAC-MSB-Mathematics-7-Summer-2015-2016-->
+</tbody></table>
+</body>
+</html>
